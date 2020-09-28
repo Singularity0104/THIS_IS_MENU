@@ -38,6 +38,36 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_s(char *args) {
+	uint32_t step = 1;
+	if(args != NULL){
+		step = 0;
+		int size_tmp = strlen(args);
+		int i, e;
+		for(i = 0, e = 1; i < size_tmp; i++, e *= 10) {
+			Assert(args[i] >= '0' && args[i] <= '9', "The step must be numbers!");
+			step += e * (uint32_t)(args[i] - '0');
+		}
+	}
+	cpu_exec(step);
+	return 0;
+}
+
+static int cmd_i(char *args) {
+	Assert(strlen(args) == 1 && (args[0] == 'r' || args[0] == 'w'), "Please input correct commends!");
+	if(args[0] == 'r') {
+		printf("%6s%12x%12u", "eax", cpu.eax, cpu.eax);
+		printf("%6s%12x%12u", "ecx", cpu.ecx, cpu.ecx);
+		printf("%6s%12x%12u", "edx", cpu.edx, cpu.edx);
+		printf("%6s%12x%12u", "ebx", cpu.ebx, cpu.ebx);
+		printf("%6s%12x%12u", "esp", cpu.esp, cpu.esp);
+		printf("%6s%12x%12u", "ebp", cpu.ebp, cpu.ebp);
+		printf("%6s%12x%12u", "esi", cpu.esi, cpu.esi);
+		printf("%6s%12x%12u", "edi", cpu.edi, cpu.edi);
+	}
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -46,6 +76,8 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{ "si [N]", "Execute the program step by step", cmd_s},
+	{ "info SUBCMD", "print the register or the watch point", cmd_i},
 
 	/* TODO: Add more commands */
 
