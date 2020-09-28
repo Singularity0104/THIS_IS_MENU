@@ -56,14 +56,14 @@ static int cmd_s(char *args) {
 static int cmd_i(char *args) {
 	Assert(strlen(args) == 1 && (args[0] == 'r' || args[0] == 'w'), "Please input correct commends!");
 	if(args[0] == 'r') {
-		printf("%6s0x%12x%12u\n", "eax", cpu.eax, cpu.eax);
-		printf("%6s0x%12x%12u\n", "ecx", cpu.ecx, cpu.ecx);
-		printf("%6s0x%12x%12u\n", "edx", cpu.edx, cpu.edx);
-		printf("%6s0x%12x%12u\n", "ebx", cpu.ebx, cpu.ebx);
-		printf("%6s0x%12x%12u\n", "esp", cpu.esp, cpu.esp);
-		printf("%6s0x%12x%12u\n", "ebp", cpu.ebp, cpu.ebp);
-		printf("%6s0x%12x%12u\n", "esi", cpu.esi, cpu.esi);
-		printf("%6s0x%12x%12u\n", "edi", cpu.edi, cpu.edi);
+		printf("%-6s0x%-12x%-12u\n", "eax", cpu.eax, cpu.eax);
+		printf("%-6s0x%-12x%-12u\n", "ecx", cpu.ecx, cpu.ecx);
+		printf("%-6s0x%-12x%-12u\n", "edx", cpu.edx, cpu.edx);
+		printf("%-6s0x%-12x%-12u\n", "ebx", cpu.ebx, cpu.ebx);
+		printf("%-6s0x%-12x%-12u\n", "esp", cpu.esp, cpu.esp);
+		printf("%-6s0x%-12x%-12u\n", "ebp", cpu.ebp, cpu.ebp);
+		printf("%-6s0x%-12x%-12u\n", "esi", cpu.esi, cpu.esi);
+		printf("%-6s0x%-12x%-12u\n", "edi", cpu.edi, cpu.edi);
 	}
 	return 0;
 }
