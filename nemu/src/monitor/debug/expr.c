@@ -268,6 +268,11 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
+
+	int i;
+	for(i = 0; i < 32; i++) {
+		printf("%s\n", tokens[i].str);
+	}
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
 	return res;
