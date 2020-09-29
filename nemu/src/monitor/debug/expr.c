@@ -177,7 +177,6 @@ bool check_parentheses(int p, int q){
 
 int eval(int p, int q) {
 	if(p > q) {
-		printf("%d %d", p, q);
 		Assert(0, "ERROR_1!");	
 	}
 	else if(p == q) {
@@ -251,7 +250,6 @@ int eval(int p, int q) {
 				}
 			}
 		}
-		printf("%d\n", top);
 		Assert(top == 1, "ERROR_3!");
 		Assert(stack[0] != '(', "ERROR_4!");
 		Assert(stack[0] != ')', "ERROR_5!");
