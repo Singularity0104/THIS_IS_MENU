@@ -83,7 +83,7 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-				Assert(nr_token <= 32, "Expression too long!");
+				Assert(nr_token < 32, "Expression too long!");
 				switch(rules[i].token_type) {
 					case NOTYPE:
 						break;
@@ -152,13 +152,124 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+bool check_parentheses(int p, int q){
+	int top = 0;
+	if(tokens[p].type != '(') {
+		return false;
+	}
+	int i;
+	for(i = p + 1; i<= q - 1; i++) {
+		if(tokens[i].type == '(') {
+			top++;
+		}
+		if(tokens[i].type == ')') {
+			top--;
+		}
+	}
+	if(tokens[p].type == ')' && top == 0) {
+		return true;
+	}
+	return false;
+}
+
+int eval(int p, int q) {
+	if(p > q) {
+		Assert(0, "ERROR!");	
+	}
+	else if(p == q) {
+		Assert(tokens[p].type == NUM || tokens[p].type == NENUM, "Invaild expression!");
+		int i;
+		int e = 1;
+		int sum = 0;
+		for(i = 31; i >= 0; i--) {
+			char tmp = tokens[p].str[i];
+			if(tmp == '\0') {
+				continue;
+			}
+			else if(tmp >= '0' && tmp <= '9') {
+				sum += e * (int)(tmp - '0');
+				e *= 10;
+			}
+			else if(i == 0 && tmp == '-') {
+				sum = -sum;
+			}
+		}
+		return sum;
+	}
+	else if (check_parentheses(p, q) == true){
+		return eval(p + 1, q - 1);
+	}
+	else {
+		int stack[32];
+		int stack_i[32];
+		int top = 0;
+		int i;
+		for(i = p; i <= q; i++) {
+			int tmp = tokens[i].type;
+			if(top == 0 || tmp == '(') {
+				stack[top] = tmp;
+				stack_i[top] = i;
+				top++;
+			}
+			else if(tmp == ')') {
+				while(top > 0){
+					top--;
+					if(stack[top] == '(') {
+						break;
+					}
+				}
+				if(stack[top] != '(') {
+					Assert(0, "ERROR!");
+				}
+			}
+			else if(tmp == '+' || tmp == '-') {
+				if(stack[top - 1] == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+				}
+			}
+			else if(tmp == '*' || tmp == '/') {
+				if(stack[top - 1] == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(stack[top - 1] == '*' || stack[top - 1] == '/') {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+				}
+			}
+		}
+		Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR!");
+		int op = stack_i[0];
+		int op_type = stack[0];
+		int val_1 = eval(p, op - 1);
+		int val_2 = eval(op + 1, q);
+		switch(op_type) {
+			case '+': return val_1 + val_2;break;
+			case '-': return val_1 - val_2;break;
+			case '*': return val_1 * val_2;break;
+			case '/': return val_1 / val_2;break;
+			default: Assert(0, "ERROR!");
+		}
+	}
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
-	
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
-	return 0;
+	int res = eval(0, nr_token - 1);
+	return res;
+	//panic("please implement me");
+	//return 0;
 }
