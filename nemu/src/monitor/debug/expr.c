@@ -177,7 +177,7 @@ int eval(int p, int q) {
 		Assert(0, "ERROR!");	
 	}
 	else if(p == q) {
-		Assert(tokens[p].type == NUM || tokens[p].type == NENUM, "Invaild expression!");
+		Assert(tokens[p].type == NUM || tokens[p].type == NENUM, "Invalid expression!");
 		int i;
 		int e = 1;
 		int sum = 0;

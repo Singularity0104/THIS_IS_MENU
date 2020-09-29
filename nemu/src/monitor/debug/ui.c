@@ -71,7 +71,12 @@ static int cmd_i(char *args) {
 static int cmd_p(char *args) {
 	bool success = true;
 	int res = expr(args, &success);
-	printf("%d", res);
+	if(success){
+		printf("ans = %d\n", res);
+	}
+	else {
+		printf("Invalid expression!\n");
+	}
 	return 0;
 }
 
