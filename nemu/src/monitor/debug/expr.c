@@ -251,7 +251,10 @@ int eval(int p, int q) {
 				}
 			}
 		}
-		Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR_3!");
+		Assert(top == 1, "ERROR_3!");
+		Assert(stack[0] != '(', "ERROR_4!");
+		Assert(stack[0] != ')', "ERROR_5!");
+		// Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR_3!");
 		int op = stack_i[0];
 		int op_type = stack[0];
 		int val_1 = eval(p, op - 1);
