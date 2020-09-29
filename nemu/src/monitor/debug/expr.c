@@ -179,7 +179,7 @@ int eval(int p, int q) {
 	printf("tokens\n");
 	int i;
 	for(i = 0; i < 32; i++) {
-		printf("%s\n", tokens[i].str);
+		printf("%c   %s\n", tokens[i].type, tokens[i].str);
 	}
 	
 	if(p > q) {
