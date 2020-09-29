@@ -272,10 +272,10 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 
-	int i;
-	for(i = 0; i < 32; i++) {
-		printf("%s\n", tokens[i].str);
-	}
+	// int i;
+	// for(i = 0; i < 32; i++) {
+	// 	printf("%s\n", tokens[i].str);
+	// }
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
 	return res;
