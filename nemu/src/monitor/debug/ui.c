@@ -70,7 +70,8 @@ static int cmd_i(char *args) {
 
 static int cmd_p(char *args) {
 	bool success = true;
-	expr(args, &success);
+	int res = expr(args, &success);
+	printf("%d", res);
 	return 0;
 }
 
