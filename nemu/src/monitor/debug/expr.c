@@ -108,7 +108,7 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = NUM;
 						Assert(substr_len <= 32, "Token too long!");
 						strncpy(tokens[nr_token].str, substr_start, substr_len);
-						//printf("success!  %s\n", tokens[nr_token].str);
+						printf("success!  %s\n", tokens[nr_token].str);
 						nr_token++;
 						break;
 					case '+':
@@ -250,6 +250,7 @@ int eval(int p, int q) {
 				}
 			}
 		}
+		printf("top at %d\n", top);
 		Assert(top == 1, "ERROR_3!");
 		Assert(stack[0] != '(', "ERROR_4!");
 		Assert(stack[0] != ')', "ERROR_5!");
