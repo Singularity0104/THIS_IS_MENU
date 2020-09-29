@@ -174,6 +174,7 @@ bool check_parentheses(int p, int q){
 
 int eval(int p, int q) {
 	if(p > q) {
+		printf("%d %d", p, q);
 		Assert(0, "ERROR_1!");	
 	}
 	else if(p == q) {
