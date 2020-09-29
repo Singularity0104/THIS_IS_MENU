@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, NENUM, NUM
 
 	/* TODO: Add more token types */
 
@@ -21,10 +21,16 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-
 	{" +",	NOTYPE},				// spaces
+	{"-[0-9][0-9]*", NENUM},
+	{"[0-9][0-9]*", NUM},
 	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"-", '-'},
+	{"\\*", '*'},
+	{"/", '/'},
+	{"==", EQ},
+	{"\\(", '('},
+	{"\\)", ')'},						// equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -77,8 +83,59 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-
+				Assert(nr_token <= 32, "Expression too long!");
 				switch(rules[i].token_type) {
+					case NOTYPE:
+						break;
+					case NENUM:
+						if(nr_token == 0 || (tokens[nr_token - 1].type != NUM && tokens[nr_token - 1].type != NENUM)) {
+							tokens[nr_token].type = NENUM;
+							Assert(substr_len <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start, substr_len);
+						}
+						else {
+							tokens[nr_token].type = '-';
+							nr_token++;
+							tokens[nr_token].type = NUM;
+							Assert(substr_len - 1 <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+						}
+						nr_token++;
+						break;
+					case NUM:
+						tokens[nr_token].type = NUM;
+						Assert(substr_len <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+						nr_token++;
+						break;
+					case '+':
+						tokens[nr_token].type = '+';
+						nr_token++;
+						break;
+					case '-':
+						tokens[nr_token].type = '-';
+						nr_token++;
+						break;
+					case '*':
+						tokens[nr_token].type = '*';
+						nr_token++;
+						break;
+					case '/':
+						tokens[nr_token].type = '/';
+						nr_token++;
+						break;
+					case EQ:
+						tokens[nr_token].type = EQ;
+						nr_token++;
+						break;
+					case '(':
+						tokens[nr_token].type = '(';
+						nr_token++;
+						break;
+					case ')':
+						tokens[nr_token].type = ')';
+						nr_token++;
+						break;
 					default: panic("please implement me");
 				}
 
@@ -100,9 +157,8 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
+	
 	/* TODO: Insert codes to evaluate the expression. */
 	panic("please implement me");
 	return 0;
 }
-
