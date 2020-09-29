@@ -174,7 +174,7 @@ bool check_parentheses(int p, int q){
 
 int eval(int p, int q) {
 	if(p > q) {
-		Assert(0, "ERROR!");	
+		Assert(0, "ERROR_1!");	
 	}
 	else if(p == q) {
 		Assert(tokens[p].type == NUM || tokens[p].type == NENUM, "Invalid expression!");
@@ -219,7 +219,7 @@ int eval(int p, int q) {
 					}
 				}
 				if(stack[top] != '(') {
-					Assert(0, "ERROR!");
+					Assert(0, "ERROR_2!");
 				}
 			}
 			else if(tmp == '+' || tmp == '-') {
@@ -247,7 +247,7 @@ int eval(int p, int q) {
 				}
 			}
 		}
-		Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR!");
+		Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR_3!");
 		int op = stack_i[0];
 		int op_type = stack[0];
 		int val_1 = eval(p, op - 1);
@@ -257,7 +257,7 @@ int eval(int p, int q) {
 			case '-': return val_1 - val_2;break;
 			case '*': return val_1 * val_2;break;
 			case '/': return val_1 / val_2;break;
-			default: Assert(0, "ERROR!");
+			default: Assert(0, "ERROR_4!");
 		}
 	}
 }
