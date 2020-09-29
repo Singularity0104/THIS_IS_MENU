@@ -176,6 +176,12 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
+	printf("tokens\n");
+	int i;
+	for(i = 0; i < 32; i++) {
+		printf("%s\n", tokens[i].str);
+	}
+	
 	if(p > q) {
 		Assert(0, "ERROR_1!");	
 	}
@@ -274,11 +280,6 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
-	// int i;
-	// for(i = 0; i < 32; i++) {
-	// 	printf("%s\n", tokens[i].str);
-	// }
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
 	return res;
