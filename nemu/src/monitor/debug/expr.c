@@ -184,12 +184,14 @@ int eval(int p, int q, bool *success) {
 	if(*success == false) {
 		return 0;
 	}
-	printf("tokens\n");
-	int i;
-	for(i = p; i <= q; i++) {
-		printf("%c %s", tokens[i].type, tokens[i].str);
-	}
-	printf("\n");
+	
+	/*test point*/
+	// printf("tokens\n");
+	// int i;
+	// for(i = p; i <= q; i++) {
+	// 	printf("%c %s", tokens[i].type, tokens[i].str);
+	// }
+	// printf("\n");
 
 	if(p > q) {
 		*success = false;
@@ -275,18 +277,22 @@ int eval(int p, int q, bool *success) {
 				}
 			}
 
-			int j;
-			for(j = 0; j < 32; j++){
-				printf("%d ", stack_i[j]);
-			}
-			printf("\n");
-			for(j = 0; j < 32; j++){
-				printf("%c ", stack[j]);
-			}
-			printf("----top%d --i%d\n", top, i);
+			/*test point*/
+			// int j;
+			// for(j = 0; j < 32; j++){
+			// 	printf("%d ", stack_i[j]);
+			// }
+			// printf("\n");
+			// for(j = 0; j < 32; j++){
+			// 	printf("%c ", stack[j]);
+			// }
+			// printf("----top%d --i%d\n", top, i);
 
 		}
-		printf("top at %d\n", top);
+		
+		/*test point*/
+		// printf("top at %d\n", top);
+		
 		if(!(top == 1 && stack[0] != '(' && stack[0] != ')')) {
 			*success = false;
 			printf("ERROR_4!\n");
@@ -295,7 +301,8 @@ int eval(int p, int q, bool *success) {
 		int op = stack_i[0];
 		int op_type = stack[0];
 
-		printf("op\n%d%c %d\n", op_type, op_type, op);
+		/*test point*/
+		// printf("op\n%d%c %d\n", op_type, op_type, op);
 
 		int val_1 = eval(p, op - 1, success);
 		int val_2 = eval(op + 1, q, success);
