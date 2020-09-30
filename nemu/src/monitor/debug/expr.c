@@ -88,18 +88,18 @@ static bool make_token(char *e) {
 					case NOTYPE:
 						break;
 					case NENUM:
-						if(nr_token == 0 || (tokens[nr_token - 1].type != NUM && tokens[nr_token - 1].type != NENUM)) {
-							tokens[nr_token].type = NENUM;
-							Assert(substr_len <= 32, "Token too long!");
-							strncpy(tokens[nr_token].str, substr_start, substr_len);
-							printf("success!  %s\n", tokens[nr_token].str);
-						}
-						else {
+						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
 							tokens[nr_token].type = '-';
 							nr_token++;
 							tokens[nr_token].type = NUM;
 							Assert(substr_len - 1 <= 32, "Token too long!");
 							strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+							printf("success!  %s\n", tokens[nr_token].str);
+						}
+						else {
+							tokens[nr_token].type = NENUM;
+							Assert(substr_len <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start, substr_len);
 							printf("success!  %s\n", tokens[nr_token].str);
 						}
 						nr_token++;
