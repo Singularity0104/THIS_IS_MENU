@@ -272,7 +272,7 @@ int eval(int p, int q) {
 			for(j = 0; j < 32; j++){
 				printf("%c ", stack[j]);
 			}
-			printf("----top%d\n --i%d", top, i);
+			printf("----top%d --i%d\n", top, i);
 
 		}
 		printf("top at %d\n", top);
