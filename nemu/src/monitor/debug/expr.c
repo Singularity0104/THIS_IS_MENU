@@ -192,11 +192,14 @@ int eval(int p, int q, bool *success) {
 	printf("\n");
 
 	if(p > q) {
-		Assert(0, "ERROR_1!");	
+		*success = false;
+		printf("ERROR_1!");
+		return 0;
 	}
 	else if(p == q) {
 		if(tokens[p].type == NUM || tokens[p].type == NENUM) {
 			*success = false;
+			printf("ERROR_2!");
 			return 0;
 		}
 		int i;
@@ -241,6 +244,7 @@ int eval(int p, int q, bool *success) {
 				}
 				if(stack[top] != '(') {
 					*success = false;
+					printf("ERROR_3!");
 					return 0;
 				}
 			}
@@ -285,6 +289,7 @@ int eval(int p, int q, bool *success) {
 		printf("top at %d\n", top);
 		if(top == 1 && stack[0] != '(' && stack[0] != ')') {
 			*success = false;
+			printf("ERROR_4!");
 			return 0;
 		}
 		int op = stack_i[0];
@@ -301,6 +306,7 @@ int eval(int p, int q, bool *success) {
 			case '/': return val_1 / val_2;break;
 			default: 
 				*success = false;
+				printf("ERROR_5!");
 				return 0;
 		}
 	}
