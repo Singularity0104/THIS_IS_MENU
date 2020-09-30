@@ -162,20 +162,19 @@ static bool make_token(char *e) {
 
 bool check_parentheses(int p, int q){
 	int top = 0;
-	if(tokens[p].type != '(') {
-		return false;
-	}
-	int i;
-	for(i = p + 1; i<= q - 1; i++) {
-		if(tokens[i].type == '(') {
-			top++;
+	if(tokens[p].type == '(') {
+		int i;
+		for(i = p + 1; i<= q - 1; i++) {
+			if(tokens[i].type == '(') {
+				top++;
+			}
+			else if(tokens[i].type == ')') {
+				top--;
+			}
 		}
-		else if(tokens[i].type == ')') {
-			top--;
+		if(tokens[q].type == ')' && top == 0) {
+			return true;
 		}
-	}
-	if(tokens[p].type == ')' && top == 0) {
-		return true;
 	}
 	return false;
 }
