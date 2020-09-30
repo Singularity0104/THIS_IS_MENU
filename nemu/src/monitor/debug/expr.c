@@ -264,15 +264,15 @@ int eval(int p, int q) {
 				}
 			}
 
-			int i;
-			for(i = 0; i < 32; i++){
-				printf("%d ", stack_i[i]);
+			int j;
+			for(j = 0; j < 32; j++){
+				printf("%d ", stack_i[j]);
 			}
 			printf("\n");
-			for(i = 0; i < 32; i++){
-				printf("%c ", stack[i]);
+			for(j = 0; j < 32; j++){
+				printf("%c ", stack[j]);
 			}
-			printf("----top%d  --i%d\n", top, i);
+			printf("----top%d\n --i%d", top, i);
 
 		}
 		printf("top at %d\n", top);
