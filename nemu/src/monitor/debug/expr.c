@@ -265,6 +265,9 @@ int eval(int p, int q) {
 		// Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR_3!");
 		int op = stack_i[0];
 		int op_type = stack[0];
+
+		printf("op\n%d", op);
+
 		int val_1 = eval(p, op - 1);
 		int val_2 = eval(op + 1, q);
 		switch(op_type) {
