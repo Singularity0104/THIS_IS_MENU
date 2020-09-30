@@ -257,6 +257,13 @@ int eval(int p, int q) {
 					stack_i[top] = i;
 				}
 			}
+
+			int i;
+			for(i = 0; i < 32; i++){
+				printf("stack %d  ", stack[i]);
+			}
+			printf("\n");
+
 		}
 		printf("top at %d\n", top);
 		Assert(top == 1, "ERROR_3!");
@@ -287,7 +294,6 @@ uint32_t expr(char *e, bool *success) {
 	}
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
-	printf("woshishabi\n");
 	return res;
 	//panic("please implement me");
 	//return 0;
