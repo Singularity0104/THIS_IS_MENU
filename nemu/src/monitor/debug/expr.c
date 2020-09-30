@@ -176,11 +176,11 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
-	printf("tokens\n");
-	int i;
-	for(i = 0; i < 32; i++) {
-		printf("%c   %s\n", tokens[i].type, tokens[i].str);
-	}
+	// printf("tokens\n");
+	// int i;
+	// for(i = 0; i < 32; i++) {
+	// 	printf("%c   %s\n", tokens[i].type, tokens[i].str);
+	// }
 	
 	if(p > q) {
 		Assert(0, "ERROR_1!");	
@@ -191,6 +191,7 @@ int eval(int p, int q) {
 		int e = 1;
 		int sum = 0;
 		for(i = 31; i >= 0; i--) {
+			printf("woshishabi\n");
 			char tmp = tokens[p].str[i];
 			if(tmp == '\0') {
 				continue;
@@ -282,6 +283,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 	/* TODO: Insert codes to evaluate the expression. */
 	int res = eval(0, nr_token - 1);
+	printf("woshishabi\n");
 	return res;
 	//panic("please implement me");
 	//return 0;
