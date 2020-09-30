@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
+	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER, VAR
 
 	/* TODO: Add more token types */
 
@@ -37,7 +37,8 @@ static struct rule {
 	{"!=", UNEQ},
 	{"&&", AND},
 	{"\\|\\|", OR},
-	{"!", NOT}
+	{"!", NOT},
+	{"[_a-zA-Z][_a-zA-Z0-9]*", VAR}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -247,7 +248,7 @@ bool check_parentheses(int p, int q){
 	return false;
 }
 
-int eval(int p, int q, bool *success) {
+u_int32_t eval(int p, int q, bool *success) {
 	if(*success == false) {
 		return 0;
 	}
@@ -324,7 +325,8 @@ int eval(int p, int q, bool *success) {
 		int i;
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
-			if((top == 0 && tmp != NENUM && tmp != NUM) || tmp == '(') {
+			int tmp_s = stack[top - 1];
+			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != VAR) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
@@ -342,8 +344,73 @@ int eval(int p, int q, bool *success) {
 					return 0;
 				}
 			}
+			else if(tmp == NOT || tmp == POINTER) {
+				if(tmp_s == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(tmp_s == NOT || tmp_s == POINTER) {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+			}
+			else if(tmp == '*' || tmp == '/') {
+				if(tmp_s == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(tmp_s == NOT || tmp_s == POINTER || tmp_s == '*' || tmp_s == '/') {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+			}
 			else if(tmp == '+' || tmp == '-') {
 				if(stack[top - 1] == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(tmp_s == NOT || tmp_s == POINTER || tmp_s == '*' || tmp_s == '/' || tmp_s == '+' || tmp_s == '-') {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+			}
+			else if(tmp == EQ || tmp == UNEQ) {
+				if(tmp_s == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(tmp_s == NOT || tmp_s == POINTER || tmp_s == '*' || tmp_s == '/' || tmp_s == '+' || tmp_s == '-' || tmp_s == EQ || tmp_s == UNEQ) {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+			}
+			else if(tmp == AND) {
+				if(tmp_s == '(') {
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+				else if(tmp_s == NOT || tmp_s == POINTER || tmp_s == '*' || tmp_s == '/' || tmp_s == '+' || tmp_s == '-' || tmp_s == EQ || tmp_s == UNEQ || tmp_s == AND) {
+					top--;
+					stack[top] = tmp;
+					stack_i[top] = i;
+					top++;
+				}
+			}
+			else if(tmp == OR) {
+				if(tmp_s == '(') {
 					stack[top] = tmp;
 					stack_i[top] = i;
 					top++;
@@ -355,20 +422,6 @@ int eval(int p, int q, bool *success) {
 					top++;
 				}
 			}
-			else if(tmp == '*' || tmp == '/') {
-				if(stack[top - 1] == '(') {
-					stack[top] = tmp;
-					stack_i[top] = i;
-					top++;
-				}
-				else if(stack[top - 1] == '*' || stack[top - 1] == '/') {
-					top--;
-					stack[top] = tmp;
-					stack_i[top] = i;
-					top++;
-				}
-			}
-
 			/*test point*/
 			// int j;
 			// for(j = 0; j < 32; j++){
