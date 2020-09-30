@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NENUM, NUM
+	NOTYPE = 256, EQ, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
 
 	/* TODO: Add more token types */
 
@@ -21,16 +21,22 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-	{" +",	NOTYPE},				// spaces
+	{" +",	NOTYPE},
+	{"0x[0-9][0-9]*", HENUM},				// spaces
 	{"-[0-9][0-9]*", NENUM},
 	{"[0-9][0-9]*", NUM},
+	{"$[a-z]{3}", REG},
 	{"\\+", '+'},					// plus
 	{"-", '-'},
 	{"\\*", '*'},
 	{"/", '/'},
-	{"==", EQ},
 	{"\\(", '('},
-	{"\\)", ')'},						// equal
+	{"\\)", ')'},
+	{"==", EQ},						// equal
+	{"!=", UNEQ},
+	{"&&", AND},
+	{"||", OR},
+	{"!", NOT}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -88,8 +94,16 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					case NOTYPE:
 						break;
+					case HENUM:
+						tokens[nr_token].type = HENUM;
+						Assert(substr_len <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start + 2, substr_len);
+						/*test point*/
+						// printf("success!  %s\n", tokens[nr_token].str);
+						nr_token++;
+						break;
 					case NENUM:
-						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
+						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
 							tokens[nr_token].type = '-';
 							nr_token++;
 							tokens[nr_token].type = NUM;
@@ -115,6 +129,14 @@ static bool make_token(char *e) {
 						// printf("success!  %s\n", tokens[nr_token].str);
 						nr_token++;
 						break;
+					case REG:
+						tokens[nr_token].type = REG;
+						Assert(substr_len <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start, substr_len);
+						/*test point*/
+						// printf("success!  %s\n", tokens[nr_token].str);
+						nr_token++;
+						break;
 					case '+':
 						tokens[nr_token].type = '+';
 						nr_token++;
@@ -129,15 +151,26 @@ static bool make_token(char *e) {
 						nr_token++;
 						break;
 					case '*':
-						tokens[nr_token].type = '*';
+						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
+							tokens[nr_token].type = '-';
+							nr_token++;
+							tokens[nr_token].type = NUM;
+							Assert(substr_len - 1 <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
+						}
+						else {
+							tokens[nr_token].type = NENUM;
+							Assert(substr_len <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start, substr_len);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
+						}
 						nr_token++;
 						break;
 					case '/':
 						tokens[nr_token].type = '/';
-						nr_token++;
-						break;
-					case EQ:
-						tokens[nr_token].type = EQ;
 						nr_token++;
 						break;
 					case '(':
@@ -146,6 +179,26 @@ static bool make_token(char *e) {
 						break;
 					case ')':
 						tokens[nr_token].type = ')';
+						nr_token++;
+						break;
+					case EQ:
+						tokens[nr_token].type = EQ;
+						nr_token++;
+						break;
+					case UNEQ:
+						tokens[nr_token].type = UNEQ;
+						nr_token++;
+						break;
+					case AND:
+						tokens[nr_token].type = AND;
+						nr_token++;
+						break;
+					case OR:
+						tokens[nr_token].type = OR;
+						nr_token++;
+						break;
+					case NOT:
+						tokens[nr_token].type = NOT;
 						nr_token++;
 						break;
 					default: panic("please implement me");
