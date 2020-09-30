@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
+	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
 
 	/* TODO: Add more token types */
 
@@ -22,6 +22,7 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 	{" +",	NOTYPE},
+	{"-0[Xx][0-9a-fA-F][0-9a-fA-F]*", NEHENUM},
 	{"0[Xx][0-9a-fA-F][0-9a-fA-F]*", HENUM},				// spaces
 	{"-[0-9][0-9]*", NENUM},
 	{"[0-9][0-9]*", NUM},
@@ -92,12 +93,31 @@ static bool make_token(char *e) {
 				 */
 				Assert(nr_token < 32, "Expression too long!");
 				switch(rules[i].token_type) {
+					case NEHENUM:
+						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
+							tokens[nr_token].type = '-';
+							nr_token++;
+							tokens[nr_token].type = HENUM;
+							Assert(substr_len - 3 <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start + 3, substr_len - 3);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
+						}
+						else {
+							tokens[nr_token].type = NENUM;
+							Assert(substr_len - 2 <= 32, "Token too long!");
+							strncpy(tokens[nr_token].str, substr_start + 2, substr_len - 2);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
+						}
+						nr_token++;
+						break;
 					case NOTYPE:
 						break;
 					case HENUM:
 						tokens[nr_token].type = HENUM;
-						Assert(substr_len <= 32, "Token too long!");
-						strncpy(tokens[nr_token].str, substr_start + 2, substr_len);
+						Assert(substr_len - 2 <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start + 2, substr_len - 2);
 						/*test point*/
 						// printf("success!  %s\n", tokens[nr_token].str);
 						nr_token++;
