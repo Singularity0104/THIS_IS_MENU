@@ -266,7 +266,7 @@ int eval(int p, int q) {
 		int op = stack_i[0];
 		int op_type = stack[0];
 
-		printf("op\n%d", op);
+		printf("op\n%d\n", op);
 
 		int val_1 = eval(p, op - 1);
 		int val_2 = eval(op + 1, q);
