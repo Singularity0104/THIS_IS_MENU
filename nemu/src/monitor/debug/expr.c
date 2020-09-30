@@ -22,7 +22,7 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 	{" +",	NOTYPE},
-	{"0x[0-9][0-9]*", HENUM},				// spaces
+	{"0x[0-9a-fA-F][0-9a-fA-F]*", HENUM},				// spaces
 	{"-[0-9][0-9]*", NENUM},
 	{"[0-9][0-9]*", NUM},
 	{"$[a-z]{3}", REG},
@@ -245,7 +245,7 @@ int eval(int p, int q, bool *success) {
 		return 0;
 	}
 	else if(p == q) {
-		if(!(tokens[p].type == NUM || tokens[p].type == NENUM)) {
+		if(!(tokens[p].type == NUM || tokens[p].type == NENUM) || tokens[p].type == HENUM) {
 			*success = false;
 			printf("ERROR_2!\n");
 			return 0;
@@ -253,17 +253,42 @@ int eval(int p, int q, bool *success) {
 		int i;
 		int e = 1;
 		int sum = 0;
-		for(i = 31; i >= 0; i--) {
-			char tmp = tokens[p].str[i];
-			if(tmp == '\0') {
-				continue;
+		if(tokens[p].type == NUM || tokens[p].type == NENUM) {
+			for(i = 31; i >= 0; i--) {
+				char tmp = tokens[p].str[i];
+				if(tmp == '\0') {
+					continue;
+				}
+				else if(tmp >= '0' && tmp <= '9') {
+					sum += e * (int)(tmp - '0');
+					e *= 10;
+				}
+				else if(i == 0 && tmp == '-') {
+					sum = -sum;
+				}
 			}
-			else if(tmp >= '0' && tmp <= '9') {
-				sum += e * (int)(tmp - '0');
-				e *= 10;
-			}
-			else if(i == 0 && tmp == '-') {
-				sum = -sum;
+		}
+		else {
+			for(i = 31; i >= 0; i--) {
+				char tmp = tokens[p].str[i];
+				if(tmp == '\0') {
+					continue;
+				}
+				else if(tmp >= '0' && tmp <= '9') {
+					sum += e * (int)(tmp - '0');
+					e *= 16;
+				}
+				else if(tmp >= 'a' && tmp <= 'f') {
+					sum += e * (int)(tmp - 'a');
+					e *= 16;
+				}
+				else if(tmp >= 'A' && tmp <= 'F') {
+					sum += e * (int)(tmp - 'A');
+					e *= 16;
+				}
+				else if(i == 0 && tmp == '-') {
+					sum = -sum;
+				}
 			}
 		}
 		return sum;
