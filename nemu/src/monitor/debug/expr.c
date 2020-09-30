@@ -265,7 +265,7 @@ int eval(int p, int q, bool *success) {
 		return 0;
 	}
 	else if(p == q) {
-		if(!(tokens[p].type == NUM || tokens[p].type == NENUM || tokens[p].type == HENUM)) {
+		if(!(tokens[p].type == NUM || tokens[p].type == NENUM || tokens[p].type == HENUM || tokens[p].type == NEHENUM)) {
 			*success = false;
 			printf("ERROR_2!\n");
 			return 0;
