@@ -83,6 +83,7 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
+				memset(tokens, 0, sizeof(tokens));
 				Assert(nr_token < 32, "Expression too long!");
 				switch(rules[i].token_type) {
 					case NOTYPE:
@@ -185,7 +186,6 @@ int eval(int p, int q) {
 	for(i = p; i <= q; i++) {
 		printf("%c %s", tokens[i].type, tokens[i].str);
 	}
-	printf("%d\n", check_parentheses(p, q));
 	printf("\n");
 
 	if(p > q) {
