@@ -36,7 +36,7 @@ static struct rule {
 	{"==", EQ},						// equal
 	{"!=", UNEQ},
 	{"&&", AND},
-	{"||", OR},
+	{"\\|\\|", OR},
 	{"!", NOT}
 };
 
