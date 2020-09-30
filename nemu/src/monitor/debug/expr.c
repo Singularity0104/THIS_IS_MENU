@@ -93,6 +93,8 @@ static bool make_token(char *e) {
 				 */
 				Assert(nr_token < 32, "Expression too long!");
 				switch(rules[i].token_type) {
+					case NOTYPE:
+						break;
 					case NEHENUM:
 						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
 							tokens[nr_token].type = '-';
@@ -104,15 +106,14 @@ static bool make_token(char *e) {
 							// printf("success!  %s\n", tokens[nr_token].str);
 						}
 						else {
-							tokens[nr_token].type = NENUM;
+							tokens[nr_token].type = NEHENUM;
 							Assert(substr_len - 2 <= 32, "Token too long!");
-							strncpy(tokens[nr_token].str, substr_start + 2, substr_len - 2);
+							strncpy(tokens[nr_token].str + 1, substr_start + 3, substr_len - 3);
+							tokens[nr_token].str[0] = '-';
 							/*test point*/
 							// printf("success!  %s\n", tokens[nr_token].str);
 						}
 						nr_token++;
-						break;
-					case NOTYPE:
 						break;
 					case HENUM:
 						tokens[nr_token].type = HENUM;
