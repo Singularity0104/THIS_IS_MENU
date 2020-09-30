@@ -192,7 +192,6 @@ int eval(int p, int q) {
 		int e = 1;
 		int sum = 0;
 		for(i = 31; i >= 0; i--) {
-			printf("woshishabi\n");
 			char tmp = tokens[p].str[i];
 			if(tmp == '\0') {
 				continue;
