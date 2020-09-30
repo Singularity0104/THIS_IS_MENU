@@ -180,7 +180,10 @@ bool check_parentheses(int p, int q){
 	return false;
 }
 
-int eval(int p, int q) {
+int eval(int p, int q, bool *success) {
+	if(*success == false) {
+		return 0;
+	}
 	printf("tokens\n");
 	int i;
 	for(i = p; i <= q; i++) {
@@ -192,7 +195,10 @@ int eval(int p, int q) {
 		Assert(0, "ERROR_1!");	
 	}
 	else if(p == q) {
-		Assert(tokens[p].type == NUM || tokens[p].type == NENUM, "Invalid expression!");
+		if(tokens[p].type == NUM || tokens[p].type == NENUM) {
+			*success = false;
+			return 0;
+		}
 		int i;
 		int e = 1;
 		int sum = 0;
@@ -212,7 +218,7 @@ int eval(int p, int q) {
 		return sum;
 	}
 	else if (check_parentheses(p, q) == true) {
-		return eval(p + 1, q - 1);
+		return eval(p + 1, q - 1, success);
 	}
 	else {
 		int stack[32] = {};
@@ -234,7 +240,8 @@ int eval(int p, int q) {
 					}
 				}
 				if(stack[top] != '(') {
-					Assert(0, "ERROR_2!");
+					*success = false;
+					return 0;
 				}
 			}
 			else if(tmp == '+' || tmp == '-') {
@@ -276,23 +283,25 @@ int eval(int p, int q) {
 
 		}
 		printf("top at %d\n", top);
-		Assert(top == 1, "ERROR_3!");
-		Assert(stack[0] != '(', "ERROR_4!");
-		Assert(stack[0] != ')', "ERROR_5!");
-		// Assert(top == 1 && stack[0] != '(' && stack[0] != ')', "ERROR_3!");
+		if(top == 1 && stack[0] != '(' && stack[0] != ')') {
+			*success = false;
+			return 0;
+		}
 		int op = stack_i[0];
 		int op_type = stack[0];
 
 		printf("op\n%d%c %d\n", op_type, op_type, op);
 
-		int val_1 = eval(p, op - 1);
-		int val_2 = eval(op + 1, q);
+		int val_1 = eval(p, op - 1, success);
+		int val_2 = eval(op + 1, q, success);
 		switch(op_type) {
 			case '+': return val_1 + val_2;break;
 			case '-': return val_1 - val_2;break;
 			case '*': return val_1 * val_2;break;
 			case '/': return val_1 / val_2;break;
-			default: Assert(0, "ERROR_4!");
+			default: 
+				*success = false;
+				return 0;
 		}
 	}
 }
@@ -303,7 +312,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	/* TODO: Insert codes to evaluate the expression. */
-	int res = eval(0, nr_token - 1);
+	int res = eval(0, nr_token - 1, success);
 	return res;
 	//panic("please implement me");
 	//return 0;

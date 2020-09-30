@@ -74,9 +74,6 @@ static int cmd_p(char *args) {
 	if(success){
 		printf("ans = %d\n", res);
 	}
-	else {
-		printf("Invalid expression!\n");
-	}
 	return 0;
 }
 
