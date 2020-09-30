@@ -279,11 +279,11 @@ int eval(int p, int q, bool *success) {
 					e *= 16;
 				}
 				else if(tmp >= 'a' && tmp <= 'f') {
-					sum += e * (int)(tmp - 'a');
+					sum += e * ((int)(tmp - 'a') + 10);
 					e *= 16;
 				}
 				else if(tmp >= 'A' && tmp <= 'F') {
-					sum += e * (int)(tmp - 'A');
+					sum += e * ((int)(tmp - 'A') + 10);
 					e *= 16;
 				}
 				else if(i == 0 && tmp == '-') {
