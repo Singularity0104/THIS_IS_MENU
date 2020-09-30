@@ -211,8 +211,8 @@ int eval(int p, int q) {
 		return eval(p + 1, q - 1);
 	}
 	else {
-		int stack[32];
-		int stack_i[32];
+		int stack[32] = {};
+		int stack_i[32] = {};
 		int top = 0;
 		int i;
 		for(i = p; i <= q; i++) {
@@ -262,7 +262,7 @@ int eval(int p, int q) {
 			for(i = 0; i < 32; i++){
 				printf("%c ", stack_i[i]);
 			}
-			printf("\n");
+			printf("----top%d\n", top);
 
 		}
 		printf("top at %d\n", top);
