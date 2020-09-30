@@ -103,7 +103,7 @@ static bool make_token(char *e) {
 						nr_token++;
 						break;
 					case NENUM:
-						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
+						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
 							tokens[nr_token].type = '-';
 							nr_token++;
 							tokens[nr_token].type = NUM;
@@ -151,21 +151,11 @@ static bool make_token(char *e) {
 						nr_token++;
 						break;
 					case '*':
-						if(nr_token != 0 && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == '(' || tokens[nr_token - 1].type == ')')) {
-							tokens[nr_token].type = '-';
-							nr_token++;
-							tokens[nr_token].type = NUM;
-							Assert(substr_len - 1 <= 32, "Token too long!");
-							strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
-							/*test point*/
-							// printf("success!  %s\n", tokens[nr_token].str);
+						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
+							tokens[nr_token].type = '*';
 						}
 						else {
-							tokens[nr_token].type = NENUM;
-							Assert(substr_len <= 32, "Token too long!");
-							strncpy(tokens[nr_token].str, substr_start, substr_len);
-							/*test point*/
-							// printf("success!  %s\n", tokens[nr_token].str);
+							tokens[nr_token].type = POINTER;
 						}
 						nr_token++;
 						break;
