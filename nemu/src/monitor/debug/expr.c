@@ -243,6 +243,7 @@ int eval(int p, int q) {
 					top--;
 					stack[top] = tmp;
 					stack_i[top] = i;
+					top++;
 				}
 			}
 			else if(tmp == '*' || tmp == '/') {
@@ -255,6 +256,7 @@ int eval(int p, int q) {
 					top--;
 					stack[top] = tmp;
 					stack_i[top] = i;
+					top++;
 				}
 			}
 
