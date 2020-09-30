@@ -176,12 +176,13 @@ bool check_parentheses(int p, int q){
 }
 
 int eval(int p, int q) {
-	// printf("tokens\n");
-	// int i;
-	// for(i = 0; i < 32; i++) {
-	// 	printf("%c   %s\n", tokens[i].type, tokens[i].str);
-	// }
-	
+	printf("tokens\n");
+	int i;
+	for(i = p; i <= q; i++) {
+		printf("%c %s", tokens[i].type, tokens[i].str);
+	}
+	printf("\n");
+
 	if(p > q) {
 		Assert(0, "ERROR_1!");	
 	}
