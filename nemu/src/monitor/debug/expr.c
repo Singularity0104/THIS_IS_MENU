@@ -260,7 +260,7 @@ int eval(int p, int q) {
 
 			int i;
 			for(i = 0; i < 32; i++){
-				printf("%d  ", stack[i]);
+				printf("%c ", stack_i[i]);
 			}
 			printf("\n");
 
