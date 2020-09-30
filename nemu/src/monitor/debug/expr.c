@@ -217,7 +217,7 @@ int eval(int p, int q) {
 		int i;
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
-			if(top == 0 || tmp == '(') {
+			if((top == 0 && tmp != NENUM && tmp != NUM) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
