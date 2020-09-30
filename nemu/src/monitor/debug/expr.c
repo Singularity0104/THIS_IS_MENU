@@ -170,7 +170,7 @@ bool check_parentheses(int p, int q){
 		if(tokens[i].type == '(') {
 			top++;
 		}
-		if(tokens[i].type == ')') {
+		else if(tokens[i].type == ')') {
 			top--;
 		}
 	}
@@ -211,7 +211,7 @@ int eval(int p, int q) {
 		}
 		return sum;
 	}
-	else if (check_parentheses(p, q) == true){
+	else if (check_parentheses(p, q) == true) {
 		return eval(p + 1, q - 1);
 	}
 	else {
