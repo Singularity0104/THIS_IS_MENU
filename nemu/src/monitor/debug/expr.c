@@ -95,13 +95,15 @@ static bool make_token(char *e) {
 							tokens[nr_token].type = NUM;
 							Assert(substr_len - 1 <= 32, "Token too long!");
 							strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
-							printf("success!  %s\n", tokens[nr_token].str);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
 						}
 						else {
 							tokens[nr_token].type = NENUM;
 							Assert(substr_len <= 32, "Token too long!");
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
-							printf("success!  %s\n", tokens[nr_token].str);
+							/*test point*/
+							// printf("success!  %s\n", tokens[nr_token].str);
 						}
 						nr_token++;
 						break;
@@ -109,7 +111,8 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = NUM;
 						Assert(substr_len <= 32, "Token too long!");
 						strncpy(tokens[nr_token].str, substr_start, substr_len);
-						printf("success!  %s\n", tokens[nr_token].str);
+						/*test point*/
+						// printf("success!  %s\n", tokens[nr_token].str);
 						nr_token++;
 						break;
 					case '+':
