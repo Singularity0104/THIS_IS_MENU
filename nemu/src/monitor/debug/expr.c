@@ -457,7 +457,7 @@ u_int32_t eval(int p, int q, bool *success) {
 				int val_1 = eval(op + 1, q, success);
 				switch(op_type) {
 					case NOT: return !val_1;break;
-					case POINTER: return 0;
+					case POINTER: panic("No pointer!");
 					default:
 						*success = false;
 						printf("ERROR6!\n");
