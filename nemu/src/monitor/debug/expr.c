@@ -238,7 +238,9 @@ bool check_parentheses(int p, int q){
 				top++;
 			}
 			else if(tokens[i].type == ')') {
-				top--;
+				if(top > 0) {
+					top--;
+				}
 			}
 		}
 		if(tokens[q].type == ')' && top == 0) {
