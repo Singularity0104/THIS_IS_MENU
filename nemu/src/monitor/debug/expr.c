@@ -260,6 +260,7 @@ u_int32_t eval(int p, int q, bool *success) {
 	// 	printf("%c %s", tokens[i].type, tokens[i].str);
 	// }
 	// printf("\n");
+	printf("%d", check_parentheses(p, q));
 
 	if(p > q) {
 		*success = false;
