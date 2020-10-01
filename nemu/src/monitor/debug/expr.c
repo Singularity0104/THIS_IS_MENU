@@ -254,12 +254,12 @@ u_int32_t eval(int p, int q, bool *success) {
 	}
 	
 	/*test point*/
-	// printf("tokens\n");
-	// int i;
-	// for(i = p; i <= q; i++) {
-	// 	printf("%c %s", tokens[i].type, tokens[i].str);
-	// }
-	// printf("\n");
+	printf("tokens\n");
+	int i;
+	for(i = p; i <= q; i++) {
+		printf("%c %s", tokens[i].type, tokens[i].str);
+	}
+	printf("\n");
 
 	if(p > q) {
 		*success = false;
