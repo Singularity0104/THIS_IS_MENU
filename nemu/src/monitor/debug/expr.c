@@ -448,14 +448,20 @@ u_int32_t eval(int p, int q, bool *success) {
 
 		/*test point*/
 		// printf("op\n%d%c %d\n", op_type, op_type, op);
-
+		if(op_type == NOT || op_type == POINTER) {
+			
+		}
 		int val_1 = eval(p, op - 1, success);
 		int val_2 = eval(op + 1, q, success);
 		switch(op_type) {
-			case '+': return val_1 + val_2;break;
-			case '-': return val_1 - val_2;break;
 			case '*': return val_1 * val_2;break;
 			case '/': return val_1 / val_2;break;
+			case '+': return val_1 + val_2;break;
+			case '-': return val_1 - val_2;break;
+			case EQ: return val_1 == val_2;break;
+			case UNEQ: return val_1 != val_2;break;
+			case AND: return val_1 && val_2;break;
+			case OR: return val_1 || val_2;break;
 			default: 
 				*success = false;
 				printf("ERROR_5!\n");
