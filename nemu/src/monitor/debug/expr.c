@@ -267,53 +267,58 @@ u_int32_t eval(int p, int q, bool *success) {
 		return 0;
 	}
 	else if(p == q) {
-		if(!(tokens[p].type == NUM || tokens[p].type == NENUM || tokens[p].type == HENUM || tokens[p].type == NEHENUM)) {
+		if(tokens[p].type == NUM || tokens[p].type == NENUM || tokens[p].type == HENUM || tokens[p].type == NEHENUM) {
+			int i;
+			int e = 1;
+			int sum = 0;
+			if(tokens[p].type == NUM || tokens[p].type == NENUM) {
+				for(i = 31; i >= 0; i--) {
+					char tmp = tokens[p].str[i];
+					if(tmp == '\0') {
+						continue;
+					}
+					else if(tmp >= '0' && tmp <= '9') {
+						sum += e * (int)(tmp - '0');
+						e *= 10;
+					}
+					else if(i == 0 && tmp == '-') {
+						sum = -sum;
+					}
+				}
+			}
+			else {
+				for(i = 31; i >= 0; i--) {
+					char tmp = tokens[p].str[i];
+					if(tmp == '\0') {
+						continue;
+					}
+					else if(tmp >= '0' && tmp <= '9') {
+						sum += e * (int)(tmp - '0');
+						e *= 16;
+					}
+					else if(tmp >= 'a' && tmp <= 'f') {
+						sum += e * ((int)(tmp - 'a') + 10);
+						e *= 16;
+					}
+					else if(tmp >= 'A' && tmp <= 'F') {
+						sum += e * ((int)(tmp - 'A') + 10);
+						e *= 16;
+					}
+					else if(i == 0 && tmp == '-') {
+						sum = -sum;
+					}
+				}
+			}
+			return sum;
+		}
+		else if(tokens[p].type == VAR) {
+			return 0;
+		}
+		else {
 			*success = false;
 			printf("ERROR_2!\n");
 			return 0;
 		}
-		int i;
-		int e = 1;
-		int sum = 0;
-		if(tokens[p].type == NUM || tokens[p].type == NENUM) {
-			for(i = 31; i >= 0; i--) {
-				char tmp = tokens[p].str[i];
-				if(tmp == '\0') {
-					continue;
-				}
-				else if(tmp >= '0' && tmp <= '9') {
-					sum += e * (int)(tmp - '0');
-					e *= 10;
-				}
-				else if(i == 0 && tmp == '-') {
-					sum = -sum;
-				}
-			}
-		}
-		else {
-			for(i = 31; i >= 0; i--) {
-				char tmp = tokens[p].str[i];
-				if(tmp == '\0') {
-					continue;
-				}
-				else if(tmp >= '0' && tmp <= '9') {
-					sum += e * (int)(tmp - '0');
-					e *= 16;
-				}
-				else if(tmp >= 'a' && tmp <= 'f') {
-					sum += e * ((int)(tmp - 'a') + 10);
-					e *= 16;
-				}
-				else if(tmp >= 'A' && tmp <= 'F') {
-					sum += e * ((int)(tmp - 'A') + 10);
-					e *= 16;
-				}
-				else if(i == 0 && tmp == '-') {
-					sum = -sum;
-				}
-			}
-		}
-		return sum;
 	}
 	else if (check_parentheses(p, q) == true) {
 		return eval(p + 1, q - 1, success);
