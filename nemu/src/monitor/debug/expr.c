@@ -350,12 +350,6 @@ u_int32_t eval(int p, int q, bool *success) {
 					stack_i[top] = i;
 					top++;
 				}
-				else if(tmp_s == NOT || tmp_s == POINTER) {
-					top--;
-					stack[top] = tmp;
-					stack_i[top] = i;
-					top++;
-				}
 			}
 			else if(tmp == '*' || tmp == '/') {
 				if(tmp_s == '(') {
@@ -449,23 +443,40 @@ u_int32_t eval(int p, int q, bool *success) {
 		/*test point*/
 		// printf("op\n%d%c %d\n", op_type, op_type, op);
 		if(op_type == NOT || op_type == POINTER) {
-			
-		}
-		int val_1 = eval(p, op - 1, success);
-		int val_2 = eval(op + 1, q, success);
-		switch(op_type) {
-			case '*': return val_1 * val_2;break;
-			case '/': return val_1 / val_2;break;
-			case '+': return val_1 + val_2;break;
-			case '-': return val_1 - val_2;break;
-			case EQ: return val_1 == val_2;break;
-			case UNEQ: return val_1 != val_2;break;
-			case AND: return val_1 && val_2;break;
-			case OR: return val_1 || val_2;break;
-			default: 
+			if(op != p) {
 				*success = false;
-				printf("ERROR_5!\n");
+				printf("ERROR5!\n");
 				return 0;
+			}
+			else {
+				int val_1 = eval(op + 1, q, success);
+				switch(op_type) {
+					case NOT: return !val_1;break;
+					case POINTER: return 0;
+					default:
+						*success = false;
+						printf("ERROR6!\n");
+						return 0;
+				}
+			}
+		}
+		else {
+			int val_1 = eval(p, op - 1, success);
+			int val_2 = eval(op + 1, q, success);
+			switch(op_type) {
+				case '*': return val_1 * val_2;break;
+				case '/': return val_1 / val_2;break;
+				case '+': return val_1 + val_2;break;
+				case '-': return val_1 - val_2;break;
+				case EQ: return val_1 == val_2;break;
+				case UNEQ: return val_1 != val_2;break;
+				case AND: return val_1 && val_2;break;
+				case OR: return val_1 || val_2;break;
+				default: 
+					*success = false;
+					printf("ERROR_6!\n");
+					return 0;
+			}
 		}
 	}
 }
