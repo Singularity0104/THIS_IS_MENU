@@ -256,12 +256,12 @@ u_int32_t eval(int p, int q, bool *success) {
 	}
 	
 	/*test point*/
-	// printf("tokens\n");
-	// int i;
-	// for(i = p; i <= q; i++) {
-	// 	printf("%c %s", tokens[i].type, tokens[i].str);
-	// }
-	// printf("\n");
+	printf("tokens\n");
+	int i;
+	for(i = p; i <= q; i++) {
+		printf("%d %s", tokens[i].type, tokens[i].str);
+	}
+	printf("\n");
 	printf("%d\n", check_parentheses(p, q));
 
 	if(p > q) {
@@ -426,15 +426,15 @@ u_int32_t eval(int p, int q, bool *success) {
 				}
 			}
 			/*test point*/
-			int j;
-			for(j = 0; j < 32; j++){
-				printf("%d ", stack_i[j]);
-			}
-			printf("\n");
-			for(j = 0; j < 32; j++){
-				printf("%c ", stack[j]);
-			}
-			printf("----top%d --i%d\n", top, i);
+			// int j;
+			// for(j = 0; j < 32; j++){
+			// 	printf("%d ", stack_i[j]);
+			// }
+			// printf("\n");
+			// for(j = 0; j < 32; j++){
+			// 	printf("%c ", stack[j]);
+			// }
+			// printf("----top%d --i%d\n", top, i);
 
 		}
 		
