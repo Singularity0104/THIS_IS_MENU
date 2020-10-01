@@ -345,7 +345,7 @@ u_int32_t eval(int p, int q, bool *success) {
 				}
 				if(stack[top] != '(') {
 					*success = false;
-					printf("%c\n", stack[top]);
+					printf("%c  %d\n", stack[top], top);
 					printf("ERROR_3!\n");
 					return 0;
 				}
