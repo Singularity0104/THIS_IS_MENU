@@ -469,14 +469,14 @@ u_int32_t eval(int p, int q, bool *success) {
 			int val_1 = eval(p, op - 1, success);
 			int val_2 = eval(op + 1, q, success);
 			switch(op_type) {
-				case '*': return val_1 * val_2;break;
-				case '/': return val_1 / val_2;break;
-				case '+': return val_1 + val_2;break;
-				case '-': return val_1 - val_2;break;
-				case EQ: return val_1 == val_2;break;
-				case UNEQ: return val_1 != val_2;break;
-				case AND: return val_1 && val_2;break;
-				case OR: return val_1 || val_2;break;
+				case '*': return (val_1 * val_2);break;
+				case '/': return (val_1 / val_2);break;
+				case '+': return (val_1 + val_2);break;
+				case '-': return (val_1 - val_2);break;
+				case EQ: return (val_1 == val_2);break;
+				case UNEQ: return (val_1 != val_2);break;
+				case AND: return (val_1 && val_2);break;
+				case OR: return (val_1 || val_2);break;
 				default: 
 					*success = false;
 					printf("ERROR_6!\n");
