@@ -213,6 +213,10 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = NOT;
 						nr_token++;
 						break;
+					case VAR:
+						tokens[nr_token].type = VAR;
+						nr_token++;
+						break;
 					default: panic("please implement me");
 				}
 
