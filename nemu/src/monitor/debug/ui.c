@@ -122,7 +122,7 @@ static int cmd_w(char *args) {
 	int i;
 	for(i = 0; i < 128; i++) {
 		if(i < strlen(args)) {
-			new->exp[i] = args[i];
+			new->exp[i] = '\0';
 		}
 		else {
 			new->exp[i] = '\0';
