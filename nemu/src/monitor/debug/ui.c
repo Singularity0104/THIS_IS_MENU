@@ -118,9 +118,9 @@ static int cmd_x(char *args) {
 static int cmd_w(char *args) {
 	WP *new;
 	new = new_wp();
-	strncpy(new->exp, args, 4);
+	// strncpy(new->exp, args, 4);
 	bool success = true;
-	// new->res = expr(args, &success);
+	new->res = expr(args, &success);
 	Assert(success == true, "ERROR!");
 	printf("Set watchpoint NO %2.2d\n", new->NO);
 	printf("Expression: %s\n", new->exp);
