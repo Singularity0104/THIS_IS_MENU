@@ -57,7 +57,7 @@ static int cmd_s(char *args) {
 }
 
 static int cmd_i(char *args) {
-	Assert(strlen(args) == 1 && (args[0] == 'r' || args[0] == 'w'), "Please input correct commends!");
+	Assert(args != NULL && strlen(args) == 1 && (args[0] == 'r' || args[0] == 'w'), "Please input correct commends!");
 	if(args[0] == 'r') {
 		printf("%-8s0x%-16x%-16u\n", "eax", cpu.eax, cpu.eax);
 		printf("%-8s0x%-16x%-16u\n", "ecx", cpu.ecx, cpu.ecx);
