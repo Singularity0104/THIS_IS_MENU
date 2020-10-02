@@ -80,6 +80,11 @@ static int cmd_p(char *args) {
 	return 0;
 }
 
+static int cmd_x(char *args) {
+	printf("%s\n", args);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -89,8 +94,9 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Execute the program step by step", cmd_s},
-	{ "info", "print the register or the watch point", cmd_i},
-	{ "p", "Evalute expression", cmd_p}
+	{ "info", "Print the register or the watch point", cmd_i},
+	{ "p", "Evalute expression", cmd_p},
+	{ "x", "Print memory", cmd_x}
 
 	/* TODO: Add more commands */
 

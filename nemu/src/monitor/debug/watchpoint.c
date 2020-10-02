@@ -11,6 +11,7 @@ void init_wp_pool() {
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
 		wp_pool[i].next = &wp_pool[i + 1];
+		wp_pool[i].is_free = true;
 	}
 	wp_pool[NR_WP - 1].next = NULL;
 
@@ -19,11 +20,51 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
-// WP *new_wp {
+WP *new_wp() {
+	static int n = 0;
+	bool find = false;
+	int i;
+	for(i = 0; i < 32; i++) {
+		if(wp_pool[i].is_free == true) {
+			find = true;
+			wp_pool[i].is_free = false;
+			wp_pool[i].NO = n;
+			n++;
+			if(head == NULL) {
+				head = &wp_pool[i];
+			}
+			else {
+				WP *tmp = head;
+				while(tmp->next != NULL) {
+					tmp = tmp->next;
+				}
+				tmp->next = &wp_pool[i];
+			}
+			wp_pool[i].next = NULL;
+			break;
+		}
+	}
+	Assert(find == true, "Can't find a free wp!");
+	return &wp_pool[i];
+}
 
-// }
-
-// void free_wp(WP *wp) {
-	
-// }
+void free_wp(WP *wp) {
+	Assert(wp->is_free == false, "WP has already been free!");
+	wp->is_free = true;
+	WP *tmp = wp->next;
+	while(tmp != NULL) {
+		tmp->NO--;
+	}
+	if(head == wp) {
+		head = wp->next;
+	}
+	else {
+		tmp = head;
+		while(tmp != NULL && tmp->next != wp) {
+			tmp = tmp->next;
+		}
+		Assert(tmp != NULL, "ERROR! Can't find wp!");
+		tmp->next = wp->next;
+	}
+}
 
