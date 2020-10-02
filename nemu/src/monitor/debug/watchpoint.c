@@ -73,6 +73,7 @@ bool checkpoint() {
 	while(tmp != NULL) {
 		bool success = true;
 		int cur = expr(tmp->exp, &success);
+		printf("exp  %s\n", tmp->exp);
 		Assert(success == true, "ERROR!");
 		if(cur != tmp->res) {
 			change = false;
