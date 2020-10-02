@@ -323,6 +323,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		}
 		else if(tokens[p].type == REG) {
 			char *tmp = tokens[p].str;
+			printf("reg: %s\n", tmp);
 			if(strcmp(tmp, "eax") == 0) {
 				return cpu.eax;
 			}
