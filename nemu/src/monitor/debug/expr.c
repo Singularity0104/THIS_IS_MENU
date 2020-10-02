@@ -260,13 +260,13 @@ u_int32_t eval(int p, int q, bool *success) {
 	}
 	
 	/*test point*/
-	printf("tokens\n");
-	int i;
-	for(i = p; i <= q; i++) {
-		printf("%d %s", tokens[i].type, tokens[i].str);
-	}
-	printf("\n");
-	printf("%d\n", check_parentheses(p, q));
+	// printf("tokens\n");
+	// int i;
+	// for(i = p; i <= q; i++) {
+	// 	printf("%d %s", tokens[i].type, tokens[i].str);
+	// }
+	// printf("\n");
+	// printf("check %d\n", check_parentheses(p, q));
 
 	if(p > q) {
 		*success = false;
@@ -323,7 +323,6 @@ u_int32_t eval(int p, int q, bool *success) {
 		}
 		else if(tokens[p].type == REG) {
 			char *tmp = tokens[p].str;
-			printf("reg: %s\n", tmp);
 			if(strcmp(tmp, "eax") == 0) {
 				return cpu.eax;
 			}
@@ -371,7 +370,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
 			int tmp_s = stack[top - 1];
-			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != VAR) || tmp == '(') {
+			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != VAR && tmp != REG) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
