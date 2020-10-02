@@ -118,7 +118,7 @@ static int cmd_x(char *args) {
 static int cmd_w(char *args) {
 	WP *new;
 	new = new_wp();
-	strncpy(new->exp, args, 128);
+	strncpy(new->exp, args, strlen(args));
 	bool success = true;
 	new->res = expr(args, &success);
 	Assert(success == true, "ERROR!");
