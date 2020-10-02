@@ -81,7 +81,30 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_x(char *args) {
-	printf("%s\n", args);
+	int index = 0;
+	int i;
+	bool first_num = false;
+	for(i = 0; i < strlen(args); i++) {
+		if(first_num == true && args[i] == ' ') {
+			index = i;
+			break;
+		}
+		if(args[i] >= '0' && args[i] <= '9') {
+			first_num = true;
+		}
+	}
+	int e = 1;
+	int sum = 0;
+	for(i = index; i >= 0; i++) {
+		if(args[i] == ' ') {
+			continue;
+		}
+		else {
+			sum += e * (int)(args[i] - '0');
+			e *= 10;
+		}
+	}
+	printf("%d\n", sum);
 	return 0;
 }
 
