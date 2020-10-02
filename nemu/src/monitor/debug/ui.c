@@ -65,6 +65,9 @@ static int cmd_i(char *args) {
 		printf("%-8s0x%-16x%-16u\n", "esi", cpu.esi, cpu.esi);
 		printf("%-8s0x%-16x%-16u\n", "edi", cpu.edi, cpu.edi);
 	}
+	else if(args[0] == 'w') {
+		show_wp();
+	}
 	return 0;
 }
 
