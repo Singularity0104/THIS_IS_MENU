@@ -121,12 +121,13 @@ static int cmd_w(char *args) {
 	// strcpy(new->exp, args);
 	int i;
 	for(i = 0; i < 128; i++) {
-		if(i < strlen(args)) {
-			new->exp[i] = '\0';
-		}
-		else {
-			new->exp[i] = '\0';
-		}
+		// if(i < strlen(args)) {
+		// 	new->exp[i] = args[i];
+		// }
+		// else {
+		// 	new->exp[i] = '\0';
+		// }
+		new->exp[i] = '\0';
 	}
 	bool success = true;
 	new->res = expr(args, &success);
