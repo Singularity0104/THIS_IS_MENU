@@ -109,7 +109,7 @@ void show_wp() {
 	printf("NO  Hit  Value           Expression\n");
 	WP *tmp = head;
 	while(tmp != NULL) {
-		printf("%-4.2d%-16.3d%-7d%s\n", tmp->NO, tmp->hit, tmp->res, tmp->exp);
+		printf("%-4.2d%-5.3d%-16d%s\n", tmp->NO, tmp->hit, tmp->res, tmp->exp);
 		tmp = tmp->next;
 	}
 	return;
