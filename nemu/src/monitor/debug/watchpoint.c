@@ -76,7 +76,7 @@ bool checkpoint() {
 		int cur = expr(tmp->exp, &success);
 		Assert(success == true, "ERROR!");
 		if(cur != tmp->res) {
-			change = false;
+			change = true;
 			printf("Watchpoint NO %2.2d:\n", tmp->NO);
 			printf("Expression: %s\n", tmp->exp);
 			printf("Old value: %d\n", tmp->res);
