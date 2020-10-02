@@ -153,8 +153,8 @@ static bool make_token(char *e) {
 						break;
 					case REG:
 						tokens[nr_token].type = REG;
-						Assert(substr_len <= 32, "Token too long!");
-						strncpy(tokens[nr_token].str, substr_start, substr_len);
+						Assert(substr_len != 4, "Not a reg!");
+						strncpy(tokens[nr_token].str, substr_start + 1, 3);
 						/*test point*/
 						// printf("success!  %s\n", tokens[nr_token].str);
 						nr_token++;
@@ -270,7 +270,7 @@ u_int32_t eval(int p, int q, bool *success) {
 
 	if(p > q) {
 		*success = false;
-		printf("ERROR_1!\n");
+		printf("ERROR_0!\n");
 		return 0;
 	}
 	else if(p == q) {
@@ -321,6 +321,38 @@ u_int32_t eval(int p, int q, bool *success) {
 		else if(tokens[p].type == VAR) {
 			return 0;
 		}
+		else if(tokens[p].type == REG) {
+			char *tmp = tokens[p].str;
+			if(strcmp(tmp, "eax") == 0) {
+				return cpu.eax;
+			}
+			else if(strcmp(tmp, "ecx") == 0) {
+				return cpu.ecx;
+			}
+			else if(strcmp(tmp, "edx") == 0) {
+				return cpu.edx;
+			}
+			else if(strcmp(tmp, "ebx") == 0) {
+				return cpu.ebx;
+			}
+			else if(strcmp(tmp, "esp") == 0) {
+				return cpu.esp;
+			}
+			else if(strcmp(tmp, "ebp") == 0) {
+				return cpu.ebp;
+			}
+			else if(strcmp(tmp, "esi") == 0) {
+				return cpu.esi;
+			}
+			else if(strcmp(tmp, "edi") == 0) {
+				return cpu.edi;
+			}
+			else {
+				*success = false;
+				printf("ERROR_1!\n");
+				return 0;
+			}
+		}
 		else {
 			*success = false;
 			printf("ERROR_2!\n");
@@ -352,7 +384,6 @@ u_int32_t eval(int p, int q, bool *success) {
 				}
 				if(stack[top] != '(') {
 					*success = false;
-					printf("%c  %d\n", stack[top], top);
 					printf("ERROR_3!\n");
 					return 0;
 				}
