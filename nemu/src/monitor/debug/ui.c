@@ -93,6 +93,7 @@ static int cmd_x(char *args) {
 			first_num = true;
 		}
 	}
+	printf("%d\n", index);
 	int e = 1;
 	int sum = 0;
 	for(i = index; i >= 0; i++) {
