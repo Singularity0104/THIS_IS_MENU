@@ -9,8 +9,8 @@ typedef struct watchpoint {
 
 	/* TODO: Add more members if necessary */
 	bool is_free;
-	char *exp;
 	uint32_t res;
+	char exp[128];
 
 } WP;
 
