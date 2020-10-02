@@ -130,7 +130,7 @@ static int cmd_w(char *args) {
 static int cmd_d(char *args) {
 	int i;
 	for(i = 0; i < strlen(args); i++) {
-		if(args[i] != ' ' || args[i] < '0' || args[i] > '9') {
+		if(args[i] != ' ' && (args[i] < '0' || args[i] > '9')) {
 			printf("Invalid commend!\n");
 			return 0;
 		}
