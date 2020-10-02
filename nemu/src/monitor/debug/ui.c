@@ -109,7 +109,8 @@ static int cmd_x(char *args) {
 	Assert(success == true, "ERROR!");
 	for(i = 0; i < sum; i++) {
 		uint32_t mem = swaddr_read(add, 4);
-		printf("%-12x    %-12x\n", add, mem);
+		printf("0x%-12x    0x%-12.8x\n", add, mem);
+		add += 4;
 	}
 	return 0;
 }
