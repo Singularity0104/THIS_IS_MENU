@@ -76,7 +76,7 @@ bool checkpoint() {
 		Assert(success == true, "ERROR!");
 		if(cur != tmp->res) {
 			change = false;
-			printf("Watchpoint NO%2.2d:\n", tmp->NO);
+			printf("Watchpoint NO %2.2d:\n", tmp->NO);
 			printf("Expression: %s\n", tmp->exp);
 			printf("Old value: %d\n", tmp->res);
 			printf("New value: %d\n", cur);
@@ -95,6 +95,6 @@ void delete_NO(int no) {
 		}
 	}
 	Assert(tmp != NULL, "Delete filed");
-	printf("Successfully delete watchpoint NO%2.2d\n", no);
+	printf("Successfully delete watchpoint NO %2.2d\n", no);
 	return;
 }
