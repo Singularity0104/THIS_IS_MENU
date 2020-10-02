@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER, VAR
+	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
 
 	/* TODO: Add more token types */
 
@@ -37,8 +37,7 @@ static struct rule {
 	{"!=", UNEQ},
 	{"&&", AND},
 	{"\\|\\|", OR},
-	{"!", NOT},
-	{"[_a-zA-Z][_a-zA-Z0-9]*", VAR}
+	{"!", NOT}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -213,10 +212,6 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = NOT;
 						nr_token++;
 						break;
-					case VAR:
-						tokens[nr_token].type = VAR;
-						nr_token++;
-						break;
 					default: panic("please implement me");
 				}
 
@@ -293,7 +288,7 @@ u_int32_t eval(int p, int q, bool *success) {
 					}
 				}
 			}
-			else {
+			else if(tokens[p].type == HENUM || tokens[p].type == NEHENUM){
 				for(i = 31; i >= 0; i--) {
 					char tmp = tokens[p].str[i];
 					if(tmp == '\0') {
@@ -317,9 +312,6 @@ u_int32_t eval(int p, int q, bool *success) {
 				}
 			}
 			return sum;
-		}
-		else if(tokens[p].type == VAR) {
-			return 0;
 		}
 		else if(tokens[p].type == REG) {
 			char *tmp = tokens[p].str;
@@ -370,7 +362,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
 			int tmp_s = stack[top - 1];
-			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != VAR && tmp != REG) || tmp == '(') {
+			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != REG) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
@@ -496,7 +488,7 @@ u_int32_t eval(int p, int q, bool *success) {
 				int val_1 = eval(op + 1, q, success);
 				switch(op_type) {
 					case NOT: return !val_1;break;
-					case POINTER: panic("No pointer!");
+					case POINTER: return swaddr_read(val_1, 4);
 					default:
 						*success = false;
 						printf("ERROR6!\n");
