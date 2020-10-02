@@ -41,13 +41,16 @@ static int cmd_help(char *args);
 static int cmd_s(char *args) {
 	uint32_t step = 1;
 	if(args != NULL){
-		step = 0;
-		int size_tmp = strlen(args);
-		int i, e;
-		for(i = 0, e = 1; i < size_tmp; i++, e *= 10) {
-			Assert(args[i] >= '0' && args[i] <= '9', "The step must be numbers!");
-			step += e * (uint32_t)(args[i] - '0');
+		int i;
+		for(i = 0; i < strlen(args); i++) {
+			if(args[i] != ' ' && (args[i] < '0' || args[i] > '9')) {
+				printf("Invalid commend!\n");
+				return 0;
+			}
 		}
+		bool success = true;
+		step = expr(args, &success);
+		Assert(success == true, "ERROR!");
 	}
 	cpu_exec(step);
 	return 0;
