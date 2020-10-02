@@ -153,8 +153,7 @@ static bool make_token(char *e) {
 						break;
 					case REG:
 						tokens[nr_token].type = REG;
-						printf("len %d\n", substr_len);
-						Assert(substr_len != 4, "Not a reg!");
+						Assert(substr_len == 4, "Not a reg!");
 						strncpy(tokens[nr_token].str, substr_start + 1, 3);
 						/*test point*/
 						// printf("success!  %s\n", tokens[nr_token].str);
