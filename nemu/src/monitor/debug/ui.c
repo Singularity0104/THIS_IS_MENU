@@ -122,7 +122,7 @@ static int cmd_w(char *args) {
 	bool success = true;
 	new->res = expr(args, &success);
 	Assert(success == true, "ERROR!");
-	printf("Set watchpoint NO %2.2d\n exp: %s", new->NO, new->exp);
+	printf("Set watchpoint NO %2.2d\n", new->NO);
 	return 0;
 }
 
