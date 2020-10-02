@@ -104,10 +104,15 @@ static int cmd_x(char *args) {
 			e *= 10;
 		}
 	}
-	printf("%d\n", sum);
+	bool success = true;
+	uint32_t add = expr(args + index, &success);
+	Assert(success == true, "ERROR!");
+	for(i = 0; i < sum; i++) {
+		uint32_t mem = swaddr_read(add, 4);
+		printf("%-12x    %-12x\n", add, mem);
+	}
 	return 0;
 }
-
 static struct {
 	char *name;
 	char *description;
