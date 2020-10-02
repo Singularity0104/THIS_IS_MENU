@@ -114,6 +114,33 @@ static int cmd_x(char *args) {
 	}
 	return 0;
 }
+
+static int cmd_w(char *args) {
+	WP *new;
+	new = new_wp();
+	new->exp = args;
+	bool success = true;
+	new->res = expr(args, &success);
+	Assert(success == true, "ERROR!");
+	printf("Set watchpoint NO%2.2d\n", new->NO);
+	return 0;
+}
+
+static int cmd_d(char *args) {
+	int i;
+	for(i = 0; i < strlen(args); i++) {
+		if(args[i] != ' ' || args[i] < '0' || args[i] > '9') {
+			printf("Invalid commend!\n");
+			return 0;
+		}
+	}
+	bool success = true;
+	int no = expr(args, &success);
+	Assert(success == true, "ERROR!");
+	delete_NO(no);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -125,7 +152,9 @@ static struct {
 	{ "si", "Execute the program step by step", cmd_s},
 	{ "info", "Print the register or the watch point", cmd_i},
 	{ "p", "Evalute expression", cmd_p},
-	{ "x", "Print memory", cmd_x}
+	{ "x", "Print memory", cmd_x},
+	{ "w", "Set a watchpoint", cmd_w},
+	{ "d", "Delete a watchpoint", cmd_d}
 
 	/* TODO: Add more commands */
 

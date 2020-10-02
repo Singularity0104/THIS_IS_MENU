@@ -21,16 +21,14 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 WP *new_wp() {
-	static int n = 0;
 	bool find = false;
 	int i;
 	for(i = 0; i < 32; i++) {
 		if(wp_pool[i].is_free == true) {
 			find = true;
 			wp_pool[i].is_free = false;
-			wp_pool[i].NO = n;
-			n++;
 			if(head == NULL) {
+				wp_pool[i].NO = 1;
 				head = &wp_pool[i];
 			}
 			else {
@@ -39,6 +37,7 @@ WP *new_wp() {
 					tmp = tmp->next;
 				}
 				tmp->next = &wp_pool[i];
+				wp_pool[i].NO = tmp->NO + 1;
 			}
 			wp_pool[i].next = NULL;
 			break;
@@ -68,3 +67,34 @@ void free_wp(WP *wp) {
 	}
 }
 
+bool checkpoint() {
+	bool change = false;
+	WP *tmp = head;
+	while(tmp != NULL) {
+		bool success = true;
+		int cur = expr(tmp->exp, &success);
+		Assert(success == true, "ERROR!");
+		if(cur != tmp->res) {
+			change = false;
+			printf("Watchpoint NO%2.2d:\n", tmp->NO);
+			printf("Expression: %s\n", tmp->exp);
+			printf("Old value: %d\n", tmp->res);
+			printf("New value: %d\n", cur);
+			tmp->res = cur;
+		}
+	}
+	return change;
+}
+
+void delete_NO(int no) {
+	WP *tmp = head;
+	while(tmp != NULL) {
+		if(tmp->NO == no) {
+			free_wp(tmp);
+			break;
+		}
+	}
+	Assert(tmp != NULL, "Delete filed");
+	printf("Successfully delete watchpoint NO%2.2d\n", no);
+	return;
+}

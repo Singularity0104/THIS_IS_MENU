@@ -1,6 +1,7 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
 #include <setjmp.h>
+#include "monitor/watchpoint.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -62,6 +63,10 @@ void cpu_exec(volatile uint32_t n) {
 		int instr_len = exec(cpu.eip);
 
 		cpu.eip += instr_len;
+
+		if(checkpoint() == true) {
+			nemu_state = STOP;
+		}
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);

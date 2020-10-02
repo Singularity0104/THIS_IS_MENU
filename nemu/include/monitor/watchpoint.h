@@ -9,8 +9,14 @@ typedef struct watchpoint {
 
 	/* TODO: Add more members if necessary */
 	bool is_free;
-	
+	char *exp;
+	uint32_t res;
 
 } WP;
+
+WP *new_wp();
+void free_wp(WP *wp);
+bool checkpoint();
+void delete_NO(int no);
 
 #endif
