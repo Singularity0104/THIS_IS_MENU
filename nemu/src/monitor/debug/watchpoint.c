@@ -10,8 +10,9 @@ void init_wp_pool() {
 	int i;
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
-		wp_pool[i].next = &wp_pool[i + 1];
 		wp_pool[i].is_free = true;
+		wp_pool[i].hit = 0;
+		wp_pool[i].next = &wp_pool[i + 1];
 	}
 	wp_pool[NR_WP - 1].next = NULL;
 
@@ -26,7 +27,6 @@ WP *new_wp() {
 	for(i = 0; i < 32; i++) {
 		if(wp_pool[i].is_free == true) {
 			find = true;
-			wp_pool[i].is_free = false;
 			if(head == NULL) {
 				wp_pool[i].NO = 1;
 				head = &wp_pool[i];
@@ -40,6 +40,8 @@ WP *new_wp() {
 				wp_pool[i].NO = tmp->NO + 1;
 			}
 			wp_pool[i].next = NULL;
+			wp_pool[i].is_free = false;
+			wp_pool[i].hit = 0;
 			break;
 		}
 	}
@@ -82,6 +84,7 @@ bool checkpoint() {
 			printf("Old value: %d\n", tmp->res);
 			printf("New value: %d\n", cur);
 			tmp->res = cur;
+			tmp->hit++;
 		}
 		tmp = tmp->next;
 	}
@@ -99,5 +102,15 @@ void delete_NO(int no) {
 	}
 	Assert(tmp != NULL, "Delete filed");
 	printf("Successfully delete watchpoint NO %2.2d\n", no);
+	return;
+}
+
+void show_wp() {
+	printf("NO  Hit  Value  Expression\n");
+	WP *tmp = head;
+	while(tmp != NULL) {
+		printf("%-4.2d%-5.3d%-7d%s\n", tmp->NO, tmp->hit, tmp->res, tmp->exp);
+		tmp = tmp->next;
+	}
 	return;
 }
