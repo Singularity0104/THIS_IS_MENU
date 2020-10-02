@@ -118,7 +118,16 @@ static int cmd_x(char *args) {
 static int cmd_w(char *args) {
 	WP *new;
 	new = new_wp();
-	strcpy(new->exp, args);
+	// strcpy(new->exp, args);
+	int i;
+	for(i = 0; i < 128; i++) {
+		if(i < strlen(args)) {
+			new->exp[i] = args[i];
+		}
+		else {
+			new->exp[i] = '\0';
+		}
+	}
 	bool success = true;
 	new->res = expr(args, &success);
 	Assert(success == true, "ERROR!");
