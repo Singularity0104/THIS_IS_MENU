@@ -96,7 +96,7 @@ static bool make_token(char *e) {
 					case NOTYPE:
 						break;
 					case NEHENUM:
-						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
+						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM || tokens[nr_token - 1].type == NEHENUM)) {
 							tokens[nr_token].type = '-';
 							nr_token++;
 							tokens[nr_token].type = HENUM;
@@ -124,7 +124,7 @@ static bool make_token(char *e) {
 						nr_token++;
 						break;
 					case NENUM:
-						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM)) {
+						if(nr_token != 0 && tokens[nr_token - 1].type != '(' && tokens[nr_token - 1].type != ')' && (tokens[nr_token - 1].type == NUM || tokens[nr_token - 1].type == NENUM || tokens[nr_token - 1].type == HENUM || tokens[nr_token - 1].type == NEHENUM)) {
 							tokens[nr_token].type = '-';
 							nr_token++;
 							tokens[nr_token].type = NUM;
