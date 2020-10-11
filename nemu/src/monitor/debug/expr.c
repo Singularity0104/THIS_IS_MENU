@@ -319,6 +319,7 @@ u_int32_t eval(int p, int q, bool *success) {
 				return cpu.eax;
 			}
 			else if(strcmp(tmp, "ecx") || strcmp(tmp, "ECX") == 0) {
+				printf("%d\n", cpu.ecx);
 				return cpu.ecx;
 			}
 			else if(strcmp(tmp, "edx") || strcmp(tmp, "EDX") == 0) {
