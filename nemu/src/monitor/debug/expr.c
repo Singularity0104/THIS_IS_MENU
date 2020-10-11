@@ -26,7 +26,7 @@ static struct rule {
 	{"0[Xx][0-9a-fA-F][0-9a-fA-F]*", HENUM},				// spaces
 	{"-[0-9][0-9]*", NENUM},
 	{"[0-9][0-9]*", NUM},
-	{"\\$[a-z]{3}", REG},
+	{"\\$[a-zA-Z]{2}[a-zA-Z]*", REG},
 	{"\\+", '+'},					// plus
 	{"-", '-'},
 	{"\\*", '*'},
@@ -315,30 +315,82 @@ u_int32_t eval(int p, int q, bool *success) {
 		}
 		else if(tokens[p].type == REG) {
 			char *tmp = tokens[p].str;
-			if(strcmp(tmp, "eax") == 0) {
+			if(strcmp(tmp, "eax") == 0 || strcmp(tmp, "EAX") == 0) {
 				return cpu.eax;
 			}
-			else if(strcmp(tmp, "ecx") == 0) {
+			else if(strcmp(tmp, "ecx") || strcmp(tmp, "ECX") == 0) {
 				return cpu.ecx;
 			}
-			else if(strcmp(tmp, "edx") == 0) {
+			else if(strcmp(tmp, "edx") || strcmp(tmp, "EDX") == 0) {
 				return cpu.edx;
 			}
-			else if(strcmp(tmp, "ebx") == 0) {
+			else if(strcmp(tmp, "ebx") || strcmp(tmp, "EBX") == 0) {
 				return cpu.ebx;
 			}
-			else if(strcmp(tmp, "esp") == 0) {
+			else if(strcmp(tmp, "esp") || strcmp(tmp, "ESP") == 0) {
 				return cpu.esp;
 			}
-			else if(strcmp(tmp, "ebp") == 0) {
+			else if(strcmp(tmp, "ebp") || strcmp(tmp, "EBP") == 0) {
 				return cpu.ebp;
 			}
-			else if(strcmp(tmp, "esi") == 0) {
+			else if(strcmp(tmp, "esi") || strcmp(tmp, "ESI") == 0) {
 				return cpu.esi;
 			}
-			else if(strcmp(tmp, "edi") == 0) {
+			else if(strcmp(tmp, "edi") || strcmp(tmp, "EDI") == 0) {
 				return cpu.edi;
 			}
+			else if(strcmp(tmp, "eip") || strcmp(tmp, "EIP") == 0) {
+				return cpu.eip;
+			}
+			else if(strcmp(tmp, "ax") || strcmp(tmp, "AX") == 0) {
+				return cpu.gpr[0]._16;
+			}
+			else if(strcmp(tmp, "cx") || strcmp(tmp, "CX") == 0) {
+				return cpu.gpr[1]._16;
+			}
+			else if(strcmp(tmp, "dx") || strcmp(tmp, "DX") == 0) {
+				return cpu.gpr[2]._16;
+			}
+			else if(strcmp(tmp, "bx") || strcmp(tmp, "BX") == 0) {
+				return cpu.gpr[3]._16;
+			}
+			else if(strcmp(tmp, "sp") || strcmp(tmp, "SP") == 0) {
+				return cpu.gpr[4]._16;
+			}
+			else if(strcmp(tmp, "bp") || strcmp(tmp, "BP") == 0) {
+				return cpu.gpr[5]._16;
+			}
+			else if(strcmp(tmp, "si") || strcmp(tmp, "SI") == 0) {
+				return cpu.gpr[6]._16;
+			}
+			else if(strcmp(tmp, "di") || strcmp(tmp, "DI") == 0) {
+				return cpu.gpr[7]._16;
+			}
+			else if(strcmp(tmp, "al") || strcmp(tmp, "AL") == 0) {
+				return cpu.gpr[0]._8[0];
+			}
+			else if(strcmp(tmp, "cl") || strcmp(tmp, "CL") == 0) {
+				return cpu.gpr[1]._8[0];
+			}
+			else if(strcmp(tmp, "dl") || strcmp(tmp, "DL") == 0) {
+				return cpu.gpr[2]._8[0];
+			}
+			else if(strcmp(tmp, "bl") || strcmp(tmp, "BL") == 0) {
+				return cpu.gpr[3]._8[0];
+			}
+			else if(strcmp(tmp, "ah") || strcmp(tmp, "AH") == 0) {
+				return cpu.gpr[0]._8[1];
+			}
+			else if(strcmp(tmp, "ch") || strcmp(tmp, "CH") == 0) {
+				return cpu.gpr[1]._8[1];
+			}
+			else if(strcmp(tmp, "dh") || strcmp(tmp, "DH") == 0) {
+				return cpu.gpr[2]._8[1];
+			}
+			else if(strcmp(tmp, "bh") || strcmp(tmp, "BH") == 0) {
+				return cpu.gpr[3]._8[1];
+			}
+			
 			else {
 				*success = false;
 				printf("ERROR_1!\n");
