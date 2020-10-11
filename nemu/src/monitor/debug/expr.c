@@ -390,7 +390,6 @@ u_int32_t eval(int p, int q, bool *success) {
 			else if(strcmp(tmp, "bh") || strcmp(tmp, "BH") == 0) {
 				return cpu.gpr[3]._8[1];
 			}
-			
 			else {
 				*success = false;
 				printf("ERROR_1!\n");
