@@ -3,7 +3,7 @@
 #define instr call
 
 static void do_execute() {
-	
+	print_asm_template2();
 }
 
 make_instr_helper(i)
