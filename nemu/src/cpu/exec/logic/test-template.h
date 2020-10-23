@@ -4,7 +4,7 @@
 
 static void do_execute() {
     uint32_t res = 0;
-    res += op_src->val & op_dest->val;
+    res = res + (op_src->val & op_dest->val);
     cpu.CF = 0;
     cpu.OF = 0;
     if(res == 0) {
