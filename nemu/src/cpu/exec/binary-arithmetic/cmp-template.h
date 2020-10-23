@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	uint32_t res = 0;
-    res = res + (op_dest->val - op_src->val);
+    res = res + (op_src->val - op_src2->val);
     cpu.CF = 0;
     cpu.OF = 0;
     if(res == 0) {
@@ -23,6 +23,6 @@ static void do_execute() {
     print_asm_template2();
 }
 
-make_instr_helper(i2rm)
+make_instr_helper(rm_imm)
 
 #include "cpu/exec/template-end.h"
