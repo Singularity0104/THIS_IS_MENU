@@ -7,6 +7,8 @@
 #include "control-transfer/call.h"
 #include "control-transfer/je.h"
 
+#include "binary-arithmetic/cmp.h"
+
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
