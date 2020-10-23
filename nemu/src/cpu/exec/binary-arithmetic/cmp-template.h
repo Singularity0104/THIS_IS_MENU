@@ -20,6 +20,7 @@ static void do_execute() {
         tmp = tmp ^ (res & (1 << i) >> i);
     }
     cpu.PF = !tmp;
+    print_asm_template2();
 }
 
 make_instr_helper(i2rm)
