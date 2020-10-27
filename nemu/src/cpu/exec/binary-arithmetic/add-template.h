@@ -1,17 +1,18 @@
 #include "cpu/exec/template-start.h"
 
-#define instr cmp
+#define instr add
 
 static void do_execute() {
 	uint32_t res = 0;
-    res = (op_dest->val - op_src->val) & (((1u << (DATA_BYTE * 8 - 1)) - 1) + (1u << (DATA_BYTE * 8 - 1)));
-    if((uint32_t)op_dest->val < (uint32_t)op_src->val) {
+    res = (op_dest->val + op_src->val) & (((1u << (DATA_BYTE * 8 - 1)) - 1) + (1u << (DATA_BYTE * 8 - 1)));
+    OPERAND_W(op_dest, res);
+    if((uint32_t)res < (uint32_t)op_src->val || (uint32_t)res < (uint32_t)op_dest->val) {
         cpu.CF = 1;
     }
     else {
         cpu.CF = 0;
     }
-    if(((op_dest->val >> (DATA_BYTE * 8 - 1)) ^ (op_src->val >> (8 * DATA_BYTE - 1))) & (~((res >> (DATA_BYTE * 8 - 1)) ^ (op_src->val >> (8 * DATA_BYTE - 1)))) & 1) {
+    if((~((op_dest->val >> (DATA_BYTE * 8 - 1)) ^ (op_src->val >> (8 * DATA_BYTE - 1)))) & ((res >> (DATA_BYTE * 8 - 1)) ^ (op_src->val >> (8 * DATA_BYTE - 1))) & 1) {
         cpu.OF = 1;
     }
     else {
@@ -34,6 +35,5 @@ static void do_execute() {
 }
 
 make_instr_helper(rm_imm)
-make_instr_helper(rm_cl)
 
 #include "cpu/exec/template-end.h"
