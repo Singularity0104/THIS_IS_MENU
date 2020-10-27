@@ -14,3 +14,4 @@
 
 
 make_helper_v(cmp_rm_imm)
+make_helper_v(cmp_r2rm)
