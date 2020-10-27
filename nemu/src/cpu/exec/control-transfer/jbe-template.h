@@ -6,7 +6,7 @@ static void do_execute() {
 	if(cpu.ZF == 1 || cpu.CF == 1) {
         if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
             cpu.eip = cpu.eip + ((~op_src->val) + 1);
-            printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+            printf("%x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n", cpu.eip);
         }
         else {
             cpu.eip = cpu.eip + op_src->val;
