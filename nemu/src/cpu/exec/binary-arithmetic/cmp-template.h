@@ -34,6 +34,6 @@ static void do_execute() {
 }
 
 make_instr_helper(rm_imm)
-make_instr_helper(r2rm)
+make_instr_helper(rm_cl)
 
 #include "cpu/exec/template-end.h"
