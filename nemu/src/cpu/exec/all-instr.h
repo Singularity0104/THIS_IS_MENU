@@ -10,6 +10,7 @@
 #include "control-transfer/ret.h"
 
 #include "binary-arithmetic/cmp.h"
+#include "binary-arithmetic/sub.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
