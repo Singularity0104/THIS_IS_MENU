@@ -4,7 +4,11 @@
 
 static void do_execute() {
 	if(cpu.ZF == 1) {
-        cpu.eip = cpu.eip + ((op_src->val << ((4 - DATA_BYTE) * 8)) >> ((4 - DATA_BYTE) * 8));
+        uint32_t s = 0;
+        if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
+            s = ~(1 << (DATA_BYTE * 8 - 1));
+        }
+        cpu.eip = cpu.eip + op_src->val + s;
         if(DATA_BYTE == 2) {
             cpu.eip = cpu.eip & 0x0000ffff;
         }
