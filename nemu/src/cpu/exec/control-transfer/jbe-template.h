@@ -8,6 +8,7 @@ static void do_execute() {
         if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
             printf("aaaaaaaaaaaaaaaaaaaaaaaaa\n");
             s = ~(1 << (DATA_BYTE * 8 - 1));
+            printf("%x    aaaaaaaaaaaaaaaaaaaaaaaaa\n", s);
         }
         cpu.eip = cpu.eip + op_src->val + s;
         if(DATA_BYTE == 2) {
