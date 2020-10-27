@@ -12,7 +12,7 @@ make_helper(concat(ret_, SUFFIX)) {
     }
 	cpu.esp += DATA_BYTE;
 	print_asm_template1();
-	return 0;
+	return 1;
 }
 
 #include "cpu/exec/template-end.h"

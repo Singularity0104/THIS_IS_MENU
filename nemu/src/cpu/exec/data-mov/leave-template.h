@@ -8,7 +8,7 @@ make_helper(concat(leave_, SUFFIX)) {
     cpu.esp += DATA_BYTE;
     print_asm_template1();
     printf("%x    aaaaaaaaaaaaaaaaa\n", cpu.eip);
-    return 0;
+    return 1;
 }
 
 #include "cpu/exec/template-end.h"
