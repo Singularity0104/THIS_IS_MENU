@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	uint32_t res = 0;
-    res = res + (op_dest->val - op_src->val);
+    res = (op_dest->val - op_src->val) & (((1u << (DATA_BYTE * 8 - 1)) - 1) + (1u << (DATA_BYTE * 8 - 1)));
     if((uint32_t)op_dest->val < (uint32_t)op_src->val) {
         cpu.CF = 1;
     }
