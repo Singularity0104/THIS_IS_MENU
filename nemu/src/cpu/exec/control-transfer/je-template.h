@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	if(cpu.ZF == 1) {
-        cpu.eip = cpu.eip + op_src->val;
+        cpu.eip = cpu.eip + ((op_src->val << ((4 - DATA_BYTE) * 8)) >> ((4 - DATA_BYTE) * 8));
         if(DATA_BYTE == 2) {
             cpu.eip = cpu.eip & 0x0000ffff;
         }
