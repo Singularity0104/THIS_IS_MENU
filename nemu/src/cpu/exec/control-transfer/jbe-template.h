@@ -4,15 +4,16 @@
 
 static void do_execute() {
 	if(cpu.ZF == 1 || cpu.CF == 1) {
+            cpu.eip = cpu.eip + 1;
+
             printf("%x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n", cpu.eip);
 
-        if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
-            cpu.eip = cpu.eip + 0xffffffff;
-            // cpu.eip = cpu.eip + ((~op_src->val) + 1);
-            }
-        else {
-            cpu.eip = cpu.eip + op_src->val;
-        }
+        // if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
+        //     cpu.eip = cpu.eip + ((~op_src->val) + 1);
+        //     }
+        // else {
+        //     cpu.eip = cpu.eip + op_src->val;
+        // }
         if(DATA_BYTE == 2) {
             cpu.eip = cpu.eip & 0x0000ffff;
         }
