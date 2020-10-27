@@ -6,10 +6,11 @@ static void do_execute() {
 	if(cpu.ZF == 1 || cpu.CF == 1) {
         if((op_src->val & (1 << (DATA_BYTE * 8 - 1))) >> (DATA_BYTE * 8 - 1) == 1) {
             cpu.eip = cpu.eip - ((~op_src->val) + 1);
-            
+            printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
         }
         else {
             cpu.eip = cpu.eip + op_src->val;
+            printf("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
         }
         if(DATA_BYTE == 2) {
             cpu.eip = cpu.eip & 0x0000ffff;
