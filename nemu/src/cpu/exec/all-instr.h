@@ -8,6 +8,7 @@
 #include "control-transfer/call.h"
 #include "control-transfer/je.h"
 #include "control-transfer/ret.h"
+#include "control-transfer/jmp.h"
 
 #include "binary-arithmetic/cmp.h"
 #include "binary-arithmetic/sub.h"
