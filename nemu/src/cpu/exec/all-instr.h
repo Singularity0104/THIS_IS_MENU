@@ -16,6 +16,7 @@
 #include "binary-arithmetic/sub.h"
 #include "binary-arithmetic/add.h"
 #include "binary-arithmetic/adc.h"
+#include "binary-arithmetic/sbb.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
