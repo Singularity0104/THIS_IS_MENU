@@ -13,4 +13,4 @@
 #undef DATA_BYTE
 
 
-make_helper_v(add_rm_imm)
+make_helper_v(add_i2rm)
