@@ -3,7 +3,8 @@
 #define instr jmp
 
 static void do_execute() {
-	cpu.eip = cpu.eip + op_src->val;
+	DATA_TYPE_S offset = op_src->val;
+	cpu.eip = cpu.eip + offset;
 	if(DATA_BYTE == 2) {
 		cpu.eip = cpu.eip & 0x0000ffff;
 	}
