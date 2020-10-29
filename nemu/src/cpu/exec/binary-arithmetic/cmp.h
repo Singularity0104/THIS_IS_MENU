@@ -6,5 +6,7 @@ make_helper(cmp_i2rm_v);
 make_helper(cmp_si2rm_v);
 make_helper(cmp_r2rm_b);
 make_helper(cmp_r2rm_v);
+make_helper(cmpa_i_b);
+make_helper(cmpa_i_v);
 
 #endif
