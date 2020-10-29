@@ -16,6 +16,7 @@
 #include "control-transfer/jl.h"
 #include "control-transfer/jg.h"
 #include "control-transfer/jge.h"
+#include "control-transfer/ja.h"
 
 #include "binary-arithmetic/cmp.h"
 #include "binary-arithmetic/sub.h"
