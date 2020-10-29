@@ -30,6 +30,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(movzb_, SUFFIX)) {
+	printf("%xddddddddddddddddddddddddddddddddd", eip);
 	uint32_t len = decode_rm2r_b(eip);
 	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
 	REG(op_dest->reg) = extend_val;
