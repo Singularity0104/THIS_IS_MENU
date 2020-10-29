@@ -37,11 +37,13 @@ make_helper(concat(movzb_, SUFFIX)) {
 	// DATA_TYPE extend_val = (DATA_TYPE)op_src->val;
 	// OPERAND_W(op_dest, extend_val);
 	// print_asm_template2();
-	uint32_t len = decode_rm2r_b(cpu.eip + 1);
-	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
-	REG(op_dest->reg) = extend_val;
+	
+	// uint32_t len = decode_rm2r_b(cpu.eip);
+	// DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
+	// REG(op_dest->reg) = extend_val;
 	print_asm_template2();
-	return len + 1;
+	// return len;
+	return 5;
 }
 #endif
 
