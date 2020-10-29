@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-// #include "cpu/decode/modrm.h"
 
 #define instr mov
 
@@ -31,19 +30,11 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(movzb_, SUFFIX)) {
-	// op_src->size = 1;
-	// int len = read_ModR_M(cpu.eip, op_src, op_dest);
-	// op_dest->val = REG(op_dest->reg);
-	// DATA_TYPE extend_val = (DATA_TYPE)op_src->val;
-	// OPERAND_W(op_dest, extend_val);
-	// print_asm_template2();
-	
-	// uint32_t len = decode_rm2r_b(cpu.eip);
-	// DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
-	// REG(op_dest->reg) = extend_val;
+	uint32_t len = decode_rm2r_b(eip);
+	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
+	REG(op_dest->reg) = extend_val;
 	print_asm_template2();
-	// return len;
-	return 5;
+	return len;
 }
 #endif
 
