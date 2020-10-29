@@ -3,7 +3,7 @@
 #define instr ja
 
 static void do_execute() {
-	if(cpu.ZF == 1 && cpu.CF == 0) {
+	if(cpu.ZF == 0 && cpu.CF == 0) {
         DATA_TYPE_S offset = op_src->val;
         cpu.eip = cpu.eip + offset;
         if(DATA_BYTE == 2) {
