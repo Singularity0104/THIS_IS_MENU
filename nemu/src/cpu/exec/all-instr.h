@@ -12,6 +12,7 @@
 #include "control-transfer/jmp.h"
 #include "control-transfer/jbe.h"
 #include "control-transfer/jle.h"
+#include "control-transfer/jne.h"
 
 #include "binary-arithmetic/cmp.h"
 #include "binary-arithmetic/sub.h"
