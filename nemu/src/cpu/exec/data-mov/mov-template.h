@@ -38,5 +38,35 @@ make_helper(concat(movzb_, SUFFIX)) {
 }
 #endif
 
+#if DATA_BYTE == 4
+make_helper(concat(movzw_, SUFFIX)) {
+	uint32_t len = decode_rm2r_w(eip + 1);
+	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
+	REG(op_dest->reg) = extend_val;
+	print_asm_template2();
+	return len + 1;
+}
+#endif
+
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_helper(concat(movsb_, SUFFIX)) {
+	uint32_t len = decode_rm2r_b(eip + 1);
+	DATA_TYPE_S extend_val = (DATA_TYPE_S)(op_src->val);
+	REG(op_dest->reg) = extend_val;
+	print_asm_template2();
+	return len + 1;
+}
+#endif
+
+#if DATA_BYTE == 4
+make_helper(concat(movsw_, SUFFIX)) {
+	uint32_t len = decode_rm2r_w(eip + 1);
+	DATA_TYPE_S extend_val = (DATA_TYPE_S)(op_src->val);
+	REG(op_dest->reg) = extend_val;
+	print_asm_template2();
+	return len + 1;
+}
+#endif
+
 
 #include "cpu/exec/template-end.h"
