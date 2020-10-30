@@ -10,6 +10,7 @@ make_helper(concat(stos_, SUFFIX)) {
     else {
         cpu.edi = cpu.edi - DATA_BYTE;
     }
+    print_asm(str(instr) str(SUFFIX));
     return 1;
 }
 
