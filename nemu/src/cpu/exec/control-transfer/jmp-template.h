@@ -21,7 +21,7 @@ make_helper(concat(jmp_rm_, SUFFIX)) {
 		cpu.eip = cpu.eip & 0x0000ffff;
 	}
 	print_asm_template1();
-	return len;
+	return len + 1;
 }
 #endif
 
