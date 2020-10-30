@@ -4,7 +4,11 @@
 
 static void do_execute() {
     REG(op_src->reg) =  MEM_R(cpu.esp);
-    cpu.esp += DATA_BYTE;
+    uint32_t offset = 4;
+    if(DATA_BYTE == 2) {
+        offset = 2;
+    }
+    cpu.esp = cpu.esp + offset;
     print_asm_template1();
 }
 

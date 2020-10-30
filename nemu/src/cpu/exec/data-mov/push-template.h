@@ -3,7 +3,11 @@
 #define instr push
 
 static void do_execute() {
-    cpu.esp = cpu.esp - DATA_BYTE;
+    uint32_t offset = 4;
+    if(DATA_BYTE == 2) {
+        offset = 2;
+    }
+    cpu.esp = cpu.esp - offset;
     MEM_W(cpu.esp, op_src->val);
     print_asm_template1();
 }
