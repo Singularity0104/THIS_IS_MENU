@@ -8,7 +8,7 @@ static void do_execute () {
 
 	/* TODO: Update EFLAGS. */
 	// panic("please implement me");
-	if((uint32_t)op_src->val < 1) {
+	if((uint32_t)op_src->val < 1u) {
         cpu.CF = 1;
     }
     else {
