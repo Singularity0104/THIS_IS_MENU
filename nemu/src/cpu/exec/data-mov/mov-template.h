@@ -70,10 +70,10 @@ make_helper(concat(movsw_, SUFFIX)) {
 }
 #endif
 
-// make_helper(concat(movs_, SUFFIX)) {
-// 	DATA_TYPE src = MEM_R(cpu.esi);
-// 	MEM_W(cpu.edi, src);
-// 	return 1;
-// }
+make_helper(concat(movs_, SUFFIX)) {
+	DATA_TYPE src = MEM_R(cpu.esi);
+	MEM_W(cpu.edi, src);
+	return 1;
+}
 
 #include "cpu/exec/template-end.h"
