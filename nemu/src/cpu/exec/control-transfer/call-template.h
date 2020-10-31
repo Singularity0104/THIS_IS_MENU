@@ -3,7 +3,7 @@
 #define instr call
 
 static void do_execute() {
-    cpu.esp -= DATA_BYTE;
+    cpu.esp = cpu.esp - DATA_BYTE;
     if(DATA_BYTE == 2) {
         uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
         MEM_W(cpu.esp, ip);
@@ -13,6 +13,7 @@ static void do_execute() {
         MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
         cpu.eip = cpu.eip + op_src->val;
     }
+    
 	print_asm_template1();
 }
 
