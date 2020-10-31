@@ -33,7 +33,7 @@ make_helper(concat(movzb_, SUFFIX)) {
 	uint32_t len = decode_rm2r_b(eip + 1);
 	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
 	REG(op_dest->reg) = extend_val;
-	print_asm_template2();
+	print_asm("movzb_" str(SUFFIX));
 	return len + 1;
 }
 #endif
@@ -43,7 +43,7 @@ make_helper(concat(movzw_, SUFFIX)) {
 	uint32_t len = decode_rm2r_w(eip + 1);
 	DATA_TYPE extend_val = (DATA_TYPE)(op_src->val);
 	REG(op_dest->reg) = extend_val;
-	print_asm_template2();
+	print_asm("movzw_" str(SUFFIX));
 	return len + 1;
 }
 #endif
@@ -54,7 +54,7 @@ make_helper(concat(movsb_, SUFFIX)) {
 	int8_t s_val = (int8_t)(op_src->val);
 	DATA_TYPE_S extend_val = (DATA_TYPE_S)s_val;
 	REG(op_dest->reg) = extend_val;
-	print_asm_template2();
+	print_asm("movsb_" str(SUFFIX));
 	return len + 1;
 }
 #endif
@@ -65,7 +65,7 @@ make_helper(concat(movsw_, SUFFIX)) {
 	int16_t s_val = (int16_t)(op_src->val);
 	DATA_TYPE_S extend_val = (DATA_TYPE_S)s_val;
 	REG(op_dest->reg) = extend_val;
-	print_asm_template2();
+	print_asm("movsw_" str(SUFFIX));
 	return len + 1;
 }
 #endif
@@ -73,7 +73,7 @@ make_helper(concat(movsw_, SUFFIX)) {
 make_helper(concat(movs_, SUFFIX)) {
 	DATA_TYPE src = MEM_R(cpu.esi);
 	MEM_W(cpu.edi, src);
-	print_asm_template2();
+	print_asm("movs_" str(SUFFIX));
 	return 1;
 }
 
