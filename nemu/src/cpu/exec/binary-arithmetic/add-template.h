@@ -3,10 +3,9 @@
 #define instr add
 
 static void do_execute() {
-	uint32_t res = 0;
-    res = ((DATA_TYPE_S)op_dest->val + (DATA_TYPE_S)op_src->val) & (((1u << (DATA_BYTE * 8 - 1)) - 1) + (1u << (DATA_BYTE * 8 - 1)));
+    DATA_TYPE_S res = (DATA_TYPE_S)op_dest->val + (DATA_TYPE_S)op_src->val;
     OPERAND_W(op_dest, res);
-    if((uint32_t)res < (uint32_t)op_src->val || (uint32_t)res < (uint32_t)op_dest->val) {
+    if((DATA_TYPE)res < (DATA_TYPE)op_src->val || (DATA_TYPE)res < (DATA_TYPE)op_dest->val) {
         cpu.CF = 1;
     }
     else {

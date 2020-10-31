@@ -12,7 +12,7 @@ make_helper(concat(scas_, SUFFIX)) {
     else {
         cpu.edi = cpu.edi - DATA_BYTE;
     }
-    if((uint32_t)des < (uint32_t)src) {
+    if((DATA_TYPE)des < (DATA_TYPE)src) {
         cpu.CF = 1;
     }
     else {
