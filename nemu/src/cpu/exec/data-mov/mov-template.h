@@ -73,6 +73,7 @@ make_helper(concat(movsw_, SUFFIX)) {
 make_helper(concat(movs_, SUFFIX)) {
 	DATA_TYPE src = MEM_R(cpu.esi);
 	MEM_W(cpu.edi, src);
+	print_asm_template2();
 	return 1;
 }
 
