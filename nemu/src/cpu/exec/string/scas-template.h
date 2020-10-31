@@ -31,7 +31,7 @@ make_helper(concat(scas_, SUFFIX)) {
     //     tmp = tmp ^ (res & (1 << i) >> i);
     // }
     // cpu.PF = !tmp;
-    print_asm(str(instr) str(SUFFIX));
+    // print_asm(str(instr) str(SUFFIX));
     return 1;
 }
 
