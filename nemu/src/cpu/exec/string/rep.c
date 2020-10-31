@@ -57,8 +57,8 @@ make_helper(repnz) {
 			  );
 
 		/* TODO: Jump out of the while loop if necessary. */
-		break;
 		if(ops_decoded.opcode == 0xa6 || ops_decoded.opcode == 0xa7	|| ops_decoded.opcode == 0xae || ops_decoded.opcode == 0xaf) {
+			break;
 			if(cpu.ZF == 0) {
 				break;
 			}
