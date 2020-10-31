@@ -6,6 +6,12 @@ make_helper(concat(scas_, SUFFIX)) {
     DATA_TYPE_S des = REG(R_EAX);
     DATA_TYPE_S src = MEM_R(cpu.edi);
     DATA_TYPE_S res = des - src;
+    if(cpu.DF == 0) {
+        cpu.edi = cpu.edi + DATA_BYTE;
+    }
+    else {
+        cpu.edi = cpu.edi - DATA_BYTE;
+    }
     if((uint32_t)des < (uint32_t)src) {
         cpu.CF = 1;
     }
