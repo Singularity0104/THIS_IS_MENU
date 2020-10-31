@@ -32,7 +32,7 @@ make_helper(concat(scas_, SUFFIX)) {
     }
     cpu.PF = !tmp;
     print_asm(str(instr) str(SUFFIX));
-    return 2;
+    return 1;
 }
 
 #include "cpu/exec/template-end.h"
