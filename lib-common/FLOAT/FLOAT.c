@@ -38,14 +38,16 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	FLOAT res = 0;
+	
+	return res;
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	FLOAT res = ~a + 1;
+	return res;
 }
 
 /* Functions below are already implemented */
