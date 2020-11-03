@@ -54,18 +54,18 @@ FLOAT f2F(float a) {
 	int m = tmp & 0x7fffff;
 	e = e - 127;
 	m = m + (1 << 23);
-	int offset = e - 7;
-	if(offset > 0) {
-		m = m << offset;
-	}
-	else {
-		offset = -offset;
-		m = m >> offset;
-	}
-	if(s == 1) {
-		m = ~m + 1;
-	}
-	// res = s + e + m;
+	// int offset = e - 7;
+	// if(offset > 0) {
+	// 	m = m << offset;
+	// }
+	// else {
+	// 	offset = -offset;
+	// 	m = m >> offset;
+	// }
+	// if(s == 1) {
+	// 	m = ~m + 1;
+	// }
+	m = s + e + m;
 	return m;
 }
 
