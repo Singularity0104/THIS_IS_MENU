@@ -44,7 +44,8 @@ FLOAT f2F(float a) {
 	 */
 	// nemu_assert(0);
 	FLOAT res = 0;
-	char *ptr = (char *)&a;
+	float *fptr = &a;
+	char *ptr = (char *)fptr;
 	FLOAT tmp = 0;
 	int i;
 	for(i = 0; i < 4; i++) {
