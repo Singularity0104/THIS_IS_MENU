@@ -1,7 +1,7 @@
 #include "../FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
+	// nemu_assert(0);
 	long long tmp = (long long)a * (long long)b;
 	tmp = tmp >> 16;
 	FLOAT res = (FLOAT)tmp;
