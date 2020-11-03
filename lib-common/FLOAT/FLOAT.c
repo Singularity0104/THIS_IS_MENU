@@ -49,6 +49,7 @@ FLOAT f2F(float a) {
 	int i;
 	for(i = 0; i < 4; i++) {
 		tmp = tmp + *ptr;
+		ptr++;
 	}
 	int s = (tmp >> 31) & 1;
 	int e = (tmp >> 23) & 0xff;
