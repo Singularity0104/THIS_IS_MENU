@@ -45,41 +45,24 @@ FLOAT f2F(float a) {
 	// nemu_assert(0);
 	FLOAT res = 0;
 	// FLOAT tmp = *((int *)&a);
-	// int s = (tmp >> 31) & 1;
-	// int e = (tmp >> 23) & 0xff;
-	// int m = tmp & 0x7fffff;
-	// e = e - 127;
-	// m = m + (1 << 23);
-	// int offset = e - 7;
-	// if(offset > 0) {
-	// 	res = m << offset;
-	// }
-	// else {
-	// 	offset = -offset;
-	// 	res = m >> offset;
-	// }
-	// if(s == 1) {
-	// 	res = ~res + 1;
-	// }
-	int b = *(int *)&a;
-	int sign = b & 0x80000000;
-	int exp = (b >> 23) & 0xff;
-	int last = b & 0x7fffff;	
-	
-	if(exp == 255) {
-		if (sign) return -0x7fffffff;
-		else return 0x7fffffff;
+	FLOAT tmp = 0xff;
+	int s = (tmp >> 31) & 1;
+	int e = (tmp >> 23) & 0xff;
+	int m = tmp & 0x7fffff;
+	e = e - 127;
+	m = m + (1 << 23);
+	int offset = e - 7;
+	if(offset > 0) {
+		res = m << offset;
 	}
-	
-	if(exp == 0) return 0;
-
-	last |= 1 << 23;
-	exp -= 134;	
-	if (exp < 0) last >>= -exp;
-	if (exp > 0) last <<= exp;
-
-	if (sign) return -last;else return last;
-	// return res;
+	else {
+		offset = -offset;
+		res = m >> offset;
+	}
+	if(s == 1) {
+		res = ~res + 1;
+	}
+	return res;
 }
 
 FLOAT Fabs(FLOAT a) {
