@@ -1,4 +1,5 @@
 #include "../FLOAT.h"
+#include "string.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	nemu_assert(0);
@@ -48,9 +49,8 @@ FLOAT f2F(float a) {
 	 */
 	// nemu_assert(0);
 	FLOAT res = 0;
-	void *voidptr = (void *)&a;
-	FLOAT tmp = *((int *)voidptr);
-	// FLOAT tmp = 0xff;
+	FLOAT tmp = 0;
+	memcpy(&tmp, &a, 4);
 	int s = (tmp >> 31) & 1;
 	int e = (tmp >> 23) & 0xff;
 	int m = tmp & 0x7fffff;
