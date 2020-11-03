@@ -39,15 +39,16 @@ FLOAT f(FLOAT x) {
 }
 
 FLOAT computeT(int n, FLOAT a, FLOAT b, FLOAT (*fun)(FLOAT)) {
-	int k;
-	FLOAT s,h;
-	h = F_div_int((b - a), n);
-	s = F_div_int(fun(a) + fun(b), 2 );
-	for(k = 1; k < n; k ++) {
-		s += fun(a + F_mul_int(h, k));
-	}
-	s = F_mul_F(s, h);
-	return s;
+	// int k;
+	// FLOAT s,h;
+	// h = F_div_int((b - a), n);
+	// s = F_div_int(fun(a) + fun(b), 2 );
+	// for(k = 1; k < n; k ++) {
+	// 	s += fun(a + F_mul_int(h, k));
+	// }
+	// s = F_mul_F(s, h);
+	// return s;
+	return 0;
 }
 
 int main() { 
