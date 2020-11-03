@@ -44,23 +44,23 @@ FLOAT f2F(float a) {
 	 */
 	// nemu_assert(0);
 	FLOAT res = 0;
-	FLOAT tmp = *((int *)&a);
-	int s = (tmp >> 31) & 1;
-	int e = (tmp >> 23) & 0xff;
-	int m = tmp & 0x7fffff;
-	e = e - 127;
-	m = m + (1 << 23);
-	int offset = e - 7;
-	if(offset > 0) {
-		res = m << offset;
-	}
-	else {
-		offset = -offset;
-		res = m >> offset;
-	}
-	if(s == 1) {
-		res = ~res + 1;
-	}
+	// FLOAT tmp = *((int *)&a);
+	// int s = (tmp >> 31) & 1;
+	// int e = (tmp >> 23) & 0xff;
+	// int m = tmp & 0x7fffff;
+	// e = e - 127;
+	// m = m + (1 << 23);
+	// int offset = e - 7;
+	// if(offset > 0) {
+	// 	res = m << offset;
+	// }
+	// else {
+	// 	offset = -offset;
+	// 	res = m >> offset;
+	// }
+	// if(s == 1) {
+	// 	res = ~res + 1;
+	// }
 	return res;
 }
 
