@@ -28,8 +28,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 */
 
 	// nemu_assert(0);
-
-	return 0;
+	FLOAT tmp_a = *((int *)&a);
+	FLOAT tmp_b = *((int *)&b);
+	FLOAT a_h = tmp_a & 0xffff0000;
+	FLOAT a_l = tmp_a & 0xffff;
+	FLOAT res = ((a_h / tmp_b) << 16) + ((a_l << 16) / tmp_b);
+	return res;
 }
 
 FLOAT f2F(float a) {
