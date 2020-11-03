@@ -5,7 +5,7 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	long long tmp = (long long)a * (long long)b;
 	tmp = tmp >> 16;
 	FLOAT res = (FLOAT)tmp;
-	return 0;
+	return res;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -27,8 +27,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * out another way to perform the division.
 	 */
 
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	long long tmp = (long long)a;
+	tmp = tmp << 16;
+	tmp = tmp / b;
+	FLOAT res = (FLOAT)tmp;
+	return res;
 }
 
 FLOAT f2F(float a) {
