@@ -55,10 +55,10 @@ FLOAT f2F(float a) {
 	e = e - 134;
 	m = m + (1 << 23);
 	if(e > 0) {
-		m = m << e;
+		m <<= e;
 	}
 	else if(e < 0) {
-		m = m >> (-e);
+		m >>= (-e);
 	}
 	if(s == 1) {
 		return -m;
