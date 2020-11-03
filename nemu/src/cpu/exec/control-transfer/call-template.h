@@ -3,31 +3,16 @@
 #define instr call
 
 static void do_execute() {
-    if(op_src->type == OP_TYPE_IMM){
-        cpu.esp = cpu.esp - DATA_BYTE;
-        if(DATA_BYTE == 2) {
-            uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
-            MEM_W(cpu.esp, ip);
-            cpu.eip = (cpu.eip + op_src->val) & 0x0000ffff;
-        }
-        else if(DATA_BYTE == 4) {
-            MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
-            cpu.eip = cpu.eip + op_src->val;
-        }
+    cpu.esp = cpu.esp - DATA_BYTE;
+    if(DATA_BYTE == 2) {
+        uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
+        MEM_W(cpu.esp, ip);
+        cpu.eip = (cpu.eip + op_src->val) & 0x0000ffff;
     }
-    else if(op_src->type == OP_TYPE_REG) {
-        cpu.esp = cpu.esp - DATA_BYTE;
-        if(DATA_BYTE == 2) {
-            uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
-            MEM_W(cpu.esp, ip);
-            cpu.eip = (cpu.eip + MEM_R(op_src->val)) & 0x0000ffff;
-        }
-        else if(DATA_BYTE == 4) {
-            MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
-            cpu.eip = cpu.eip + MEM_R(op_src->val);
-        }
+    else if(DATA_BYTE == 4) {
+        MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
+        cpu.eip = cpu.eip + op_src->val;
     }
-    
 	print_asm_template1();
 }
 
