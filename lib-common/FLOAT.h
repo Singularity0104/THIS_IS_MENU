@@ -25,7 +25,7 @@ static inline FLOAT F_mul_int(FLOAT a, int b) {
 }
 
 static inline FLOAT F_div_int(FLOAT a, int b) {
-	// nemu_assert(0);
+	nemu_assert(0);
 	FLOAT res = a / b;
 	return res;
 }
