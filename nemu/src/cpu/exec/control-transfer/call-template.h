@@ -7,26 +7,31 @@ static void do_execute() {
     if(DATA_BYTE == 2) {
         uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
         MEM_W(cpu.esp, ip);
-        if(op_src->type == OP_TYPE_IMM){
-            cpu.eip = (cpu.eip + op_src->val) & 0x0000ffff;
-        }
-        else if(op_src->type == OP_TYPE_REG) {
-            cpu.eip = op_src->val & 0x0000ffff;
-        }
+        cpu.eip = (cpu.eip + op_src->val) & 0x0000ffff;
     }
     else if(DATA_BYTE == 4) {
         MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
-        if(op_src->type == OP_TYPE_IMM){
-            cpu.eip = cpu.eip + op_src->val;
-        }
-        else if(op_src->type == OP_TYPE_REG) {
-            cpu.eip = op_src->val;
-        }
+        cpu.eip = cpu.eip + op_src->val;
     }
 	print_asm_template1();
 }
 
 make_instr_helper(i)
-make_instr_helper(rm)
+
+make_helper(concat(call_rm_, SUFFIX)) {
+    concat(decode_rm_, SUFFIX)(eip + 1);
+    cpu.esp = cpu.esp - DATA_BYTE;
+    if(DATA_BYTE == 2) {
+        uint16_t ip = (uint16_t)((cpu.eip + 1 + DATA_BYTE) & 0x0000ffff);
+        MEM_W(cpu.esp, ip);
+        cpu.eip = op_src->val & 0x0000ffff;
+    }
+    else if(DATA_BYTE == 4) {
+        MEM_W(cpu.esp, (cpu.eip + 1 + DATA_BYTE));
+        cpu.eip = op_src->val;
+    }
+	print_asm_template1();
+    return 0;
+}
 
 #include "cpu/exec/template-end.h"
