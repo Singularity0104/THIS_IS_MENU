@@ -51,22 +51,21 @@ FLOAT f2F(float a) {
 	FLOAT tmp = *ptr;
 	int s = (tmp >> 31) & 1;
 	int e = (tmp >> 23) & 0xff;
-	int m = tmp & 0x7fffff;
-	e = e - 127;
+	FLOAT m = tmp & 0x7fffff;
+	e = e - 134;
 	m = m + (1 << 23);
-	// int offset = e - 7;
-	// if(offset > 0) {
-	// 	m = m << offset;
-	// }
-	// else {
-	// 	offset = -offset;
-	// 	m = m >> offset;
-	// }
-	// if(s == 1) {
-	// 	m = ~m + 1;
-	// }
-	m = s + e + m;
-	return m;
+	if(e > 0) {
+		m = m << e;
+	}
+	else if(e < 0) {
+		m = m >> (-e);
+	}
+	if(s == 1) {
+		return -m;
+	}
+	else {
+		return m;
+	}
 }
 
 
