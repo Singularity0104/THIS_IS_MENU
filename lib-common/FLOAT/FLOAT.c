@@ -36,6 +36,40 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	return res;
 }
 
+// FLOAT f2F(float a) {
+// 	/* You should figure out how to convert `a' into FLOAT without
+// 	 * introducing x87 floating point instructions. Else you can
+// 	 * not run this code in NEMU before implementing x87 floating
+// 	 * point instructions, which is contrary to our expectation.
+// 	 *
+// 	 * Hint: The bit representation of `a' is already on the
+// 	 * stack. How do you retrieve it to another variable without
+// 	 * performing arithmetic operations on it directly?
+// 	 */
+// 	// nemu_assert(0);
+// 	FLOAT res = 0;
+// 	void *voidptr = (void *)&a;
+// 	FLOAT tmp = *((int *)voidptr);
+// 	// FLOAT tmp = 0xff;
+// 	int s = (tmp >> 31) & 1;
+// 	int e = (tmp >> 23) & 0xff;
+// 	int m = tmp & 0x7fffff;
+// 	e = e - 127;
+// 	m = m + (1 << 23);
+// 	int offset = e - 7;
+// 	if(offset > 0) {
+// 		res = m << offset;
+// 	}
+// 	else {
+// 		offset = -offset;
+// 		res = m >> offset;
+// 	}
+// 	if(s == 1) {
+// 		res = ~res + 1;
+// 	}
+// 	return res;
+// }
+
 FLOAT f2F(float a) {
 	/* You should figure out how to convert `a' into FLOAT without
 	 * introducing x87 floating point instructions. Else you can
@@ -46,28 +80,31 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-	// nemu_assert(0);
-	FLOAT res = 0;
-	void *voidptr = (void *)&a;
-	FLOAT tmp = *((int *)voidptr);
-	// FLOAT tmp = 0xff;
-	int s = (tmp >> 31) & 1;
-	int e = (tmp >> 23) & 0xff;
-	int m = tmp & 0x7fffff;
-	e = e - 127;
-	m = m + (1 << 23);
-	int offset = e - 7;
-	if(offset > 0) {
-		res = m << offset;
-	}
-	else {
-		offset = -offset;
-		res = m >> offset;
-	}
-	if(s == 1) {
-		res = ~res + 1;
-	}
-	return res;
+
+	// float类型的存储方式为:
+	// <sign bit> <----- Exponent 8 bit -----> <----- Mantissa 23 bit ----->
+	// real number = (-1)^s * 2^(E - 127) * 1.M
+
+	// unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
+	// unsigned int sign_bit = temp >> 31; // 符号位
+	// unsigned int exp = (temp >> 23) & 0xff; // 指数
+	// unsigned int mantissa = (temp << 9 >> 9); // 尾数
+	// unsigned int frac = (0x1 << 23) + mantissa; // 小数部分
+	// // 现在的frac相当于是原来的浮点数 左移了23位.
+	// // 指数部分还需要移动 E - 127 位, 转成FLOAT只需要左移16位.
+	// int res = 0x0;
+	// if (exp - 127 < 0)
+	// 	res = frac >> (127 - exp) >> 7;
+	// else if (exp - 127 > 0)
+	// 	res = frac << (exp - 127) >> 7;
+	// else
+	// 	res = frac >> 7;
+	
+	// if (sign_bit == 1) // 更新符号.
+	// 	res = -res;
+	
+	// return res;
+	return 0;
 }
 
 FLOAT Fabs(FLOAT a) {
