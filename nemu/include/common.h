@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <string.h>
 
+#include <elf.h>
+
 typedef uint8_t bool;
 typedef uint32_t hwaddr_t;
 typedef uint32_t lnaddr_t;
@@ -34,5 +36,9 @@ typedef union {
 
 #define false 0
 #define true 1
+
+char *GETstrtab();
+Elf32_Sym *GETsymtab();
+int GETnr_symtab_entry();
 
 #endif

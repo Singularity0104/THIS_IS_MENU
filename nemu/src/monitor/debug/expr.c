@@ -5,9 +5,11 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <elf.h>
+#include "common.h"
 
 enum {
-	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
+	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER, VAL
 
 	/* TODO: Add more token types */
 
@@ -37,7 +39,8 @@ static struct rule {
 	{"!=", UNEQ},
 	{"&&", AND},
 	{"\\|\\|", OR},
-	{"!", NOT}
+	{"!", NOT},
+	{"[_a-zA-Z][_a-zA-Z0-9]*", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -212,6 +215,11 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = NOT;
 						nr_token++;
 						break;
+					case VAL:
+						tokens[nr_token].type = VAL;
+						Assert(substr_len <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start, substr_len);
+						nr_token++;
 					default: panic("please implement me");
 				}
 
@@ -391,6 +399,10 @@ u_int32_t eval(int p, int q, bool *success) {
 			else if(strcmp(tmp, "bh") == 0 || strcmp(tmp, "BH") == 0) {
 				return cpu.gpr[3]._8[1];
 			}
+			else if(tokens[p].type == VAL) {
+				Assert(0, "---");
+				return 0;
+			}
 			else {
 				*success = false;
 				printf("ERROR_1!\n");
@@ -414,7 +426,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
 			int tmp_s = stack[top - 1];
-			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != REG) || tmp == '(') {
+			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != REG && tmp != VAL) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
