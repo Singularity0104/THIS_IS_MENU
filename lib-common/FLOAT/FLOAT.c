@@ -48,8 +48,9 @@ FLOAT f2F(float a) {
 	 */
 	// nemu_assert(0);
 	FLOAT res = 0;
-	// FLOAT tmp = *((int *)&a);
-	FLOAT tmp = 0xff;
+	void *voidptr = (void *)&a;
+	FLOAT tmp = *((int *)voidptr);
+	// FLOAT tmp = 0xff;
 	int s = (tmp >> 31) & 1;
 	int e = (tmp >> 23) & 0xff;
 	int m = tmp & 0x7fffff;
