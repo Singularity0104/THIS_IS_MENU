@@ -34,7 +34,7 @@
 
 FLOAT f(FLOAT x) { 
 	/* f(x) = 1/(1+25x^2) */
-	return 1;
+	return 0x10000;
 	// return F_div_F(int2F(1), int2F(1) + F_mul_int(F_mul_F(x, x), 25));
 }
 
