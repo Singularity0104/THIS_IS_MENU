@@ -28,11 +28,16 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 */
 
 	// nemu_assert(0);
-	FLOAT tmp_a = a;
-	FLOAT tmp_b = b;
-	FLOAT a_h = tmp_a & 0xffff0000;
-	FLOAT a_l = tmp_a & 0xffff;
-	FLOAT res = ((a_h / tmp_b) << 16) + ((a_l << 16) / tmp_b);
+	int tmp_a = a;
+	int tmp_b = b;
+	int res = (tmp_a / tmp_b) << 16;
+	tmp_a %= tmp_b;
+	int i;
+	for(i = 1; i <= 16; i++) {
+		tmp_a <<= 1;
+		res += ((tmp_a / tmp_b) << (16 - i));
+		tmp_a %= tmp_b;
+	}
 	return res;
 }
 
