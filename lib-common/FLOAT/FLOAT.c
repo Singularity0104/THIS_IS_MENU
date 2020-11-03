@@ -49,7 +49,7 @@ FLOAT f2F(float a) {
 	// nemu_assert(0);
 	FLOAT *ptr = (int *)&a;
 	FLOAT tmp = *ptr;
-	int s = (tmp >> 31) & 1;
+	// int s = (tmp >> 31) & 1;
 	int e = (tmp >> 23) & 0xff;
 	FLOAT m = tmp & 0x7fffff;
 	e = e - 134;
@@ -60,12 +60,13 @@ FLOAT f2F(float a) {
 	else if(e < 0) {
 		m >>= (-e);
 	}
-	if(s == 1) {
-		return -m;
-	}
-	else {
-		return m;
-	}
+	// if(s == 1) {
+	// 	return -m;
+	// }
+	// else {
+	// 	return m;
+	// }
+	return m;
 }
 
 
