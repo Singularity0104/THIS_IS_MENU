@@ -1,12 +1,11 @@
 #include "../FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	// nemu_assert(0);
-	// long long tmp = (long long)a * (long long)b;
-	// tmp = tmp >> 16;
-	// FLOAT res = (FLOAT)tmp;
-	// return res;
-	return 0;
+	nemu_assert(0);
+	long long tmp = (long long)a * (long long)b;
+	tmp = tmp >> 16;
+	FLOAT res = (FLOAT)tmp;
+	return res;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -67,7 +66,10 @@ FLOAT f2F(float a) {
 
 FLOAT Fabs(FLOAT a) {
 	// nemu_assert(0);
-	FLOAT res = ~a + 1;
+	FLOAT res = a;
+	if((a >> 31) & 1 == 1) {
+		res = ~a + 1;
+	}
 	return res;
 }
 
