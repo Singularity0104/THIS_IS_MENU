@@ -1,4 +1,4 @@
-#include "FLOAT.h"
+#include "../FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	nemu_assert(0);
@@ -40,7 +40,22 @@ FLOAT f2F(float a) {
 	 */
 	// nemu_assert(0);
 	FLOAT res = 0;
-	
+	int *ptr = (int *)&a;
+	int tmp = *ptr;
+	int s = (tmp >> 31) & 1;
+	int e = (tmp >> 23) & 0xff;
+	int m = tmp & 0x7fffff;
+	e = e - 127;
+	m = m + (1 << 23);
+	if(e - 7 > 0) {
+		res = m << (e - 7);
+	}
+	else {
+		res = m >> (7 - e);
+	}
+	if(s == 1) {
+		res = ~res + 1;
+	}
 	return res;
 }
 

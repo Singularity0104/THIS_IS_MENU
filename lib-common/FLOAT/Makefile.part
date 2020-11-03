@@ -11,6 +11,10 @@ $(FLOAT): $(FLOAT_A_OBJ)
 # TODO: complete the following rules
 
 $(FLOAT_O):
+	test -d obj/lib-common/FLOAT || mkdir -p obj/lib-common/FLOAT
+	$(CC) $(CFLAGS) lib-common/FLOAT/FLOAT.c -m32 -O2 -fno-builtin -Ilib-common -o $(FLOAT_O)
+
 
 $(FLOAT_VFPRINTF_O):
-
+	test -d obj/lib-common || mkdir -p obj/lib-common
+	$(CC) $(CFLAGS) lib-common/FLOAT/FLOAT_vfprintf.c -m32 -O2 -fno-builtin -Ilib-common -o $(FLOAT_VFPRINTF_O)
