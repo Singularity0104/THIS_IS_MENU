@@ -43,25 +43,26 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 	// nemu_assert(0);
-	// FLOAT res = 0;
-	// int *ptr = (int *)&a;
-	// int tmp = *ptr;
-	// int s = (tmp >> 31) & 1;
-	// int e = (tmp >> 23) & 0xff;
-	// int m = tmp & 0x7fffff;
-	// e = e - 127;
-	// m = m + (1 << 23);
-	// if(e - 7 > 0) {
-	// 	res = m << (e - 7);
-	// }
-	// else {
-	// 	res = m >> (7 - e);
-	// }
-	// if(s == 1) {
-	// 	res = ~res + 1;
-	// }
-	// return res;
-	return 0;
+	FLOAT res = 0;
+	int *ptr = (int *)&a;
+	int tmp = *ptr;
+	int s = (tmp >> 31) & 1;
+	int e = (tmp >> 23) & 0xff;
+	int m = tmp & 0x7fffff;
+	e = e - 127;
+	m = m + (1 << 23);
+	int offset = e - 7;
+	if(offset > 0) {
+		res = m << offset;
+	}
+	else {
+		offset = -offset;
+		res = m >> offset;
+	}
+	if(s == 1) {
+		res = ~res + 1;
+	}
+	return res;
 }
 
 FLOAT Fabs(FLOAT a) {
