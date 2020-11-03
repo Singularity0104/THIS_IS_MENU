@@ -47,7 +47,6 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 	// nemu_assert(0);
-	FLOAT res = 0;
 	FLOAT *ptr = (int *)&a;
 	FLOAT tmp = *ptr;
 	int s = (tmp >> 31) & 1;
@@ -57,17 +56,17 @@ FLOAT f2F(float a) {
 	m = m + (1 << 23);
 	int offset = e - 7;
 	if(offset > 0) {
-		res = m << offset;
+		m = m << offset;
 	}
 	else {
 		offset = -offset;
-		res = m >> offset;
+		m = m >> offset;
 	}
 	if(s == 1) {
-		res = ~res + 1;
+		m = ~m + 1;
 	}
 	// res = s + e + m;
-	return res;
+	return m;
 }
 
 
