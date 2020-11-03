@@ -60,13 +60,12 @@ FLOAT f2F(float a) {
 	else if(e < 0) {
 		m >>= (-e);
 	}
-	// if(s == 1) {
-	// 	return -m;
-	// }
-	// else {
-	// 	return m;
-	// }
-	return m;
+	if((tmp >> 31) & 1) {
+		return -m;
+	}
+	else {
+		return m;
+	}
 }
 
 
