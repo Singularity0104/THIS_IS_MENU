@@ -220,6 +220,7 @@ static bool make_token(char *e) {
 						Assert(substr_len <= 32, "Token too long!");
 						strncpy(tokens[nr_token].str, substr_start, substr_len);
 						nr_token++;
+						break;
 					default: panic("please implement me");
 				}
 
