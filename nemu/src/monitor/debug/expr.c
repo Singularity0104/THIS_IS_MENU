@@ -413,7 +413,7 @@ u_int32_t eval(int p, int q, bool *success) {
 			uint32_t offset = 0;
 			int i;
 			for(i = 0; i < nr_symtab_entry; i++) {
-				printf("%d    %s\n", symtab[i].st_info, strtab + symtab[i].st_name);
+				// printf("%d    %s\n", symtab[i].st_info, strtab + symtab[i].st_name);
 				if((symtab[i].st_info & 0xf) == STT_OBJECT) {
 					offset = symtab[i].st_name;
 					if(strcmp(tokens[p].str, strtab + offset)) {
