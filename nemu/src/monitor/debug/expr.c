@@ -399,15 +399,15 @@ u_int32_t eval(int p, int q, bool *success) {
 			else if(strcmp(tmp, "bh") == 0 || strcmp(tmp, "BH") == 0) {
 				return cpu.gpr[3]._8[1];
 			}
-			else if(tokens[p].type == VAL) {
-				Assert(0, "---");
-				return 0;
-			}
 			else {
 				*success = false;
 				printf("ERROR_1!\n");
 				return 0;
 			}
+		}
+		else if(tokens[p].type == VAL) {
+			Assert(0, "---");
+			return 0;
 		}
 		else {
 			*success = false;
