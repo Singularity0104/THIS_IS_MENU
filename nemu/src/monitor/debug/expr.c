@@ -409,7 +409,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		else if(tokens[p].type == VAL) {
 			char *strtab = GETstrtab();
 			// Elf32_Sym *symtab = GETsymtab();
-			printf("%s\n", strtab);
+			printf("000%s\n", strtab);
 			return 0;
 		}
 		else {
