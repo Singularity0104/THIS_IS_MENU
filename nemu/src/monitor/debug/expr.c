@@ -40,7 +40,7 @@ static struct rule {
 	{"&&", AND},
 	{"\\|\\|", OR},
 	{"!", NOT},
-	{"[_a-zA-Z][_a-zA-Z0-9]*", VAL}
+	{"[a-zA-Z][a-zA-Z0-9]*", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
