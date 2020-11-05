@@ -408,8 +408,16 @@ u_int32_t eval(int p, int q, bool *success) {
 		}
 		else if(tokens[p].type == VAL) {
 			char *strtab = GETstrtab();
-			// Elf32_Sym *symtab = GETsymtab();
-			printf("000%s\n", strtab);
+			Elf32_Sym *symtab = GETsymtab();
+			int nr_symtab_entry = GETnr_symtab_entry();
+			uint32_t offset = 0;
+			int i;
+			for(i = 0; i < nr_symtab_entry; i++) {
+				if(symtab[i].st_info == STT_OBJECT) {
+					offset = symtab[i].st_name;
+				}
+			}
+			printf("000%s\n", strtab + offset);
 			return 0;
 		}
 		else {
