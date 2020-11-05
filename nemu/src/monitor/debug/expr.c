@@ -407,7 +407,8 @@ u_int32_t eval(int p, int q, bool *success) {
 			}
 		}
 		else if(tokens[p].type == VAL) {
-			char *strtab = GETstrtab();
+			// char *strtab = GETstrtab();
+			// uint32_t add = (uint32_t)strtab;
 			Elf32_Sym *symtab = GETsymtab();
 			int nr_symtab_entry = GETnr_symtab_entry();
 			uint32_t offset = 0;
@@ -417,7 +418,7 @@ u_int32_t eval(int p, int q, bool *success) {
 					offset = symtab[i].st_name;
 				}
 			}
-			printf("000%d\n", *(strtab + offset));
+			printf("000%d    %d\n", offset, nr_symtab_entry);
 			return 0;
 		}
 		else {
