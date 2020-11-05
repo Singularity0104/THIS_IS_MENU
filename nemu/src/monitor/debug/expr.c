@@ -417,7 +417,7 @@ u_int32_t eval(int p, int q, bool *success) {
 					offset = symtab[i].st_name;
 				}
 			}
-			printf("000%s\n", strtab + offset);
+			printf("000%d\n", *(strtab + offset));
 			return 0;
 		}
 		else {
