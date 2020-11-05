@@ -414,6 +414,7 @@ u_int32_t eval(int p, int q, bool *success) {
 			uint32_t offset = 0;
 			int i;
 			for(i = 0; i < nr_symtab_entry; i++) {
+				printf("%d\n", symtab[i].st_info);
 				if(symtab[i].st_info == STT_OBJECT) {
 					printf("---\n");
 					offset = symtab[i].st_name;
