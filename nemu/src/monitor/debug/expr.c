@@ -407,14 +407,14 @@ u_int32_t eval(int p, int q, bool *success) {
 			}
 		}
 		else if(tokens[p].type == VAL) {
-			// char *strtab = GETstrtab();
+			char *strtab = GETstrtab();
 			// uint32_t add = (uint32_t)strtab;
 			Elf32_Sym *symtab = GETsymtab();
 			int nr_symtab_entry = GETnr_symtab_entry();
 			uint32_t offset = 0;
 			int i;
 			for(i = 0; i < nr_symtab_entry; i++) {
-				printf("%d\n", symtab[i].st_info);
+				printf("%d    %s\n", symtab[i].st_info, strtab + symtab[i].st_name);
 				if(symtab[i].st_info == STT_OBJECT) {
 					printf("---\n");
 					offset = symtab[i].st_name;
