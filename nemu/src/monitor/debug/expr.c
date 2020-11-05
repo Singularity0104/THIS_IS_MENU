@@ -415,10 +415,11 @@ u_int32_t eval(int p, int q, bool *success) {
 			int i;
 			for(i = 0; i < nr_symtab_entry; i++) {
 				if(symtab[i].st_info == STT_OBJECT) {
+					printf("---\n");
 					offset = symtab[i].st_name;
 				}
 			}
-			printf("000%d    %d\n", offset, nr_symtab_entry);
+			printf("%d    %d\n", offset, nr_symtab_entry);
 			return 0;
 		}
 		else {
