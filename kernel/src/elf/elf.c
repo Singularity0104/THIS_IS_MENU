@@ -49,6 +49,7 @@ uint32_t loader() {
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset((void *)(ELF_OFFSET_IN_DISK + ph->p_offset + ph->p_filesz), 0, (ph->p_memsz - ph->p_filesz));
+			ph++;
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
