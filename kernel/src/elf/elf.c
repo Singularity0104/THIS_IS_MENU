@@ -41,6 +41,7 @@ uint32_t loader() {
 	int i;
 	for(i = 0; i < elf->e_phnum; i++) {
 		/* Scan the program header table, load each segment into memory */
+			nemu_assert(0);
 		if(ph->p_type == PT_LOAD) {
 			nemu_assert(0);
 			/* TODO: read the content of the segment from the ELF file 
