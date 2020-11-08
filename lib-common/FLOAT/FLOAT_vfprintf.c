@@ -15,9 +15,12 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00010000    "1.000000"
 	 *         0x00013333    "1.199996"
 	 */
-
+	int32_t n = f & 0xffff0000;;
+	uint32_t s = f & 0xffff;
+	int32_t _n = (int32_t)(n >> 16);
+	uint32_t _s = (uint32_t)(((uint64_t)s * (uint64_t)1000000) >> 16);
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int len = sprintf(buf, "%d.%06u", _n, _s);
 	return __stdio_fwrite(buf, len, stream);
 }
 
