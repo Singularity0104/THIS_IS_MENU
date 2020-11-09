@@ -207,6 +207,7 @@ static int cmd_b(char *args) {
 			}
 		}
 		cur_ebp = swaddr_read(cur_ebp, 4);
+		printf("next 0x%x\n", cur_ebp);
 		cnt++;
 	}
 	return 0;
