@@ -16,7 +16,6 @@ int partition(int *a, int p, int q) {
 	}
 
 	a[i] = pivot;
-	set_bp();
 	return i;
 }
 
