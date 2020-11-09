@@ -173,6 +173,15 @@ static int cmd_b(char *args) {
 			if(cur_eip >= symtab[i].st_value && cur_eip <= symtab[i].st_value + symtab[i].st_size) {
 				offset = symtab[i].st_name;
 				printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+				uint32_t arg;
+				arg = swaddr_read(cur_ebp + 8, 4);
+				printf("	arg_1 0x%08x %d", arg, arg);
+				arg = swaddr_read(cur_ebp + 12, 4);
+				printf("	arg_1 0x%08x %d", arg, arg);
+				arg = swaddr_read(cur_ebp + 16, 4);
+				printf("	arg_1 0x%08x %d", arg, arg);
+				arg = swaddr_read(cur_ebp + 20, 4);
+				printf("	arg_1 0x%08x %d", arg, arg);
 			}
 		}
 	}
@@ -185,6 +194,15 @@ static int cmd_b(char *args) {
 				if(cur_ret >= symtab[i].st_value && cur_ret <= symtab[i].st_value + symtab[i].st_size) {
 					offset = symtab[i].st_name;
 					printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+					uint32_t arg;
+					arg = swaddr_read(cur_ebp + 8, 4);
+					printf("	arg_1 0x%08x %d", arg, arg);
+					arg = swaddr_read(cur_ebp + 12, 4);
+					printf("	arg_1 0x%08x %d", arg, arg);
+					arg = swaddr_read(cur_ebp + 16, 4);
+					printf("	arg_1 0x%08x %d", arg, arg);
+					arg = swaddr_read(cur_ebp + 20, 4);
+					printf("	arg_1 0x%08x %d", arg, arg);
 				}
 			}
 		}
