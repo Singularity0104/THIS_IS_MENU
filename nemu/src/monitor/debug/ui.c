@@ -177,11 +177,11 @@ static int cmd_b(char *args) {
 				arg = swaddr_read(cur_ebp + 8, 4);
 				printf("	arg_1 0x%08x %d\n", arg, arg);
 				arg = swaddr_read(cur_ebp + 12, 4);
-				printf("	arg_1 0x%08x %d\n", arg, arg);
+				printf("	arg_2 0x%08x %d\n", arg, arg);
 				arg = swaddr_read(cur_ebp + 16, 4);
-				printf("	arg_1 0x%08x %d\n", arg, arg);
+				printf("	arg_3 0x%08x %d\n", arg, arg);
 				arg = swaddr_read(cur_ebp + 20, 4);
-				printf("	arg_1 0x%08x %d\n", arg, arg);
+				printf("	arg_4 0x%08x %d\n", arg, arg);
 			}
 		}
 	}
@@ -198,11 +198,11 @@ static int cmd_b(char *args) {
 					arg = swaddr_read(cur_ebp + 8, 4);
 					printf("	arg_1 0x%08x %d\n", arg, arg);
 					arg = swaddr_read(cur_ebp + 12, 4);
-					printf("	arg_1 0x%08x %d\n", arg, arg);
+					printf("	arg_2 0x%08x %d\n", arg, arg);
 					arg = swaddr_read(cur_ebp + 16, 4);
-					printf("	arg_1 0x%08x %d\n", arg, arg);
+					printf("	arg_3 0x%08x %d\n", arg, arg);
 					arg = swaddr_read(cur_ebp + 20, 4);
-					printf("	arg_1 0x%08x %d\n", arg, arg);
+					printf("	arg_4 0x%08x %d\n", arg, arg);
 				}
 			}
 		}
