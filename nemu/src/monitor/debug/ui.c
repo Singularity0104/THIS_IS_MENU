@@ -194,7 +194,6 @@ static int cmd_b(char *args) {
 				if(cur_ret >= symtab[i].st_value && cur_ret <= symtab[i].st_value + symtab[i].st_size) {
 					offset = symtab[i].st_name;
 					printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
-					printf("%x", cur_ebp);
 					cur_arg = swaddr_read(cur_ebp + 8, 4);
 					printf("	arg_1 0x%08x %d\n", cur_arg, cur_arg);
 					cur_arg = swaddr_read(cur_ebp + 12, 4);
@@ -207,7 +206,6 @@ static int cmd_b(char *args) {
 			}
 		}
 		cur_ebp = swaddr_read(cur_ebp, 4);
-		printf("next 0x%x\n", cur_ebp);
 		cnt++;
 	}
 	return 0;
