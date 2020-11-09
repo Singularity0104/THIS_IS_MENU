@@ -68,7 +68,7 @@ static void modify_vfprintf() {
 	} else if (ppfs->conv_num <= CONV_S) {  /* wide char or string */
 #endif
 	void *ptr = (void *)&_vfprintf_internal;  //call_offset=0x306
-	mprotect((void *)(((uint32_t)ptr + 0x306 - 100) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC);
+	// mprotect((void *)(((uint32_t)ptr + 0x306 - 100) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC);
 	
 	*((char *)(ptr + 0x2e4)) = 0x90;
 	*((char *)(ptr + 0x2e5)) = 0x90;
