@@ -2,10 +2,12 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "common.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <elf.h>
 
 void cpu_exec(uint32_t);
 
@@ -152,6 +154,42 @@ static int cmd_d(char *args) {
 	return 0;
 }
 
+static int cmd_b(char *args) {
+	uint32_t cnt = 0;
+	uint32_t cur_eip = cpu.eip;
+	uint32_t cur_ebp = cpu.ebp;
+	uint32_t cur_ret = 0;
+	char *strtab = GETstrtab();
+	Elf32_Sym *symtab = GETsymtab();
+	int nr_symtab_entry = GETnr_symtab_entry();
+	uint32_t offset = 0;
+	int i;
+	for(i = 0; i < nr_symtab_entry; i++) {
+		if((symtab[i].st_info & 0xf) == STT_FUNC) {
+			if(cur_eip >= symtab[i].st_value && cur_eip <= symtab[i].st_value + symtab[i].st_size) {
+				offset = symtab[i].st_name;
+				printf("%02d %08x~%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+			}
+		}
+	}
+	cnt++;
+	while(cur_ebp != 0) {
+		cur_ret = swaddr_read(cur_ebp + 4, 4);
+		int i;
+		for(i = 0; i < nr_symtab_entry; i++) {
+			if((symtab[i].st_info & 0xf) == STT_FUNC) {
+				if(cur_ret >= symtab[i].st_value && cur_ret <= symtab[i].st_value + symtab[i].st_size) {
+					offset = symtab[i].st_name;
+					printf("%02d %08x~%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+				}
+			}
+		}
+		cur_ebp = swaddr_read(cur_ebp, 4);
+		cnt++;
+	}
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -165,7 +203,8 @@ static struct {
 	{ "p", "Evalute expression", cmd_p},
 	{ "x", "Print memory", cmd_x},
 	{ "w", "Set a watchpoint", cmd_w},
-	{ "d", "Delete a watchpoint", cmd_d}
+	{ "d", "Delete a watchpoint", cmd_d},
+	{ "bt", "Print function", cmd_b}
 
 	/* TODO: Add more commands */
 
