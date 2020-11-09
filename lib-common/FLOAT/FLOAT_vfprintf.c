@@ -15,12 +15,27 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00010000    "1.000000"
 	 *         0x00013333    "1.199996"
 	 */
-	int32_t n = f & 0xffff0000;;
-	uint32_t s = f & 0xffff;
-	int32_t _n = (int32_t)(n >> 16);
-	uint32_t _s = (uint32_t)(((uint64_t)s * (uint64_t)1000000) >> 16);
+	int32_t n;
+	uint32_t s;
+	int32_t _n;
+	uint32_t _s;
+	int32_t flag = 0;
+	if(f < 0) {
+		f = -f;
+		flag = 1;
+	}
+	n = f & 0xffff0000;
+	s = f & 0xffff;
+	_n = (int32_t)(n >> 16);
+	_s = (uint32_t)(((uint64_t)s * (uint64_t)1000000) >> 16);
 	char buf[80];
-	int len = sprintf(buf, "%d.%06u", _n, _s);
+	int len;
+	if(flag == 0){
+		len = sprintf(buf, "%u.%06u", _n, _s);
+	}
+	else {
+		len = sprintf(buf, "-%u.%06u", _n, _s);
+	}
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -167,6 +182,7 @@ static void modify_ppfs_setargs() {
 	 * returns, the action of the code above should do the following:
 	 */
 	void *ptr = (void *)&_vfprintf_internal;
+	// mprotect((void *)(((uint32_t)ptr + 0x5df - 100) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC);
 	*((char *)(ptr + 0x5d6)) = 0xeb;
 	*((char *)(ptr + 0x5d7)) = 0x30;
 	*((char *)(ptr + 0x5d8)) = 0x90;
