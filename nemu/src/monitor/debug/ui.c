@@ -172,7 +172,7 @@ static int cmd_b(char *args) {
 		if((symtab[i].st_info & 0xf) == STT_FUNC) {
 			if(cur_eip >= symtab[i].st_value && cur_eip <= symtab[i].st_value + symtab[i].st_size) {
 				offset = symtab[i].st_name;
-				printf("%02d %08x~%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+				printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
 			}
 		}
 	}
@@ -184,7 +184,7 @@ static int cmd_b(char *args) {
 			if((symtab[i].st_info & 0xf) == STT_FUNC) {
 				if(cur_ret >= symtab[i].st_value && cur_ret <= symtab[i].st_value + symtab[i].st_size) {
 					offset = symtab[i].st_name;
-					printf("%02d %08x~%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
+					printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
 				}
 			}
 		}
