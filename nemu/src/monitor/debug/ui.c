@@ -155,6 +155,10 @@ static int cmd_d(char *args) {
 }
 
 static int cmd_b(char *args) {
+	if(cpu.eip <= 0x100000) {
+		printf("No Stack\n");
+		return 0;
+	}
 	uint32_t cnt = 0;
 	uint32_t cur_eip = cpu.eip;
 	uint32_t cur_ebp = cpu.ebp;
