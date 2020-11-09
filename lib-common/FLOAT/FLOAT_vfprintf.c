@@ -166,6 +166,17 @@ static void modify_ppfs_setargs() {
 	 * introducing floating point instructions. When this function
 	 * returns, the action of the code above should do the following:
 	 */
+	void *ptr = (void *)&_vfprintf_internal;
+	*((char *)(ptr + 0x5d6)) = 0xeb;
+	*((char *)(ptr + 0x5d7)) = 0x30;
+	*((char *)(ptr + 0x5d8)) = 0x90;
+	*((char *)(ptr + 0x5d9)) = 0x90;
+	*((char *)(ptr + 0x5da)) = 0x90;
+	*((char *)(ptr + 0x5db)) = 0x90;
+	*((char *)(ptr + 0x5dc)) = 0x90;
+	*((char *)(ptr + 0x5dd)) = 0x90;
+	*((char *)(ptr + 0x5de)) = 0x90;
+	*((char *)(ptr + 0x5df)) = 0x90;
 
 #if 0
 	while (i < ppfs->num_data_args) {
