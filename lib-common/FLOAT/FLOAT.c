@@ -1,8 +1,11 @@
-#include "FLOAT.h"
+#include "../FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	long long tmp = (long long)a * (long long)b;
+	tmp = tmp >> 16;
+	FLOAT res = (FLOAT)tmp;
+	return res;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -24,8 +27,18 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * out another way to perform the division.
 	 */
 
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	int tmp_a = a;
+	int tmp_b = b;
+	int res = (tmp_a / tmp_b) << 16;
+	tmp_a %= tmp_b;
+	int i;
+	for(i = 1; i <= 16; i++) {
+		tmp_a <<= 1;
+		res += ((tmp_a / tmp_b) << (16 - i));
+		tmp_a %= tmp_b;
+	}
+	return res;
 }
 
 FLOAT f2F(float a) {
@@ -38,14 +51,39 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	FLOAT *ptr = (int *)&a;
+	FLOAT tmp = *ptr;
+	// int s = (tmp >> 31) & 1;
+	int e = (tmp >> 23) & 0xff;
+	FLOAT m = tmp & 0x7fffff;
+	e = e - 134;
+	m = m + (1 << 23);
+	if(e > 0) {
+		m <<= e;
+	}
+	else if(e < 0) {
+		m >>= (-e);
+	}
+	if((tmp >> 31) & 1) {
+		return -m;
+	}
+	else {
+		return m;
+	}
 }
 
+
+
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	FLOAT res = a;
+	if(a < 0) {
+		return -res;
+	}
+	else {
+		return res;
+	}
 }
 
 /* Functions below are already implemented */

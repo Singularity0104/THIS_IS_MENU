@@ -2,6 +2,31 @@
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
+#include "data-mov/push.h"
+#include "data-mov/pop.h"
+#include "data-mov/leave.h"
+#include "data-mov/cwtl.h"
+#include "data-mov/cltd.h"
+
+#include "control-transfer/call.h"
+#include "control-transfer/je.h"
+#include "control-transfer/ret.h"
+#include "control-transfer/jmp.h"
+#include "control-transfer/jbe.h"
+#include "control-transfer/jle.h"
+#include "control-transfer/jne.h"
+#include "control-transfer/jl.h"
+#include "control-transfer/jg.h"
+#include "control-transfer/jge.h"
+#include "control-transfer/ja.h"
+#include "control-transfer/js.h"
+#include "control-transfer/jns.h"
+
+#include "binary-arithmetic/cmp.h"
+#include "binary-arithmetic/sub.h"
+#include "binary-arithmetic/add.h"
+#include "binary-arithmetic/adc.h"
+#include "binary-arithmetic/sbb.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -19,8 +44,13 @@
 #include "logic/shl.h"
 #include "logic/shr.h"
 #include "logic/shrd.h"
+#include "logic/test.h"
+#include "logic/setne.h"
 
 #include "string/rep.h"
+#include "string/stos.h"
+#include "string/scas.h"
+#include "string/lods.h"
 
 #include "misc/misc.h"
 

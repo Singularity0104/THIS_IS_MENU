@@ -5,9 +5,11 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <elf.h>
+#include "common.h"
 
 enum {
-	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER
+	NOTYPE = 256, EQ,NEHENUM, HENUM, NENUM, NUM, REG,UNEQ, AND, OR, NOT, POINTER, VAL
 
 	/* TODO: Add more token types */
 
@@ -37,7 +39,8 @@ static struct rule {
 	{"!=", UNEQ},
 	{"&&", AND},
 	{"\\|\\|", OR},
-	{"!", NOT}
+	{"!", NOT},
+	{"[_a-zA-Z][_a-zA-Z0-9]*", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -210,6 +213,12 @@ static bool make_token(char *e) {
 						break;
 					case NOT:
 						tokens[nr_token].type = NOT;
+						nr_token++;
+						break;
+					case VAL:
+						tokens[nr_token].type = VAL;
+						Assert(substr_len <= 32, "Token too long!");
+						strncpy(tokens[nr_token].str, substr_start, substr_len);
 						nr_token++;
 						break;
 					default: panic("please implement me");
@@ -397,6 +406,24 @@ u_int32_t eval(int p, int q, bool *success) {
 				return 0;
 			}
 		}
+		else if(tokens[p].type == VAL) {
+			char *strtab = GETstrtab();
+			Elf32_Sym *symtab = GETsymtab();
+			int nr_symtab_entry = GETnr_symtab_entry();
+			uint32_t offset = 0;
+			int i;
+			for(i = 0; i < nr_symtab_entry; i++) {
+				// printf("%d    %s\n", symtab[i].st_info, strtab + symtab[i].st_name);
+				if((symtab[i].st_info & 0xf) == STT_OBJECT) {
+					offset = symtab[i].st_name;
+					if(strcmp(tokens[p].str, strtab + offset)) {
+						return symtab[i].st_value;
+					}
+				}
+			}
+			printf("ERROR_VAL!\n");
+			return 0;
+		}
 		else {
 			*success = false;
 			printf("ERROR_2!\n");
@@ -414,7 +441,7 @@ u_int32_t eval(int p, int q, bool *success) {
 		for(i = p; i <= q; i++) {
 			int tmp = tokens[i].type;
 			int tmp_s = stack[top - 1];
-			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != REG) || tmp == '(') {
+			if((top == 0 && tmp != NENUM && tmp != NUM && tmp != NEHENUM && tmp != HENUM && tmp != REG && tmp != VAL) || tmp == '(') {
 				stack[top] = tmp;
 				stack_i[top] = i;
 				top++;
