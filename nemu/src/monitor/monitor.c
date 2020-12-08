@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include "../memory/cache.h"
 
 #define ENTRY_START 0x100000
 
@@ -74,12 +75,18 @@ static void load_entry() {
 	fclose(fp);
 }
 
+static void init_cache() {
+	cache_1_init(&Cache_1);
+}
+
 void restart() {
 	/* Perform some initialization to restart a program */
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
 #endif
+	/* init cache */
+	init_cache();
 
 	/* Read the entry code into memory. */
 	load_entry();
