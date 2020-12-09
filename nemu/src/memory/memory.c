@@ -64,6 +64,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 			data = data >> 8;
 			write_ptr[i] = (uint8_t)tmp;
 		}
+		printf("Check---cache: 0x%x    origin: 0x%x\n", hwaddr_read(addr, len), data);
 	}
 #else
 	dram_write(addr, len, data);
