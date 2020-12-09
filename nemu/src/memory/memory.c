@@ -5,7 +5,7 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
-#define MYDEBUG 1
+#define MYDEBUG 0
 #define DEBUGIN 0
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #if MYDEBUG
