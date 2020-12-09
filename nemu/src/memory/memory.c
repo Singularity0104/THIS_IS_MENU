@@ -12,8 +12,9 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		hwaddr_t begin_addr = addr & (~((uint32_t)0xffffffff >> (32 - Cache_1_B_bit)));
 		int i;
 		for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
-			char tmp_data = dram_read(begin_addr, 1) & 0xff;
-			new_ptr[i] = tmp_data;
+			// char tmp_data = dram_read(begin_addr, 1) & 0xff;
+			// new_ptr[i] = tmp_data;
+			new_ptr[i] = 0;
 		}
 		return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	}
