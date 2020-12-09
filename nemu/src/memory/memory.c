@@ -50,7 +50,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	dram_write(addr, len, data);
 	uint8_t *write_ptr = cache_1_find(&Cache_1, addr);
 	if(write_ptr != NULL) {
-		printf("Write Cache------------\naddr: 0x%x\n", addr);
+		printf("Write Cache-------------------------------------------------------------\naddr: 0x%x\n", addr);
 		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_1_B_bit));
 		uint32_t tmp = 0;
 		uint32_t data = 0;
