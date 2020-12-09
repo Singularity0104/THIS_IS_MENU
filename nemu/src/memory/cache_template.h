@@ -12,9 +12,9 @@
 #define replace concat(cache, _replace)
 
 typedef struct cache_line {
-    char block[B_size];
-    int tag;
-    char valid_bit;
+    uint8_t block[B_size];
+    uint32_t tag;
+    uint8_t valid_bit;
 } cache_line;
 
 typedef struct cache_set {
@@ -32,8 +32,8 @@ typedef struct cache {
 
 
 void init(cache *cur);
-char *find(cache *cur, hwaddr_t addr);
-char *replace(cache *cur, hwaddr_t addr);
+uint8_t *find(cache *cur, hwaddr_t addr);
+uint8_t *replace(cache *cur, hwaddr_t addr);
 
 #undef cache_line
 #undef cache_set

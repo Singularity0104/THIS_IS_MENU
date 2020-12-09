@@ -34,7 +34,7 @@ void init(cache *cur) {
     return;
 }
 
-char *find(cache *cur, hwaddr_t addr) {
+uint8_t *find(cache *cur, hwaddr_t addr) {
     uint32_t addr_tag = (addr >> (B_bit + S_bit)) & (0xffffffffu >> (B_bit + S_bit));
     uint32_t addr_set = (addr >> B_bit) & (0xffffffffu >> (32 - S_bit));
     uint32_t addr_offset = addr & (0xffffffffu >> (32 - B_bit));
@@ -47,7 +47,7 @@ char *find(cache *cur, hwaddr_t addr) {
     return NULL;
 }
 
-char *replace(cache *cur, hwaddr_t addr) {
+uint8_t *replace(cache *cur, hwaddr_t addr) {
     uint32_t addr_tag = (addr >> (B_bit + S_bit)) & (0xffffffffu >> (B_bit + S_bit));
     uint32_t addr_set = (addr >> B_bit) & (0xffffffffu >> (32 - S_bit));
     int i;
