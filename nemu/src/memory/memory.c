@@ -34,7 +34,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		tmp = tmp << (8 * i);
 		data += tmp;
 	}
-	printf("Hit!----data-%d----origin-%d\n", data, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
+	printf("Hit!---------\naddr: 0x%x\ndata: %d\norigin: %d\n",addr , data, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
 	return data;
 #else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
