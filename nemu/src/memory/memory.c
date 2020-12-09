@@ -31,8 +31,12 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int i;
 	for(i = 0; i < len; i++, offset++) {
 		if(offset >= Cache_1_B_size) {
-			ptr = cache_1_find(&Cache_1, addr + i);
-			offset = 0;
+			printf("read again!!!------------------\n");
+			tmp = hwaddr_read(addr + i, len - i);
+			tmp = (uint32_t)(ptr[i]);
+			tmp = tmp << (8 * i);
+			data += tmp;
+			break;
 		}
 		tmp = (uint32_t)(ptr[i]);
 		tmp = tmp << (8 * i);
