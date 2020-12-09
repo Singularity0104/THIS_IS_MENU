@@ -20,7 +20,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	}
 	uint32_t offset = addr & ((uint32_t)0xffffffff >> (32 - Cache_1_B_bit));
 	char *ptr = cache_1_find(&Cache_1, addr);
-	char tmp = 0;
+	uint32_t tmp = 0;
 	uint32_t data = 0;
 	int i;
 	for(i = 0; i < len; i++, offset++) {
@@ -28,10 +28,10 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			ptr = cache_1_find(&Cache_1, addr + i);
 			offset = 0;
 		}
-		tmp = *ptr;
+		tmp = (uint32_t)(*ptr);
 		ptr++;
-		data = data << 8;
-		data += ((uint32_t)tmp & 0xff);
+		tmp = tmp << (8 * i);
+		data += tmp;
 	}
 	return data;
 #else
