@@ -51,16 +51,15 @@ uint8_t *replace(cache *cur, hwaddr_t addr) {
     uint32_t addr_tag = (addr >> (B_bit + S_bit)) & (0xffffffffu >> (B_bit + S_bit));
     uint32_t addr_set = (addr >> B_bit) & (0xffffffffu >> (32 - S_bit));
     int i;
-    // for(i = 0; i < E_size; i++) {
-    //     if(cur->set[addr_set].line[i].valid_bit == 0x0) {
-    //         cur->set[addr_set].line[i].valid_bit = 1;
-    //         cur->set[addr_set].line[i].tag = addr_tag;
-    //         return cur->set[addr_set].line[i].block;
-    //     }
-    // }
-    // srand((int)time(NULL));
-    // i = (uint32_t)rand() % E_size;
-    i = 0;
+    for(i = 0; i < E_size; i++) {
+        if(cur->set[addr_set].line[i].valid_bit == 0x0) {
+            cur->set[addr_set].line[i].valid_bit = 1;
+            cur->set[addr_set].line[i].tag = addr_tag;
+            return cur->set[addr_set].line[i].block;
+        }
+    }
+    srand((int)time(NULL));
+    i = (uint32_t)rand() % E_size;
     cur->set[addr_set].line[i].tag = addr_tag;
     return cur->set[addr_set].line[i].block;
 }
