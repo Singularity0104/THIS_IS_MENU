@@ -12,10 +12,15 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		printf("Miss!---------------\naddr: 0x%x\n", addr);
 		char *new_ptr = cache_1_replace(&Cache_1, addr);
 		hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));
+		hwaddr_t tmp_addr = begin_addr;
 		int i;
-		for(i = 0; i < Cache_1_B_size; i++, begin_addr++, new_ptr++) {
+		for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
 			char tmp_data = (char)(dram_read(begin_addr, 1) & 0xff);
-			*new_ptr = tmp_data;
+			new_ptr[i] = tmp_data;
+		}
+		printf("copy:\n");
+		for(i = 0; i < Cache_1_B_size; i++, tmp_addr++) {
+			printf("addr: 0x%x    dram: 0x%x    cache: 0x%x\n",tmp_addr, dram_read(tmp_addr, 1) & 0xff, new_ptr[i]);
 		}
 		return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	}
