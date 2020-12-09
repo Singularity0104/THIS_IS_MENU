@@ -5,10 +5,10 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
-#define MYDEBUG 1
+#define MYCODE 1
 #define DEBUGIN 0
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-#if MYDEBUG
+#if MYCODE
 	if(cache_1_find(&Cache_1, addr) == NULL) {
 #if DEBUGIN
 		printf("Miss!---------------\naddr: 0x%x\n", addr);
@@ -60,7 +60,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-#if MYDEBUG
+#if MYCODE
 	dram_write(addr, len, data);
 	uint8_t *write_ptr = cache_1_find(&Cache_1, addr);
 	if(write_ptr != NULL) {
@@ -88,7 +88,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	dram_write(addr, len, data);
 #endif
 }
-#undef MYDEBUG
+#undef MYCODE
 #undef DEBUGIN
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
