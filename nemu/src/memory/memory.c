@@ -42,7 +42,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			printf("read again!!!------------------\n");
 #endif			
 			tmp = hwaddr_read(addr + i, len - i);
-			tmp = (uint32_t)(ptr[i]);
 			tmp = tmp << (8 * i);
 			data += tmp;
 			break;
