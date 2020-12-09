@@ -9,6 +9,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #if MYDEBUG
 	if(cache_1_find(&Cache_1, addr) == NULL) {
+		printf("Miss!\n");
 		char *new_ptr = cache_1_replace(&Cache_1, addr);
 		hwaddr_t begin_addr = addr & (~((uint32_t)0xffffffff >> (32 - Cache_1_B_bit)));
 		int i;
@@ -33,6 +34,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		tmp = tmp << (8 * i);
 		data += tmp;
 	}
+	printf("Hit!----data-%d----origin-%d\n", data, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
 	return data;
 #else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
