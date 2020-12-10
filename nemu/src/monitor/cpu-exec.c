@@ -3,62 +3,26 @@
 #include <setjmp.h>
 #include "monitor/watchpoint.h"
 
-const char poem[] = "I really wanna stop\
-\nBut I just gotta taste for it\
-\nI feel like I could fly with the ball on the moon\
-\nSo honey hold my hand you like making me wait for it\
-\nI feel I could die walking up to the room oh yeah\
-\nLate night watching television\
-\nBut how we get in this position\
-\nIt's way too soon I know this isn't love\
-\nBut I need to tell you something\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nOh did I say too much\
-\nI'm so in my head\
-\nWhen we're out of touch\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nIt's like everything you say is a sweet revelation\
-\nAll I wanna do is get into your head\
-\nYeah we could stay alone you and me and this temptation\
-\nSipping on your lips hanging on by thread baby\
-\nLate night watching television\
-\nBut how we get in this position\
-\nIt's way too soon I know this isn't love\
-\nBut I need to tell you something\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nOh did I say too much\
-\nI'm so in my head\
-\nWhen we're out of touch\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nWho gave you eyes like that\
-\nSaid you could keep them\
-\nI don't know how to act\
-\nThe way I should be leaving\
-\nI'm running out of time\
-\nGoing out of my mind\
-\nI need to tell you something\
-\nYeah I need to tell you something\
-\nYeah I really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nOh did I say too much\
-\nI'm so in my head\
-\nWhen we're out of touch\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\
-\nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too\n\n";
+const char poem[] = "\
+\n                            _ooOoo_ \
+\n                           o8888888o \
+\n                           88\" . \"88 \
+\n                           (| -_- |) \
+\n                            O\\ = /O \
+\n                        ____/`---'\\____ \
+\n                      .   ' \\\\| |// `. \
+\n                       / \\\\||| 1 |||// \\ \
+\n                     / _||||| -9- |||||- \\ \
+\n                       | | \\\\\\ 9 /// | | \
+\n                     | \\_| ''\\-8-/'' | | \
+\n                      \\ .-\\__ `0` ___/-. / \
+\n                   ___`. .' /--2--\\ `. . __ \
+\n                .\"\" '< `.___\\_<0>_/___.' >'\"\". \
+\n               | | : `- \\`.;`\\ 2 /`;.`/ - ` : | | \
+\n                 \\ \\ `-. \\_ __\\ /__ _/ .-` / / \
+\n         ======`-.____`-.___\\_____/___.-`____.-'====== \
+\n                            `=---='";
+
 uint32_t poem_length = sizeof(poem) - 1;
 
 
