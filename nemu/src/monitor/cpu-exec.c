@@ -120,7 +120,7 @@ void cpu_exec(volatile uint32_t n) {
 		if((n & 0x3fff) == 0) {
 			/* Output some dots while executing the program. */
 			// fputc(poem[poem_index % poem_length], stderr);
-			printf("\033[1m\033[45;33m%c\033[0m\n", poem[poem_index % poem_length]);
+			printf("\033[1m\033[45;33m%c\033[0m", poem[poem_index % poem_length]);
 			poem_index++;
 		}
 #endif
