@@ -54,7 +54,9 @@ void cpu_exec(volatile uint32_t n) {
 		swaddr_t eip_temp = cpu.eip;
 		if((n & 0xffff) == 0) {
 			/* Output some dots while executing the program. */
-			fputc('.', stderr);
+			// fputc('.', stderr);
+			fputs("[]", stderr);
+
 		}
 #endif
 
