@@ -78,6 +78,9 @@ static void load_entry() {
 static void init_cache() {
 	cache_1_init(&Cache_1);
 	memtime = 0;
+	memread = 0;
+	cache_1_hit = 0;
+	cache_1_miss = 0;
 }
 
 void restart() {

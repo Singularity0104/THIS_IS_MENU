@@ -24,5 +24,8 @@
 #undef level
 cache_1 Cache_1;
 uint64_t memtime;
+uint64_t memread;
+uint64_t cache_1_hit;
+uint64_t cache_1_miss;
 
 #endif
