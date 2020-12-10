@@ -3,7 +3,7 @@
 #include <setjmp.h>
 #include "monitor/watchpoint.h"
 
-#define MYOUTPUT 0
+#define MYOUTPUT 1
 
 #if MYOUTPUT
 const char poem[] = "\
