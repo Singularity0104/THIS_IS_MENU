@@ -81,7 +81,7 @@ void cpu_exec(volatile uint32_t n) {
 		// 	/* Output some dots while executing the program. */
 		// 	fputc('.', stderr);
 		// }
-		if((n & 0x3fff) == 0) {
+		if((n & 0x1fff) == 0) {
 			/* Output some dots while executing the program. */
 			printf("\033[1;35m%c\033[0m", poem[poem_index % poem_length]);
 			poem_index++;
