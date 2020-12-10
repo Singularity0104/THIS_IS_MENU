@@ -12,27 +12,51 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #if MYCODE
 	if(cache_1_find(&Cache_1, addr) == NULL) {
 		cache_1_miss++;
-		memtime += 200u;
-#if DEBUGIN
-		printf("Miss!---------------\naddr: 0x%x\n", addr);
-#endif
-		uint8_t *new_ptr = cache_1_replace(&Cache_1, addr);
-		hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));
-#if DEBUGIN
-		hwaddr_t tmp_addr = begin_addr;
-#endif		
+		if(cache_2_find(&Cache_2, addr) == NULL) {
+			cache_2_miss++;
+			memtime += 200u;
+			uint8_t *new_ptr = cache_1_replace(&Cache_1, addr);
+			hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));	
+			int i;
+			for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
+				uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
+				new_ptr[i] = tmp_data;
+			}
+			new_ptr = cache_2_replace(&Cache_2, addr);
+			begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_2_B_bit)));	
+			for(i = 0; i < Cache_2_B_size; i++, begin_addr++) {
+				uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
+				new_ptr[i] = tmp_data;
+			}
+			return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+		}
+		cache_2_hit++;
+		memtime += 20u;
+		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
+		uint8_t *ptr = cache_2_find(&Cache_2, addr);
+		uint32_t tmp = 0;
+		uint32_t data = 0;
 		int i;
-		for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
-			uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
-			new_ptr[i] = tmp_data;
+		for(i = 0; i < len; i++, offset++) {
+			if(offset >= Cache_2_B_size) {		
+				tmp = hwaddr_read(addr + i, len - i);
+				tmp = tmp << (8 * i);
+				data += tmp;
+				break;
+			}
+			tmp = (uint32_t)(ptr[i]);
+			tmp = tmp << (8 * i);
+			data += tmp;
 		}
-#if DEBUGIN
-		printf("copy:\n");
-		for(i = 0; i < Cache_1_B_size; i++, tmp_addr++) {
-			printf("addr: 0x%x    dram: 0x%x    cache: 0x%x\n",tmp_addr, dram_read(tmp_addr, 1) & 0xff, new_ptr[i]);
+		Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
+		uint8_t *new_ptr = cache_1_replace(&Cache_1, addr);
+		offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
+		ptr -= offset;
+		for(i = 0; i < Cache_1_B_size; i++) {
+			
+			new_ptr[i] = ptr[i];
 		}
-#endif
-		return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+		return data;
 	}
 	cache_1_hit++;
 	memtime += 2u;
@@ -42,10 +66,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t data = 0;
 	int i;
 	for(i = 0; i < len; i++, offset++) {
-		if(offset >= Cache_1_B_size) {
-#if DEBUGIN
-			printf("read again!!!------------------\n");
-#endif			
+		if(offset >= Cache_1_B_size) {		
 			tmp = hwaddr_read(addr + i, len - i);
 			tmp = tmp << (8 * i);
 			data += tmp;
@@ -55,9 +76,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		tmp = tmp << (8 * i);
 		data += tmp;
 	}
-#if DEBUGIN
-	printf("Hit!----------------\naddr: 0x%x\nlength: %lu\ndata: %d\norigin: %d\n", addr, len, data, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
-#endif
 	return data;
 #else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
