@@ -93,7 +93,7 @@ void cpu_exec(volatile uint32_t n) {
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
 #if MYOUTPUT
-		if((n & 0x1ff) == 0) {
+		if((n & 0x3ff) == 0) {
 			/* Output some dots while executing the program. */
 			printf("\033[1;%dm%c\033[0m", 31 + (poem_index % 6), poem[poem_index % poem_length]);
 			poem_index++;
