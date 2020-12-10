@@ -7,7 +7,7 @@
 #define Cache_1_B_size (1 << Cache_1_B_bit)
 #define B_bit Cache_1_B_bit
 #define B_size Cache_1_B_size
-#define E_bit 3
+#define E_bit 4
 #define E_size (1 << E_bit)
 #define S_bit (Cache_bit - B_bit - E_bit)
 #define S_size (1 << S_bit)
