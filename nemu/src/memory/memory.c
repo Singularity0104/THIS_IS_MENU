@@ -15,18 +15,15 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		if(cache_2_find(&Cache_2, addr) == NULL) {
 			cache_2_miss++;
 			memtime += 200u;
-			uint8_t *new_ptr = cache_1_replace(&Cache_1, addr);
+			Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
+			uint8_t *new_ptr_1 = cache_1_replace(&Cache_1, addr);
+			uint8_t *new_ptr_2 = cache_2_replace(&Cache_2, addr);
 			hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));	
 			int i;
 			for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
 				uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
-				new_ptr[i] = tmp_data;
-			}
-			new_ptr = cache_2_replace(&Cache_2, addr);
-			begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_2_B_bit)));	
-			for(i = 0; i < Cache_2_B_size; i++, begin_addr++) {
-				uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
-				new_ptr[i] = tmp_data;
+				new_ptr_1[i] = tmp_data;
+				new_ptr_2[i] = tmp_data;
 			}
 			return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 		}
@@ -53,7 +50,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
 		ptr -= offset;
 		for(i = 0; i < Cache_1_B_size; i++) {
-			
 			new_ptr[i] = ptr[i];
 		}
 		return data;
@@ -87,25 +83,35 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	dram_write(addr, len, data);
 	uint8_t *write_ptr = cache_1_find(&Cache_1, addr);
 	if(write_ptr != NULL) {
-#if DEBUGIN
-		printf("Write Cache-------------------------------------------------------------Write!!!!\naddr: 0x%x\ndata: 0x%x\n", addr, data);
-#endif
 		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_1_B_bit));
 		uint32_t tmp = 0;
 		uint32_t tmp_data = data;
 		int i;
 		for(i = 0; i < len; i++, offset++) {
 			if(offset >= Cache_1_B_size) {
-				write_ptr = cache_1_find(&Cache_1, addr + i);
-				offset = 0;
+				hwaddr_write(addr + i, len - i, tmp_data);
+				break;
 			}
 			tmp = tmp_data & 0xff;
 			tmp_data = tmp_data >> 8;
 			write_ptr[i] = (uint8_t)tmp;
 		}
-#if DEBUGIN
-		printf("Check---cache: 0x%x    origin: 0x%x\n", hwaddr_read(addr, len), data);
-#endif
+	}
+	write_ptr = cache_2_find(&Cache_2, addr);
+	if(write_ptr != NULL) {
+		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
+		uint32_t tmp = 0;
+		uint32_t tmp_data = data;
+		int i;
+		for(i = 0; i < len; i++, offset++) {
+			if(offset >= Cache_2_B_size) {
+				hwaddr_write(addr + i, len - i, tmp_data);
+				break;
+			}
+			tmp = tmp_data & 0xff;
+			tmp_data = tmp_data >> 8;
+			write_ptr[i] = (uint8_t)tmp;
+		}
 	}
 #else
 	dram_write(addr, len, data);
