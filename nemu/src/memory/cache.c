@@ -29,6 +29,7 @@ void init(cache *cur) {
     for(i = 0; i < S_size; i++) {
         for(j = 0; j < E_size; j++) {
             cur->set[i].line[j].valid_bit = 0x0;
+            cur->set[i].line[j].dirty_bit = 0x0;
         }
     }
     return;

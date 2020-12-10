@@ -15,6 +15,7 @@ typedef struct cache_line {
     uint8_t block[B_size];
     uint32_t tag;
     uint8_t valid_bit;
+    uint8_t dirty_bit;
 } cache_line;
 
 typedef struct cache_set {
