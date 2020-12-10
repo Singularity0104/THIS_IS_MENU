@@ -213,6 +213,9 @@ static int cmd_b(char *args) {
 }
 
 static int cmd_t(char *args) {
+	printf("memory read: %lu\n", memread);
+	printf("cache1 hit: %lu\n", cache_1_hit);
+	printf("cache1 miss: %lu\n", cache_1_miss);
 	printf("total time: %lu\n", memtime);
 	return 0;
 }
