@@ -216,6 +216,8 @@ static int cmd_t(char *args) {
 	printf("memory read: %lu\n", memread);
 	printf("cache1 hit: %lu\n", cache_1_hit);
 	printf("cache1 miss: %lu\n", cache_1_miss);
+	double cache_1_rate = (double)cache_1_hit / (double)cache_1_miss;
+	printf("cache1 rate: %.4f\n", cache_1_rate);
 	printf("total time: %lu\n", memtime);
 	return 0;
 }
