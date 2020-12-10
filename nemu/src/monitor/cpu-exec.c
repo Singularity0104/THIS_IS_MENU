@@ -3,6 +3,9 @@
 #include <setjmp.h>
 #include "monitor/watchpoint.h"
 
+#define MYOUTPUT 1
+
+#if MYOUTPUT
 const char poem[] = "\
 \n                            _ooOoo_ \
 \n                           o8888888o \
@@ -31,7 +34,7 @@ const char poem[] = "\
 \n                  | |                                      __/ | \
 \n                  |_|                                     |___/ \n\n\n\n";
 uint32_t poem_length = sizeof(poem) - 1;
-
+#endif
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -78,21 +81,24 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 	setjmp(jbuf);
-
+#if MYOUTPUT
 	uint32_t poem_index = 0;
-
+#endif
 	for(; n > 0; n --) {
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
-		// if((n & 0xffff) == 0) {
-		// 	/* Output some dots while executing the program. */
-		// 	fputc('.', stderr);
-		// }
+#if MYOUTPUT
 		if((n & 0x7ff) == 0) {
 			/* Output some dots while executing the program. */
-			printf("\033[1;35m%c\033[0m", poem[poem_index % poem_length]);
+			printf("\033[1;%dm%c\033[0m", 31 + (poem_index % 6), poem[poem_index % poem_length]);
 			poem_index++;
 		}
+#else
+		if((n & 0xffff) == 0) {
+			/* Output some dots while executing the program. */
+			fputc('.', stderr);
+		}
+#endif
 #endif
 
 		/* Execute one instruction, including instruction fetch,
