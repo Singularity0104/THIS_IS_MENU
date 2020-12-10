@@ -117,7 +117,7 @@ void cpu_exec(volatile uint32_t n) {
 		// 	/* Output some dots while executing the program. */
 		// 	fputc('.', stderr);
 		// }
-		if((n & 0xffff) == 0) {
+		if((n & 0xfff) == 0) {
 			/* Output some dots while executing the program. */
 			fputc(poem[poem_index % poem_length], stderr);
 			poem_index++;
