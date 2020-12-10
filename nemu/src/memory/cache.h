@@ -1,7 +1,7 @@
 #ifndef __CACHE_H__
 #define __CACHE_H__
 
-#define Cache_bit 16
+#define Cache_bit 24
 #define Cache_size (1 << Cache_bit)
 #define Cache_1_B_bit 6
 #define Cache_1_B_size (1 << Cache_1_B_bit)
