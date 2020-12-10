@@ -10,6 +10,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #if MYCODE
 	if(cache_1_find(&Cache_1, addr) == NULL) {
+		memtime += 200u;
 #if DEBUGIN
 		printf("Miss!---------------\naddr: 0x%x\n", addr);
 #endif
@@ -31,6 +32,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #endif
 		return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	}
+	memtime += 2u;
 	uint32_t offset = addr & (0xffffffffu >> (32 - Cache_1_B_bit));
 	uint8_t *ptr = cache_1_find(&Cache_1, addr);
 	uint32_t tmp = 0;

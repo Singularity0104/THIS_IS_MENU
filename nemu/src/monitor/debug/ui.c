@@ -8,6 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <elf.h>
+#include "../../memory/cache.h"
 
 void cpu_exec(uint32_t);
 
@@ -211,6 +212,11 @@ static int cmd_b(char *args) {
 	return 0;
 }
 
+static int cmd_t(char *args) {
+	printf("total time: %lu\n", memtime);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -225,7 +231,8 @@ static struct {
 	{ "x", "Print memory", cmd_x},
 	{ "w", "Set a watchpoint", cmd_w},
 	{ "d", "Delete a watchpoint", cmd_d},
-	{ "bt", "Print function", cmd_b}
+	{ "bt", "Print function", cmd_b},
+	{ "time", "Print memory/cache time", cmd_t}
 
 	/* TODO: Add more commands */
 

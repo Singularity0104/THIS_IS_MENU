@@ -23,5 +23,6 @@
 #undef S_size
 #undef level
 cache_1 Cache_1;
+uint64_t memtime;
 
 #endif
