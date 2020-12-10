@@ -58,8 +58,8 @@ const char poem[] = "I really wanna stop\
 \nI really really really really really really like you\
 \nAnd I want you do you want me do you want me too\
 \nI really really really really really really like you\
-\nAnd I want you do you want me do you want me too";
-int poem_length = sizeof(poem) - 1;
+\nAnd I want you do you want me do you want me too\n\n";
+uint32_t poem_length = sizeof(poem) - 1;
 
 
 /* The assembly code of instructions executed is only output to the screen
@@ -108,14 +108,19 @@ void cpu_exec(volatile uint32_t n) {
 
 	setjmp(jbuf);
 
+	uint32_t poem_index = 0;
+
 	for(; n > 0; n --) {
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
+		// if((n & 0xffff) == 0) {
+		// 	/* Output some dots while executing the program. */
+		// 	fputc('.', stderr);
+		// }
 		if((n & 0xffff) == 0) {
 			/* Output some dots while executing the program. */
-			// fputc('.', stderr);
-			fputs("[]", stderr);
-
+			fputc(poem[poem_index % poem_length], stderr);
+			poem_index++;
 		}
 #endif
 
