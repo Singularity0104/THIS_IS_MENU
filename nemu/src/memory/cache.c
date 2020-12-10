@@ -6,10 +6,8 @@
 #include "common.h"
 #define Cache_bit 16
 #define Cache_size (1 << Cache_bit)
-#define Cache_1_B_bit 6
-#define Cache_1_B_size (1 << Cache_1_B_bit)
-#define B_bit Cache_1_B_bit
-#define B_size Cache_1_B_size
+#define B_bit 6
+#define B_size (1 << B_bit)
 #define E_bit 3
 #define E_size (1 << E_bit)
 #define S_bit (Cache_bit - B_bit - E_bit)
