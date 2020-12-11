@@ -18,6 +18,14 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
 			cache_line_1 *new_ptr_1 = cache_1_replace(&Cache_1, addr);
 			cache_line_2 *new_ptr_2 = cache_2_replace(&Cache_2, addr);
+			if(new_ptr_2->dirty_bit == 1) {
+				new_ptr_2->dirty_bit = 0;
+				hwaddr_t old_addr = (new_ptr_2->tag << (Cache_2_B_bit + Cache_2_S_Bit)) + (((addr >> Cache_2_B_bit) & (0xffffffffu >> (32 - Cache_2_S_Bit))) << Cache_2_B_bit);
+				int i;
+				for(i = 0; i < Cache_1_B_size; i++) {
+					dram_write(old_addr + i, 1, new_ptr_2->block[i]);
+				}
+			}
 			hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));	
 			int i;
 			for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
@@ -30,7 +38,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		cache_2_hit++;
 		memtime += 20u;
 		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
-		uint8_t *ptr = cache_2_find(&Cache_2, addr);
+		cache_line_2 *ptr = cache_2_find(&Cache_2, addr);
 		uint32_t tmp = 0;
 		uint32_t data = 0;
 		int i;
@@ -41,23 +49,21 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 				data += tmp;
 				break;
 			}
-			tmp = (uint32_t)(ptr[i]);
+			tmp = (uint32_t)(ptr->block[offset]);
 			tmp = tmp << (8 * i);
 			data += tmp;
 		}
 		Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
 		cache_line_1 *new_ptr = cache_1_replace(&Cache_1, addr);
-		offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
-		ptr -= offset;
 		for(i = 0; i < Cache_1_B_size; i++) {
-			new_ptr->block[i] = ptr[i];
+			new_ptr->block[i] = ptr->block[i];
 		}
 		return data;
 	}
 	cache_1_hit++;
 	memtime += 2u;
 	uint32_t offset = addr & (0xffffffffu >> (32 - Cache_1_B_bit));
-	uint8_t *ptr = cache_1_find(&Cache_1, addr);
+	cache_line_1 *ptr = cache_1_find(&Cache_1, addr);
 	uint32_t tmp = 0;
 	uint32_t data = 0;
 	int i;
@@ -68,7 +74,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			data += tmp;
 			break;
 		}
-		tmp = (uint32_t)(ptr[i]);
+		tmp = (uint32_t)(ptr->block[offset]);
 		tmp = tmp << (8 * i);
 		data += tmp;
 	}
@@ -80,9 +86,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 #if MYCODE
-	dram_write(addr, len, data);
-	uint8_t *write_ptr = cache_1_find(&Cache_1, addr);
-	if(write_ptr != NULL) {
+	cache_line_1 *write_ptr_1 = cache_1_find(&Cache_1, addr);
+	if(write_ptr_1 != NULL) {
 		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_1_B_bit));
 		uint32_t tmp = 0;
 		uint32_t tmp_data = data;
@@ -94,11 +99,12 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 			}
 			tmp = tmp_data & 0xff;
 			tmp_data = tmp_data >> 8;
-			write_ptr[i] = (uint8_t)tmp;
+			write_ptr_1->block[offset] = (uint8_t)tmp;
 		}
+		dram_write(addr, len, data);
 	}
-	write_ptr = cache_2_find(&Cache_2, addr);
-	if(write_ptr != NULL) {
+	cache_line_2 *write_ptr_2 = cache_2_find(&Cache_2, addr);
+	if(write_ptr_2 != NULL) {
 		uint32_t offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
 		uint32_t tmp = 0;
 		uint32_t tmp_data = data;
@@ -110,7 +116,26 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 			}
 			tmp = tmp_data & 0xff;
 			tmp_data = tmp_data >> 8;
-			write_ptr[i] = (uint8_t)tmp;
+			write_ptr_2->block[offset] = (uint8_t)tmp;
+		}
+		write_ptr_2->dirty_bit = 1;
+	}
+	else {
+		dram_write(addr, len, data);
+		cache_line_2 *new_ptr_2 = cache_2_replace(&Cache_2, addr);
+		if(new_ptr_2->dirty_bit == 1) {
+			new_ptr_2->dirty_bit = 0;
+			hwaddr_t old_addr = (new_ptr_2->tag << (Cache_2_B_bit + Cache_2_S_Bit)) + (((addr >> Cache_2_B_bit) & (0xffffffffu >> (32 - Cache_2_S_Bit))) << Cache_2_B_bit);
+			int i;
+			for(i = 0; i < Cache_1_B_size; i++) {
+				dram_write(old_addr + i, 1, new_ptr_2->block[i]);
+			}
+		}
+		hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));	
+		int i;
+		for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
+			uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
+			new_ptr_2->block[i] = tmp_data;
 		}
 	}
 #else

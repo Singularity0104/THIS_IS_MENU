@@ -33,14 +33,13 @@ void init(cache *cur) {
     return;
 }
 
-uint8_t *find(cache *cur, hwaddr_t addr) {
+cache_line *find(cache *cur, hwaddr_t addr) {
     uint32_t addr_tag = (addr >> (B_bit + S_bit)) & (0xffffffffu >> (B_bit + S_bit));
     uint32_t addr_set = (addr >> B_bit) & (0xffffffffu >> (32 - S_bit));
-    uint32_t addr_offset = addr & (0xffffffffu >> (32 - B_bit));
     int i;
     for(i = 0; i < E_size; i++) {
         if(cur->set[addr_set].line[i].valid_bit == 0x1 && cur->set[addr_set].line[i].tag == addr_tag) {
-            return &(cur->set[addr_set].line[i].block[addr_offset]);
+            return &(cur->set[addr_set].line[i]);
         }
     }
     return NULL;
@@ -112,14 +111,13 @@ void init(cache *cur) {
     return;
 }
 
-uint8_t *find(cache *cur, hwaddr_t addr) {
+cache_line *find(cache *cur, hwaddr_t addr) {
     uint32_t addr_tag = (addr >> (B_bit + S_bit)) & (0xffffffffu >> (B_bit + S_bit));
     uint32_t addr_set = (addr >> B_bit) & (0xffffffffu >> (32 - S_bit));
-    uint32_t addr_offset = addr & (0xffffffffu >> (32 - B_bit));
     int i;
     for(i = 0; i < E_size; i++) {
         if(cur->set[addr_set].line[i].valid_bit == 0x1 && cur->set[addr_set].line[i].tag == addr_tag) {
-            return &(cur->set[addr_set].line[i].block[addr_offset]);
+            return &(cur->set[addr_set].line[i]);
         }
     }
     return NULL;
