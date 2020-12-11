@@ -16,14 +16,14 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			cache_2_miss++;
 			memtime += 200u;
 			Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
-			uint8_t *new_ptr_1 = cache_1_replace(&Cache_1, addr);
-			uint8_t *new_ptr_2 = cache_2_replace(&Cache_2, addr);
+			cache_line_1 *new_ptr_1 = cache_1_replace(&Cache_1, addr);
+			cache_line_2 *new_ptr_2 = cache_2_replace(&Cache_2, addr);
 			hwaddr_t begin_addr = addr & (~((0xffffffffu) >> (32 - Cache_1_B_bit)));	
 			int i;
 			for(i = 0; i < Cache_1_B_size; i++, begin_addr++) {
 				uint8_t tmp_data = (uint8_t)(dram_read(begin_addr, 1) & 0xff);
-				new_ptr_1[i] = tmp_data;
-				new_ptr_2[i] = tmp_data;
+				new_ptr_1->block[i] = tmp_data;
+				new_ptr_2->block[i] = tmp_data;
 			}
 			return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 		}
@@ -46,11 +46,11 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 			data += tmp;
 		}
 		Assert(Cache_1_B_bit == Cache_2_B_bit, "block size not equal!\n");
-		uint8_t *new_ptr = cache_1_replace(&Cache_1, addr);
+		cache_line_1 *new_ptr = cache_1_replace(&Cache_1, addr);
 		offset = addr & (0xffffffffu >> (32 - Cache_2_B_bit));
 		ptr -= offset;
 		for(i = 0; i < Cache_1_B_size; i++) {
-			new_ptr[i] = ptr[i];
+			new_ptr->block[i] = ptr[i];
 		}
 		return data;
 	}

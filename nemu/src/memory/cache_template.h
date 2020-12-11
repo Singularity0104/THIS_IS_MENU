@@ -34,7 +34,7 @@ typedef struct cache {
 
 void init(cache *cur);
 uint8_t *find(cache *cur, hwaddr_t addr);
-uint8_t *replace(cache *cur, hwaddr_t addr);
+cache_line *replace(cache *cur, hwaddr_t addr);
 
 #undef cache_line
 #undef cache_set
