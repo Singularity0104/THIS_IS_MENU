@@ -102,7 +102,7 @@ void init_cond() {
 	asm volatile("subl $16, %esp");
 
 	/* Here we go! */
-	((void(*)(void))eip)();
+	((void(*)(void))eip)();	//把eip强制类型转换成函数指针，跳入这里执行
 
 	HIT_GOOD_TRAP;
 
