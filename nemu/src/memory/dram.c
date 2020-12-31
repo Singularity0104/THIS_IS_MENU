@@ -32,7 +32,7 @@ typedef union {
 #define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH))
 
 uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
-uint8_t *hw_mem = (void *)dram;
+uint8_t *hw_mem = (void *)dram;	//内存与磁盘实质共享
 
 typedef struct {
 	uint8_t buf[NR_COL];

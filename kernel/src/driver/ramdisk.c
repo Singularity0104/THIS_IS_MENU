@@ -10,7 +10,7 @@
  */
 
 /* read `len' bytes starting from `offset' of ramdisk into `buf' */
-void ramdisk_read(uint8_t *buf, uint32_t offset, uint32_t len) {
+void ramdisk_read(uint8_t *buf, uint32_t offset, uint32_t len) {	//记住！kernel在nemu中运行，任何地址访问均不是真正的linux地址，都是通过nemu底层访问函数实现的
 	nemu_assert(offset + len < RAMDISK_SIZE);
 	memcpy(buf, RAMDISK_START + offset, len);
 }
