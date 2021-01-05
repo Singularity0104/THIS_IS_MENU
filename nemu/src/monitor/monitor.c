@@ -103,4 +103,6 @@ void restart() {
 	init_ddr3();
 
 	cpu.EFLAGS = 0x00000002;
+
+	cpu.cr0.protect_enable = 0;
 }

@@ -2,6 +2,7 @@
 #define __REG_H__
 
 #include "common.h"
+#include "../../lib-common/x86-inc/cpu.h"
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
@@ -45,7 +46,14 @@ typedef struct {
 		};
 	};
 	swaddr_t eip;
-
+	uint32_t GDTR;
+	CR0 cr0;
+	uint16_t CS;
+	uint16_t SS;
+	uint16_t DS;
+	uint16_t ES;
+	uint16_t FS;
+	uint16_t GS;
 } CPU_state;
 
 extern CPU_state cpu;
