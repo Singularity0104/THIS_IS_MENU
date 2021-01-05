@@ -7,6 +7,7 @@
 #include "data-mov/leave.h"
 #include "data-mov/cwtl.h"
 #include "data-mov/cltd.h"
+#include "data-mov/lgdt.h"
 
 #include "control-transfer/call.h"
 #include "control-transfer/je.h"
