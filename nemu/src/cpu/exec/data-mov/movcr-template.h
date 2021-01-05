@@ -3,6 +3,7 @@
 #define instr movcr
 
 static void do_execute() {
+	printf("%d\n", op_src->reg);
 	print_asm_template2();
 }
 
