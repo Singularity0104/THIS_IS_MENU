@@ -12,6 +12,7 @@ static void do_execute() {
 #if DATA_BYTE == 4
     cpu.gdtr.base = lnaddr_read(gdt_addr_ptr, 4);
 #endif
+    print_asm_template1();
 }
 
 make_instr_helper(rm)
