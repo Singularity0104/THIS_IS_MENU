@@ -4,9 +4,9 @@
 
 make_helper(movcr_r2rm_l) {
     int len = decode_r2rm_l(eip);
-    if(op_dest->addr == 0) {
-        cpu.cr0.val = op_src->val;
-    }
+    // if(op_dest->addr == 0) {
+    //     cpu.cr0.val = op_src->val;
+    // }
 	print_asm_template2();
     return len;
 }
