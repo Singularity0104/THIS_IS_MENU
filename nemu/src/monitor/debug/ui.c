@@ -121,7 +121,7 @@ static int cmd_x(char *args) {
 	uint32_t add = expr(args + index, &success);
 	Assert(success == true, "ERROR!");
 	for(i = 0; i < sum; i++) {
-		uint32_t mem = swaddr_read(add, 4);
+		uint32_t mem = swaddr_read(add, 4, R_DS);
 		printf("0x%-12x    0x%-12.8x\n", add, mem);
 		add += 4;
 	}
@@ -175,38 +175,38 @@ static int cmd_b(char *args) {
 			if(cur_eip >= symtab[i].st_value && cur_eip <= symtab[i].st_value + symtab[i].st_size) {
 				offset = symtab[i].st_name;
 				printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
-				cur_arg = swaddr_read(cur_ebp + 8, 4);
+				cur_arg = swaddr_read(cur_ebp + 8, 4, R_SS);
 				printf("	arg_1 0x%08x %d\n", cur_arg, cur_arg);
-				cur_arg = swaddr_read(cur_ebp + 12, 4);
+				cur_arg = swaddr_read(cur_ebp + 12, 4, R_SS);
 				printf("	arg_2 0x%08x %d\n", cur_arg, cur_arg);
-				cur_arg = swaddr_read(cur_ebp + 16, 4);
+				cur_arg = swaddr_read(cur_ebp + 16, 4, R_SS);
 				printf("	arg_3 0x%08x %d\n", cur_arg, cur_arg);
-				cur_arg = swaddr_read(cur_ebp + 20, 4);
+				cur_arg = swaddr_read(cur_ebp + 20, 4, R_SS);
 				printf("	arg_4 0x%08x %d\n", cur_arg, cur_arg);
 			}
 		}
 	}
 	cnt++;
 	while(cur_ebp != 0) {
-		cur_ret = swaddr_read(cur_ebp + 4, 4);
+		cur_ret = swaddr_read(cur_ebp + 4, 4, R_SS);
 		int i;
 		for(i = 0; i < nr_symtab_entry; i++) {
 			if((symtab[i].st_info & 0xf) == STT_FUNC) {
 				if(cur_ret >= symtab[i].st_value && cur_ret <= symtab[i].st_value + symtab[i].st_size) {
 					offset = symtab[i].st_name;
 					printf("%02d 0x%08x~0x%08x %s\n", cnt, symtab[i].st_value, symtab[i].st_value + symtab[i].st_size, strtab + symtab[i].st_name);
-					cur_arg = swaddr_read(cur_ebp + 8, 4);
+					cur_arg = swaddr_read(cur_ebp + 8, 4, R_SS);
 					printf("	arg_1 0x%08x %d\n", cur_arg, cur_arg);
-					cur_arg = swaddr_read(cur_ebp + 12, 4);
+					cur_arg = swaddr_read(cur_ebp + 12, 4, R_SS);
 					printf("	arg_2 0x%08x %d\n", cur_arg, cur_arg);
-					cur_arg = swaddr_read(cur_ebp + 16, 4);
+					cur_arg = swaddr_read(cur_ebp + 16, 4, R_SS);
 					printf("	arg_3 0x%08x %d\n", cur_arg, cur_arg);
-					cur_arg = swaddr_read(cur_ebp + 20, 4);
+					cur_arg = swaddr_read(cur_ebp + 20, 4, R_SS);
 					printf("	arg_4 0x%08x %d\n", cur_arg, cur_arg);
 				}
 			}
 		}
-		cur_ebp = swaddr_read(cur_ebp, 4);
+		cur_ebp = swaddr_read(cur_ebp, 4, R_SS);
 		cnt++;
 	}
 	return 0;

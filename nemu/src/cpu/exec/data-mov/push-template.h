@@ -8,7 +8,7 @@ static void do_execute() {
         offset = 2;
     }
     cpu.esp = cpu.esp - offset;
-    MEM_W(cpu.esp, op_src->val);
+    MEM_W(cpu.esp, op_src->val, R_SS);
     print_asm_template1();
 }
 

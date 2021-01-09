@@ -105,4 +105,10 @@ void restart() {
 	cpu.EFLAGS = 0x00000002;
 
 	cpu.cr0.protect_enable = 0;
+
+	int i;
+	for(i = 0; i < 6; i++) {
+		cpu.SRcache[i] = (~0llu);
+	}
+	cpu.SRcache[R_CS] = 0xffffffff00000000;
 }

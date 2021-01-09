@@ -4,11 +4,11 @@
 
 make_helper(concat(ret_, SUFFIX)) {
     if(DATA_BYTE == 2) {
-        cpu.eip =  MEM_R(cpu.esp);
+        cpu.eip =  MEM_R(cpu.esp, R_SS);
         cpu.eip = cpu.eip & 0x0000ffff;
     }
     else if(DATA_BYTE == 4) {
-        cpu.eip =  MEM_R(cpu.esp);
+        cpu.eip =  MEM_R(cpu.esp, R_SS);
     }
 	cpu.esp += DATA_BYTE;
 	print_asm_template1();
@@ -18,11 +18,11 @@ make_helper(concat(ret_, SUFFIX)) {
 make_helper(concat(ret_i_, SUFFIX)) {
     uint32_t len = decode_i_w(eip + 1);
     if(DATA_BYTE == 2) {
-        cpu.eip =  MEM_R(cpu.esp);
+        cpu.eip =  MEM_R(cpu.esp, R_SS);
         cpu.eip = cpu.eip & 0x0000ffff;
     }
     else if(DATA_BYTE == 4) {
-        cpu.eip =  MEM_R(cpu.esp);
+        cpu.eip =  MEM_R(cpu.esp, R_SS);
     }
     cpu.eip = cpu.eip + op_src->val;
 	cpu.esp = cpu.esp + DATA_BYTE;

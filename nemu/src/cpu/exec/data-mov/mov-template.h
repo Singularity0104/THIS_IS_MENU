@@ -14,7 +14,7 @@ make_instr_helper(rm2r)
 
 make_helper(concat(mov_a2moffs_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
-	MEM_W(addr, REG(R_EAX));
+	MEM_W(addr, REG(R_EAX), R_DS);
 
 	print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 5;
@@ -22,7 +22,7 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 
 make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
-	REG(R_EAX) = MEM_R(addr);
+	REG(R_EAX) = MEM_R(addr, R_DS);
 
 	print_asm("mov" str(SUFFIX) " 0x%x,%%%s", addr, REG_NAME(R_EAX));
 	return 5;
@@ -71,8 +71,8 @@ make_helper(concat(movsw_, SUFFIX)) {
 #endif
 
 make_helper(concat(movs_, SUFFIX)) {
-	DATA_TYPE src = MEM_R(cpu.esi);
-	MEM_W(cpu.edi, src);
+	DATA_TYPE src = MEM_R(cpu.esi, R_DS);
+	MEM_W(cpu.edi, src, R_ES);
 	if(cpu.DF == 0) {
         cpu.esi = cpu.esi + DATA_BYTE;
         cpu.edi = cpu.edi + DATA_BYTE;
@@ -84,5 +84,15 @@ make_helper(concat(movs_, SUFFIX)) {
 	print_asm("movs_" str(SUFFIX));
 	return 1;
 }
+
+#if DATA_BYTE == 2
+make_helper(mov_rm2sr_w) {
+    int len = decode_rm2r_w(eip);
+    cpu.sr[op_dest->reg] = op_src->val;
+    cpu.SRcache[op_dest->reg] = (~0llu);
+	print_asm_template2();
+    return len;
+}
+#endif
 
 #include "cpu/exec/template-end.h"

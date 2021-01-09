@@ -3,7 +3,7 @@
 #define instr pop
 
 static void do_execute() {
-    REG(op_src->reg) =  MEM_R(cpu.esp);
+    REG(op_src->reg) =  MEM_R(cpu.esp, R_SS);
     uint32_t offset = 4;
     if(DATA_BYTE == 2) {
         offset = 2;

@@ -567,7 +567,7 @@ u_int32_t eval(int p, int q, bool *success) {
 				int val_1 = eval(op + 1, q, success);
 				switch(op_type) {
 					case NOT: return !val_1;break;
-					case POINTER: return swaddr_read(val_1, 4);
+					case POINTER: return swaddr_read(val_1, 4, R_DS);
 					default:
 						*success = false;
 						printf("ERROR6!\n");
