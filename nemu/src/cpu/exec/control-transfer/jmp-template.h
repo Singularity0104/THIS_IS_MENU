@@ -23,6 +23,18 @@ make_helper(concat(jmp_rm_, SUFFIX)) {
 	print_asm_template1();
 	return 0;
 }
+
+make_helper(concat(jmp_ptr_, SUFFIX)) {
+	uint16_t cs_src = instr_fetch(eip + 1, 2);
+	DATA_TYPE_S eip_src = instr_fetch(eip + 3, DATA_BYTE);
+	cpu.CS = cs_src;
+	cpu.eip = eip_src;
+	if(DATA_BYTE == 2) {
+		cpu.eip = cpu.eip & 0xffff;
+	}
+	print_asm("jmpptr" str(SUFFIX) " 0x%x 0x%x", cs_src, eip_src);
+	return 3 + DATA_BYTE;
+}
 #endif
 
 #include "cpu/exec/template-end.h"
