@@ -6,8 +6,10 @@ make_helper(movcr_rm2r_l) {
     int len = decode_rm2r_l(eip + 1);
     if(op_dest->reg == 0) {
         cpu.cr0.val = op_src->val;
+
     }
 	print_asm_template2();
+    len = 2;
     return len;
 }
 make_helper(movcr_r2rm_l) {
