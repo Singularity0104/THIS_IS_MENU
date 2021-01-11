@@ -33,7 +33,7 @@ make_helper(concat(jmp_ptr_, SUFFIX)) {
 		cpu.eip = cpu.eip & 0xffff;
 	}
 	print_asm("jmpptr" str(SUFFIX) " 0x%x 0x%x", cs_src, eip_src);
-	return 3 + DATA_BYTE;
+	return 0;
 }
 #endif
 
