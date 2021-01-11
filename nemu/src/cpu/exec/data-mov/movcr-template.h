@@ -9,7 +9,7 @@ make_helper(movcr_rm2r_l) {
 
     }
 	print_asm_template2();
-    len = 2;
+    len = 3;
     return len;
 }
 make_helper(movcr_r2rm_l) {
