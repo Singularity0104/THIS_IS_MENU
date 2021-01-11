@@ -87,11 +87,12 @@ make_helper(concat(movs_, SUFFIX)) {
 
 #if DATA_BYTE == 2
 make_helper(mov_rm2sr_w) {
-    int len = decode_rm2r_w(eip);
-    cpu.sr[op_dest->reg] = op_src->val;
-    cpu.SRcache[op_dest->reg] = (~0llu);
-	print_asm_template2();
-    return len;
+    // int len = decode_rm2r_w(eip);
+    // cpu.sr[op_dest->reg] = op_src->val;
+    // cpu.SRcache[op_dest->reg] = (~0llu);
+	// print_asm_template2();
+    // return len;
+	return 2;
 }
 #endif
 
