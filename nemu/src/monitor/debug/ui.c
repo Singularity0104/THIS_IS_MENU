@@ -74,6 +74,19 @@ static int cmd_i(char *args) {
 		printf("%-8s0x%-16x%-16u\n", "esi", cpu.esi, cpu.esi);
 		printf("%-8s0x%-16x%-16u\n", "edi", cpu.edi, cpu.edi);
 		printf("%-8s0x%-16x%-16u\n", "eip", cpu.eip, cpu.eip);
+		printf("\n");
+
+		printf("%-8s0x%-16x%-16u0x%-16x%-16u\n", "GDTR", cpu.gdtr.base, cpu.gdtr.limit, cpu.gdtr.base, cpu.gdtr.limit);
+		printf("\n");
+		printf("%-8s0x%-16x%-16u\n", "CR0", cpu.cr0.val, cpu.cr0.val);
+		printf("\n");
+		printf("%-8s0x%-16x%-16u\n", "ES", cpu.sr[R_ES], cpu.sr[R_ES]);
+		printf("%-8s0x%-16x%-16u\n", "CS", cpu.sr[R_CS], cpu.sr[R_CS]);
+		printf("%-8s0x%-16x%-16u\n", "SS", cpu.sr[R_SS], cpu.sr[R_SS]);
+		printf("%-8s0x%-16x%-16u\n", "DS", cpu.sr[R_DS], cpu.sr[R_DS]);
+		printf("%-8s0x%-16x%-16u\n", "FS", cpu.sr[R_FS], cpu.sr[R_FS]);
+		printf("%-8s0x%-16x%-16u\n", "GS", cpu.sr[R_GS], cpu.sr[R_GS]);
+
 	}
 	else if(args[0] == 'w') {
 		show_wp();
