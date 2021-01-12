@@ -25,14 +25,14 @@ make_helper(concat(jmp_rm_, SUFFIX)) {
 }
 
 make_helper(concat(jmp_ptr_, SUFFIX)) {
-	uint16_t cs_src = instr_fetch(eip + 1, 2);
-	DATA_TYPE_S eip_src = instr_fetch(eip + 3, DATA_BYTE);
-	cpu.CS = cs_src;
+	DATA_TYPE_S eip_src = instr_fetch(eip + 1, DATA_BYTE);
+	uint16_t cs_src = instr_fetch(eip + 1 + DATA_BYTE, 2);
 	cpu.eip = eip_src;
+	cpu.CS = cs_src;
 	if(DATA_BYTE == 2) {
 		cpu.eip = cpu.eip & 0xffff;
 	}
-	print_asm("jmpptr" str(SUFFIX) " 0x%x 0x%x", cs_src, eip_src);
+	print_asm("jmpptr" str(SUFFIX) " 0x%x 0x%x", eip_src, cs_src);
 	return 0;
 }
 #endif
