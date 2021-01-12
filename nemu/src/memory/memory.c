@@ -169,14 +169,15 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 		return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
 	}
 	else {
-		uint64_t gdt = lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg], 4);
-		gdt = gdt << 32;
-		gdt += lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg] + 4, 4);
-		lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
-		lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
-		lnaddr_t lnaddr = (lnaddr_t)(base + addr);
-		cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
-		return lnaddr;
+		// uint64_t gdt = lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg], 4);
+		// gdt = gdt << 32;
+		// gdt += lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg] + 4, 4);
+		// lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
+		// lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
+		// lnaddr_t lnaddr = (lnaddr_t)(base + addr);
+		// cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
+		// return lnaddr;
+		return addr;
 	}
 	// return addr;
 }
