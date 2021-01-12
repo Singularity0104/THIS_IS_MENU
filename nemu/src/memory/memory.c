@@ -169,9 +169,11 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 		return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
 	}
 	else {
-		uint64_t gdt = lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg], 4);
-		gdt = gdt << 32;
-		gdt += lnaddr_read(cpu.gdtr.base + 8 * cpu.sr[sreg] + 4, 4);
+		uint32_t index = (cpu.sr[sreg] >> 3);
+		Assert(index < cpu.gdtr.limit, "Segment table cross-border!");
+		uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
+		uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
+		uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
 		lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
 		lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
 		lnaddr_t lnaddr = (lnaddr_t)(base + addr);
