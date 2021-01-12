@@ -91,7 +91,14 @@ make_helper(mov_rm2sr_w) {
     uint8_t sreg = ((modrm >> 3) & 0x7);
     uint8_t reg = modrm & 0x7;
 	cpu.sr[sreg] = REG(reg);
-	
+	uint32_t index = (cpu.sr[sreg] >> 3);
+	Assert(index < cpu.gdtr.limit, "Segment table cross-border!");
+	uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
+	uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
+	uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
+	lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
+	lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
+	cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
     print_asm("movsr" str(SUFFIX) " %s,%s", REG_NAME(reg), SREG_NAME(sreg));
     return 2;
 }
