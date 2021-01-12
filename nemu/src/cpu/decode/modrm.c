@@ -109,8 +109,8 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		printf("%x\n", rm->reg);
-		if(rm->reg == R_ESP || rm->reg == R_EBP) {
+		printf("%x\n", m.reg);
+		if(m.reg == R_ESP || m.reg == R_EBP) {
 			rm->sreg = R_SS;
 			printf("SS\n");
 		}
