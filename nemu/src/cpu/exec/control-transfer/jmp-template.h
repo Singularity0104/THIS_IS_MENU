@@ -29,6 +29,7 @@ make_helper(concat(jmp_ptr_, SUFFIX)) {
 	uint16_t cs_src = instr_fetch(eip + 1 + DATA_BYTE, 2);
 	cpu.eip = eip_src;
 	cpu.CS = cs_src;
+	cpu.SRcache[R_CS] = (~0llu);
 	if(DATA_BYTE == 2) {
 		cpu.eip = cpu.eip & 0xffff;
 	}
