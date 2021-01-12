@@ -14,12 +14,6 @@ make_helper(movcr_r2cr_l) {
     return 2;
 }
 make_helper(movcr_cr2r_l) {
-    // int len = decode_r2rm_l(eip + 1);
-    // if(op_src->reg == 0) {
-    //     REG(op_dest->reg) = cpu.cr0.val;
-    // }
-	// print_asm_template2();
-    // return len;
     uint8_t modrm = instr_fetch(eip + 1, 1);
     uint8_t cr = ((modrm >> 3) & 0x7);
     uint8_t reg = modrm & 0x7;

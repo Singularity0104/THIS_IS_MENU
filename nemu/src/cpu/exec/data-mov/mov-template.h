@@ -87,12 +87,12 @@ make_helper(concat(movs_, SUFFIX)) {
 
 #if DATA_BYTE == 2
 make_helper(mov_rm2sr_w) {
-    int len = decode_rm2r_w(eip);
-    cpu.sr[op_dest->reg] = op_src->val;
-    cpu.SRcache[op_dest->reg] = (~0llu);
-	print_asm_template2();
-    return len;
-	// return 2;
+    uint8_t modrm = instr_fetch(eip + 1, 1);
+    uint8_t sreg = ((modrm >> 3) & 0x7);
+    uint8_t reg = modrm & 0x7;
+	cpu.sr[sreg] = REG(reg);
+    print_asm("movsr" str(SUFFIX) " %s,%s", REG_NAME(reg), SREG_NAME(sreg));
+    return 2;
 }
 #endif
 
