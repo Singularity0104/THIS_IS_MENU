@@ -115,7 +115,9 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 		else {
 			rm->sreg = R_DS;
 		}
+		printf("aaa\n");
 		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
+		printf("bbb\n");
 		return instr_len;
 	}
 }
