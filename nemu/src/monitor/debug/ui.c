@@ -122,7 +122,7 @@ static int cmd_x(char *args) {
 	Assert(success == true, "ERROR!");
 	for(i = 0; i < sum; i++) {
 		uint32_t mem = swaddr_read(add, 4, R_DS);
-		printf("0x%-12x  Bytes: %-2.2x %-2.2x %-2.2x %-2.2x  0x%-12.8x\n", add, (mem & 0xff), ((mem >> 8) & 0xff), ((mem >> 16) & 0xff), ((mem >> 24) & 0xff), mem);
+		printf("0x%-12x  Bytes: %-2.2x %-2.2x %-2.2x %-2.2x    0x%-12.8x\n", add, (mem & 0xff), ((mem >> 8) & 0xff), ((mem >> 16) & 0xff), ((mem >> 24) & 0xff), mem);
 		add += 4;
 	}
 	return 0;
