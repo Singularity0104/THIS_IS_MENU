@@ -108,6 +108,7 @@ void restart() {
 
 	int i;
 	for(i = 0; i < 6; i++) {
+		cpu.sr[i] = 0;
 		cpu.SRcache[i] = (~0llu);
 	}
 	cpu.SRcache[R_CS] = 0xffffffff00000000;
