@@ -91,6 +91,7 @@ make_helper(mov_rm2sr_w) {
     uint8_t sreg = ((modrm >> 3) & 0x7);
     uint8_t reg = modrm & 0x7;
 	cpu.sr[sreg] = REG(reg);
+	
     print_asm("movsr" str(SUFFIX) " %s,%s", REG_NAME(reg), SREG_NAME(sreg));
     return 2;
 }

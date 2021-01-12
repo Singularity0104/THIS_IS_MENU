@@ -80,12 +80,12 @@ static int cmd_i(char *args) {
 		printf("\n");
 		printf("%-8s0x%-16x%-16u\n", "CR0", cpu.cr0.val, cpu.cr0.val);
 		printf("\n");
-		printf("%-8s0x%-16x%-16u\n", "ES", cpu.sr[R_ES], cpu.sr[R_ES]);
-		printf("%-8s0x%-16x%-16u\n", "CS", cpu.sr[R_CS], cpu.sr[R_CS]);
-		printf("%-8s0x%-16x%-16u\n", "SS", cpu.sr[R_SS], cpu.sr[R_SS]);
-		printf("%-8s0x%-16x%-16u\n", "DS", cpu.sr[R_DS], cpu.sr[R_DS]);
-		printf("%-8s0x%-16x%-16u\n", "FS", cpu.sr[R_FS], cpu.sr[R_FS]);
-		printf("%-8s0x%-16x%-16u\n", "GS", cpu.sr[R_GS], cpu.sr[R_GS]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "ES", cpu.sr[R_ES], cpu.sr[R_ES], cpu.SRcache[R_ES]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "CS", cpu.sr[R_CS], cpu.sr[R_CS], cpu.SRcache[R_CS]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "SS", cpu.sr[R_SS], cpu.sr[R_SS], cpu.SRcache[R_SS]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "DS", cpu.sr[R_DS], cpu.sr[R_DS], cpu.SRcache[R_DS]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "FS", cpu.sr[R_FS], cpu.sr[R_FS], cpu.SRcache[R_FS]);
+		printf("%-8s0x%-16x%-16u  0x%-16.16lu\n", "GS", cpu.sr[R_GS], cpu.sr[R_GS], cpu.SRcache[R_GS]);
 
 	}
 	else if(args[0] == 'w') {
