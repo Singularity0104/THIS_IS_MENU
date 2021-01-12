@@ -179,7 +179,6 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 		lnaddr_t lnaddr = (lnaddr_t)(base + addr);
 		cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
 		return lnaddr;
-		return addr;
 	}
 	// return addr;
 }
