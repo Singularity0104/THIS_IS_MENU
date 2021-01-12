@@ -165,21 +165,24 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 	if(cpu.cr0.protect_enable == 0) {
 		return (lnaddr_t)addr;
 	}
-	else if(cpu.SRcache[sreg] != (~0llu)) {
+	else {
 		return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
 	}
-	else {
-		uint32_t index = (cpu.sr[sreg] >> 3);
-		Assert(index < cpu.gdtr.limit, "Segment table cross-border!");
-		uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
-		uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
-		uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
-		lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
-		lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
-		lnaddr_t lnaddr = (lnaddr_t)(base + addr);
-		cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
-		return lnaddr;
-	}
+	// else if(cpu.SRcache[sreg] != (~0llu)) {
+	// 	return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
+	// }
+	// else {
+	// 	uint32_t index = (cpu.sr[sreg] >> 3);
+	// 	Assert(index < cpu.gdtr.limit, "Segment table cross-border!");
+	// 	uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
+	// 	uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
+	// 	uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
+	// 	lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
+	// 	lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
+	// 	lnaddr_t lnaddr = (lnaddr_t)(base + addr);
+	// 	cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
+	// 	return lnaddr;
+	// }
 	// return addr;
 }
 
