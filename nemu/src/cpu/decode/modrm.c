@@ -115,11 +115,11 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 		int instr_len = load_addr(eip, &m, rm);
 		if(reg_num == R_ESP || reg_num == R_EBP) {
 			rm->sreg = R_SS;
-			printf("SS\n");
+			// printf("SS\n");
 		}
 		else {
 			rm->sreg = R_DS;
-			printf("DS\n");
+			// printf("DS\n");
 		}
 		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
