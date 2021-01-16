@@ -162,10 +162,13 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 // }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
+		printf("swaddr: 0x%x\n", addr);
 	if(cpu.cr0.protect_enable == 0) {
+		printf("lnaddr: 0x%x\n", (int)addr);
 		return (lnaddr_t)addr;
 	}
 	else {
+		printf("lnaddr: 0x%x\n", (int)(cpu.SRcache[sreg] & 0xffffffff) + addr);
 		return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
 	}
 	// else if(cpu.SRcache[sreg] != (~0llu)) {
