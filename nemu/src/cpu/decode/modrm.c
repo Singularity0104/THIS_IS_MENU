@@ -1,6 +1,8 @@
 #include "cpu/decode/modrm.h"
 #include "cpu/helper.h"
 
+static int reg_num;
+
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
 
@@ -42,10 +44,12 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 
 	if(base_reg != -1) {
 		addr += reg_l(base_reg);
+		reg_num = base_reg;
 	}
 
 	if(index_reg != -1) {
 		addr += reg_l(index_reg) << scale;
+		reg_num = index_reg;
 	}
 
 #ifdef DEBUG
@@ -109,7 +113,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		if(rm->reg == R_ESP || rm->reg == R_EBP) {
+		if(reg_num == R_ESP || reg_num == R_EBP) {
 			rm->sreg = R_SS;
 			printf("SS\n");
 		}
