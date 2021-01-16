@@ -10,6 +10,7 @@
 #include "data-mov/lgdt.h"
 #include "data-mov/movcr.h"
 #include "data-mov/std.h"
+#include "data-mov/cld.h"
 
 #include "control-transfer/call.h"
 #include "control-transfer/je.h"
