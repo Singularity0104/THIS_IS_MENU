@@ -10,6 +10,9 @@ make_helper(movcr_r2cr_l) {
     if(cr == 0) {
         cpu.cr0.val = src;
     }
+    else if(cr == 3) {
+        cpu.cr3.val = src;
+    }
     print_asm(str(instr) str(SUFFIX) " %s,%s%d", REG_NAME(reg), "cr", cr);
     return 2;
 }
@@ -19,6 +22,9 @@ make_helper(movcr_cr2r_l) {
     uint8_t reg = modrm & 0x7;
     if(cr == 0) {
         REG(reg) = cpu.cr0.val;
+    }
+    else if(cr == 0) {
+        REG(reg) = cpu.cr3.val;
     }
     print_asm(str(instr) str(SUFFIX) " %s%d,%s", "cr", cr, REG_NAME(reg));
     return 2;
