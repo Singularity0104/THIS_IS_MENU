@@ -172,7 +172,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	assert(len == 1 || len == 2 || len == 4);
-	if(0) {
+	if((addr & 0xfff) + len - 1 >= 0xfff) {
 		assert(0);
 	}
 	else {
