@@ -105,6 +105,7 @@ void restart() {
 	cpu.EFLAGS = 0x00000002;
 
 	cpu.cr0.protect_enable = 0;
+	cpu.cr0.paging = 0;
 
 	int i;
 	for(i = 0; i < 6; i++) {

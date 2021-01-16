@@ -53,6 +53,7 @@ typedef struct {
 	swaddr_t eip;
 	GDTR gdtr;
 	CR0 cr0;
+	CR3 cr3;
 	union {
 		uint16_t sr[6];
 		struct {
