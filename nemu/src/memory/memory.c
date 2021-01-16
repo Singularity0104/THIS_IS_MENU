@@ -172,8 +172,15 @@ hwaddr_t page_translate(lnaddr_t addr) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	assert(len == 1 || len == 2 || len == 4);
-	if((addr & 0xfff) + len - 1 >= 0xfff) {
-		assert(0);
+	if((addr & 0xfff) + len - 1 > 0xfff) {
+		uint32_t res = 0;
+		int i;
+		for(i = 0; i < len; i++) {
+			res = res << 8;
+			uint32_t tmp = (lnaddr_read(addr + i, 1) & 0xff);
+			res += tmp;
+		}
+		return res;
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
