@@ -38,6 +38,7 @@ uint32_t loader() {
 	/* Load each program segment */
 	// panic("please implement me");
 	ph = (void *)elf + elf->e_phoff;
+	mm_malloc(ph->p_vaddr, ph->p_memsz);
 	int i;
 	for(i = 0; i < elf->e_phnum; i++) {
 		/* Scan the program header table, load each segment into memory */
