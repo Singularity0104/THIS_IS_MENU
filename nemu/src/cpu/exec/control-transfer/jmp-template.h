@@ -29,7 +29,13 @@ make_helper(concat(jmp_ptr_, SUFFIX)) {
 	uint16_t cs_src = instr_fetch(eip + 1 + DATA_BYTE, 2);
 	cpu.eip = eip_src;
 	cpu.CS = cs_src;
-	cpu.SRcache[R_CS] = (~0llu);
+	uint32_t index = cpu.CS >> 3;
+	uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
+	uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
+	uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
+	lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
+	lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
+	cpu.SRcache[R_CS] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
 	if(DATA_BYTE == 2) {
 		cpu.eip = cpu.eip & 0xffff;
 	}
