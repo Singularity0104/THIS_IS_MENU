@@ -146,20 +146,39 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 #undef MYCODE
 #undef DEBUGIN
 
-uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+hwaddr_t page_translate(lnaddr_t addr) {
+	return addr;
 }
+
+// uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
+// 	return hwaddr_read(addr, len);
+// }
+
+uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
+	assert(len == 1 || len == 2 || len == 4);
+	if(0) {
+		assert(0);
+	}
+	else {
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_read(hwaddr, len);
+	}
+}
+
+// void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
+// 	hwaddr_write(addr, len, data);
+// }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	assert(len == 1 || len == 2 || len == 4);
+	if(0) {
+		assert(0);
+	}
+	else {
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_write(hwaddr, len, data);
+	}
 }
-
-// uint32_t swaddr_read(swaddr_t addr, size_t len) {
-// #ifdef DEBUG
-// 	assert(len == 1 || len == 2 || len == 4);
-// #endif
-// 	return lnaddr_read(addr, len);
-// }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 		// printf("swaddr: 0x%x\n", addr);
@@ -171,24 +190,14 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 		// printf("lnaddr: reg %d cache 0x%lx 0x%x\n", sreg, cpu.SRcache[sreg], (int)(cpu.SRcache[sreg] & 0xffffffff) + addr);
 		return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
 	}
-	// else if(cpu.SRcache[sreg] != (~0llu)) {
-	// 	return ((cpu.SRcache[sreg] & 0xffffffff) + addr);
-	// }
-	// else {
-	// 	uint32_t index = (cpu.sr[sreg] >> 3);
-	// 	Assert(index < cpu.gdtr.limit, "Segment table cross-border!");
-	// 	uint64_t gdt_part_1 = lnaddr_read(cpu.gdtr.base + 8 * index, 4);
-	// 	uint64_t gdt_part_2 = lnaddr_read(cpu.gdtr.base + 8 * index + 4, 4);
-	// 	uint64_t gdt = gdt_part_1 + (gdt_part_2 << 32);
-	// 	lnaddr_t base = (lnaddr_t)(((gdt >> 16) & 0xffffff) + ((gdt >> 32) & 0xff000000));
-	// 	lnaddr_t limit = (lnaddr_t)((gdt & 0xffff) + ((gdt >> 32) & 0xf0000));
-	// 	lnaddr_t lnaddr = (lnaddr_t)(base + addr);
-	// 	cpu.SRcache[sreg] = (uint64_t)(base) + (((uint64_t)(limit)) << 32);
-	// 	return lnaddr;
-	// }
-
-	// return addr;
 }
+
+// uint32_t swaddr_read(swaddr_t addr, size_t len) {
+// #ifdef DEBUG
+// 	assert(len == 1 || len == 2 || len == 4);
+// #endif
+// 	return lnaddr_read(addr, len);
+// }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 #ifdef DEBUG
