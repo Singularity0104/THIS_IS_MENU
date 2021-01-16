@@ -38,7 +38,6 @@ uint32_t loader() {
 	/* Load each program segment */
 	// panic("please implement me");
 	ph = (void *)elf + elf->e_phoff;
-	mm_malloc(ph->p_vaddr, ph->p_memsz);
 	int i;
 	for(i = 0; i < elf->e_phnum; i++) {
 		/* Scan the program header table, load each segment into memory */
@@ -46,6 +45,7 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			ph->p_vaddr = mm_malloc(ph->p_vaddr, ph->p_memsz);
 			ramdisk_read((uint8_t *)(ph->p_vaddr), ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
