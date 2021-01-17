@@ -113,4 +113,9 @@ void restart() {
 		cpu.SRcache[i] = (~0llu);
 	}
 	cpu.SRcache[R_CS] = 0xffffffff00000000;
+
+	for(i = 0; i < 64; i++) {
+		cpu.tlb[i].vaild = 0;
+	}
+	cpu.tlb_index = 0;
 }

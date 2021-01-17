@@ -21,6 +21,12 @@ typedef struct {
 } GDTR;
 
 typedef struct {
+	uint32_t vpage;
+	uint32_t ppage;
+	uint8_t vaild;
+} TLB;
+
+typedef struct {
 	union {
 		union {
 			uint32_t _32;
@@ -66,6 +72,8 @@ typedef struct {
 		};
 	};
 	uint64_t SRcache[6];
+	TLB tlb[64];
+	uint32_t tlb_index;
 } CPU_state;
 
 extern CPU_state cpu;

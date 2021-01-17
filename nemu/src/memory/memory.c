@@ -150,20 +150,29 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	if(cpu.cr0.protect_enable == 0 || cpu.cr0.paging == 0) {
 		return addr;
 	}
-	else {
-		hwaddr_t page_dir_index = ((addr >> 22) & 0x3ff);
-		hwaddr_t page_frame_index = ((addr >> 12) & 0x3ff);
-		hwaddr_t offset = (addr & 0xfff);
-		hwaddr_t page_dir_base = (cpu.cr3.page_directory_base << 12);
-		hwaddr_t page_frame_base = hwaddr_read(page_dir_base + 4 * page_dir_index, 4);
-		assert((page_frame_base & 0x1) == 1);
-		page_frame_base = (page_frame_base & 0xfffff000);
-		hwaddr_t page_frame = hwaddr_read(page_frame_base + 4 * page_frame_index, 4);
-		assert((page_frame & 0x1) == 1);
-		page_frame = (page_frame & 0xfffff000);
-		hwaddr_t hwaddr = page_frame + offset;
-		return hwaddr;
+	hwaddr_t tlb_find = ((addr >> 12) & 0xfffff);
+	hwaddr_t page_dir_index = ((addr >> 22) & 0x3ff);
+	hwaddr_t page_frame_index = ((addr >> 12) & 0x3ff);
+	hwaddr_t offset = (addr & 0xfff);
+	int i;
+	for(i = 0; i < 64; i++) {
+		if(cpu.tlb[i].vpage == tlb_find && cpu.tlb[i].vaild == 1) {
+			return cpu.tlb[i].ppage + offset;
+		}
 	}
+	hwaddr_t page_dir_base = (cpu.cr3.page_directory_base << 12);
+	hwaddr_t page_frame_base = hwaddr_read(page_dir_base + 4 * page_dir_index, 4);
+	assert((page_frame_base & 0x1) == 1);
+	page_frame_base = (page_frame_base & 0xfffff000);
+	hwaddr_t page_frame = hwaddr_read(page_frame_base + 4 * page_frame_index, 4);
+	assert((page_frame & 0x1) == 1);
+	page_frame = (page_frame & 0xfffff000);
+	hwaddr_t hwaddr = page_frame + offset;
+	cpu.tlb[cpu.tlb_index].vpage = tlb_find;
+	cpu.tlb[cpu.tlb_index].ppage = page_frame;
+	cpu.tlb[cpu.tlb_index].vaild = 1;
+	cpu.tlb_index = (cpu.tlb_index + 1) % 64;
+	return hwaddr;
 }
 
 // uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
