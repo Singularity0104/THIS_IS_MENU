@@ -244,7 +244,7 @@ static int cmd_page(char *args) {
 	lnaddr_t addr = expr(args, &success);
 	
 	if(cpu.cr0.protect_enable == 0 || cpu.cr0.paging == 0) {
-		printf("0x%x", addr);
+		printf("0x%x\n", addr);
 	}
 	else {
 		hwaddr_t page_dir_index = ((addr >> 22) & 0x3ff);
