@@ -67,7 +67,6 @@ uint32_t loader() {
 #ifdef IA32_PAGE
 	mm_malloc(KOFFSET - STACK_SIZE, STACK_SIZE);
 
-	create_video_mapping();
 #ifdef HAS_DEVICE
 	create_video_mapping();
 #endif
