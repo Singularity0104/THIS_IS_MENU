@@ -73,6 +73,8 @@ typedef struct {
 	};
 	uint64_t SRcache[6];
 	TLB tlb[64];
+	uint64_t tlb_hit;
+	uint64_t tlb_miss;
 	uint32_t tlb_index;
 } CPU_state;
 

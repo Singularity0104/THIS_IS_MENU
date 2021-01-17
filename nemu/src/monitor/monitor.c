@@ -117,5 +117,7 @@ void restart() {
 	for(i = 0; i < 64; i++) {
 		cpu.tlb[i].vaild = 0;
 	}
+	cpu.tlb_hit = 0;
+	cpu.tlb_miss = 0;
 	cpu.tlb_index = 0;
 }

@@ -226,15 +226,22 @@ static int cmd_b(char *args) {
 }
 
 static int cmd_t(char *args) {
-	printf("memory read: %lu\n", memread);
+	printf("memory read: %lu\n\n", memread);
+
+	printf("tlb hit: %lu\n", cpu.tlb_hit);
+	printf("tlb miss: %lu\n", cpu.tlb_miss);
+	double tlb_rate = (double)cpu.tlb_hit / (double)(cpu.tlb_hit + cpu.tlb_miss);
+	printf("tlb rate: %.4f\n\n", tlb_rate);
+
 	printf("cache1 hit: %lu\n", cache_1_hit);
 	printf("cache1 miss: %lu\n", cache_1_miss);
 	double cache_1_rate = (double)cache_1_hit / (double)(cache_1_hit + cache_1_miss);
-	printf("cache1 rate: %.4f\n", cache_1_rate);
+	printf("cache1 rate: %.4f\n\n", cache_1_rate);
+
 	printf("cache2 hit: %lu\n", cache_2_hit);
 	printf("cache2 miss: %lu\n", cache_2_miss);
 	double cache_2_rate = (double)cache_2_hit / (double)(cache_2_hit + cache_2_miss);
-	printf("cache2 rate: %.4f\n", cache_2_rate);
+	printf("cache2 rate: %.4f\n\n", cache_2_rate);
 	printf("total time: %lu\n", memtime);
 	return 0;
 }

@@ -157,9 +157,11 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	int i;
 	for(i = 0; i < 64; i++) {
 		if(cpu.tlb[i].vpage == tlb_find && cpu.tlb[i].vaild == 1) {
+			cpu.tlb_hit++;
 			return cpu.tlb[i].ppage + offset;
 		}
 	}
+	cpu.tlb_miss++;
 	hwaddr_t page_dir_base = (cpu.cr3.page_directory_base << 12);
 	hwaddr_t page_frame_base = hwaddr_read(page_dir_base + 4 * page_dir_index, 4);
 	assert((page_frame_base & 0x1) == 1);
