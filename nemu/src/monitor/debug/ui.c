@@ -239,6 +239,37 @@ static int cmd_t(char *args) {
 	return 0;
 }
 
+static int cmd_page(char *args) {
+	bool success = true;
+	lnaddr_t addr = expr(args, &success);
+	
+	if(cpu.cr0.protect_enable == 0 || cpu.cr0.paging == 0) {
+		printf("0x%x", addr);
+	}
+	else {
+		hwaddr_t page_dir_index = ((addr >> 22) & 0x3ff);
+		hwaddr_t page_frame_index = ((addr >> 12) & 0x3ff);
+		hwaddr_t offset = (addr & 0xfff);
+		hwaddr_t page_dir_base = (cpu.cr3.page_directory_base << 12);
+		hwaddr_t page_frame_base = hwaddr_read(page_dir_base + 4 * page_dir_index, 4);
+		if ((page_frame_base & 0x1) != 1) {
+			printf("filed!\n");
+			return 0;
+		}
+		page_frame_base = (page_frame_base & 0xfffff000);
+		hwaddr_t page_frame = hwaddr_read(page_frame_base + 4 * page_frame_index, 4);
+		if ((page_frame & 0x1) == 1) {
+			printf("filed!\n");
+			return 0;
+		}
+		page_frame = (page_frame & 0xfffff000);
+		hwaddr_t hwaddr = page_frame + offset;
+		printf("0x%x\n", hwaddr);
+	}
+
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -254,7 +285,8 @@ static struct {
 	{ "w", "Set a watchpoint", cmd_w},
 	{ "d", "Delete a watchpoint", cmd_d},
 	{ "bt", "Print function", cmd_b},
-	{ "time", "Print memory/cache time", cmd_t}
+	{ "time", "Print memory/cache time", cmd_t},
+	{ "page", "translate the VA into PA", cmd_page}
 
 	/* TODO: Add more commands */
 
